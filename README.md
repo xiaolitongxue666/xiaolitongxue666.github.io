@@ -1,7 +1,7 @@
 ## Welcome to GitHub Pages
 
 Test my blog
-[Test by blog](https://github.com/xiaolitongxue666/xiaolitongxue.io/edit/master/2020_01_28_test_blog_subindex_artical.md)
+[Test by blog](https://github.com/xiaolitongxue666/xiaolitongxue.io/xiaolitongxue.io/2020_01_28_test_blog_subindex_artical.md)
 
 You can use the [editor on GitHub](https://github.com/xiaolitongxue666/xiaolitongxue.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
