@@ -1,9 +1,9 @@
-- {% for post in site.posts %}
+---
+title: XiaoLiTongXue Blog
+layout: home
+permalink: /
+---
 
-- {{ post.title }}
+# Welcome to my blog 
 
-  . {{ post.date | date: '%B %d, %Y' }}.
-
-  {{ post.abstract }}
-
-- {% endfor %}
+First of all glad you find this blog , let's solve some issue.
