@@ -65,7 +65,7 @@ cd4eb1d/vgg_generated_120.i"
 接下来就是使用编译生成好的opencv相关的一系列库来实现我们需要的功能了。
 建议再opencv_build平行目录下，创建一个新的文件夹MyOpenCV并创建一个新的vs2019项目。
 新建一个控制台项目并选择好系统平台（x86 or x64），然后配置项目属性。
-![my_opencv_project](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-01-31-how-to-build-opencv_over_win10/my_opencv_project_00.png?raw=true)
+![my_opencv_project](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-01-31-how-to-build-opencv_over_win10/my_opencv_project_00.png?raw=true){: .center-image }
 ![my_opencv_project](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-01-31-how-to-build-opencv_over_win10/my_opencv_project_01.png?raw=true)
 
 <br>
