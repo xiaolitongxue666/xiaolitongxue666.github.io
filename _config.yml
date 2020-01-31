@@ -7,7 +7,9 @@ header_pages:
   - about.md
 
 #footer: 'follow us on <a href="https://twitter.com/">twitter</a>'
-footer: '𝓞𝓷 𝔂𝓸𝓾 𝓶𝓪𝓻𝓴'
+footer: '𝓞𝓷 𝔂𝓸𝓾𝓻 𝓶𝓪𝓻𝓴'
+
+theme: jekyll-theme-dinky
 
 #style: dark # dark (default) or light
 #listen_for_clients_preferred_style: true # true or false (default)
