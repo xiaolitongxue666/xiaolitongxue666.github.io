@@ -5,6 +5,7 @@ author: xiaoli
 # 怎么在win10上搭建opencv开发环境
 
 ## 准备工作
+
 首先需要安装好vs2019，具体版本可以根据opencv的版本进行更换，本文选择2019。具体安装方式和细节，可以参考我另一篇blog。
 因为opencv官方流程推荐使用cmake进性编译，需要提前下载[cmake](https://cmake.org/).
 准备好编译工具之后，就是需要准备opencv源代码了。
@@ -125,7 +126,7 @@ opencv-4.2.0\samples\data\box_in_scene.png
 opencv-4.2.0\samples\data\box.png
 
 ## 编写项目代码
-```
+``` c++
 #include <iostream>
 #include "opencv2/core.hpp"
 #define HAVE_OPENCV_XFEATURES2D
