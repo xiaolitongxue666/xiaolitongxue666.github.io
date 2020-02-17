@@ -56,7 +56,7 @@ System选择Linux，Processor选择arm.
 ![cmake UI](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-02-17-how-to-build-opencv-over-arm/11.png?raw=true)
 细心的朋友应该可能看到，我编译的是静态库，嵌入式环境下，为了方便尽早验证功能，在存储空间允许的情况下我会先使用静态库，先实现好功能。
 
-配置完成后，点击Configure后，点击Generate,这时候，在**Where 同build他和binaries:**选择的目录下就可以进行编译了，进入该目录。
+配置完成后，点击Configure后，点击Generate,这时候，在**Where to build the binaries:**选择的目录下就可以进行编译了，进入该目录。
 执行make,然后静静的期待编译100%。
 如果没有问题，执行make install，会在配置option **CMAK_INSTALLPREFIX**选择的目录下安装编译完成的库和头文件。
 
