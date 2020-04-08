@@ -144,6 +144,7 @@ pacman -S grub intel-ucode os-prober #grub引导软件 intel-ucode是CPU驱动 o
 grub-install --target=i386-pc /dev/sda #注意这里是/dev/sda指定的是硬盘不是分区.
 grub-mkconfig -o /boot/grub/grub.cfg
 
+(PS:网络管理和动态ip必须装上,不然独立启动arhclinux将无法联网)
 pacman -S neovim vi zsh wpa_supplicant dhcpcd #安装一些必备的软件
 
 exit #回到USB live系统.
