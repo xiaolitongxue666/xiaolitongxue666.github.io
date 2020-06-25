@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  "Rust学习笔记（三）Ownership"
+title:  "Rust学习笔记（四）Ownership"
 date:   2020-06-25 14:27:04 +0800
 categories: 
 ---
