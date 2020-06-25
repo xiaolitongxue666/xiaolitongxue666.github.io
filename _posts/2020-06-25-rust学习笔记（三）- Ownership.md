@@ -47,13 +47,16 @@ println!("{}, world!", s1);
 2. 所指向数据的长度（byte）
 3. 当前已使用的长度（byte）
 ⚠️ (len >= capacity)
+
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/1.png?raw=true)
 
 代码中第二行，执行时并不会进行内容的复制，而是会如下图所示
+
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/2.png?raw=true)
 
 一旦执行了第二行代码，就不能使用s1，进行操作了，类似shadow.
 执行到第三行代码的时候，实际的数据情况入下图所示
+
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/3.png?raw=true)
 
 以上的操作，被叫做**shallow  copy（浅拷贝）**
