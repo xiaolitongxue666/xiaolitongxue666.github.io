@@ -48,11 +48,14 @@ println!("{}, world!", s1);
 3. 当前已使用的长度（byte）
 ⚠️ (len >= capacity)
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/1.png?raw=true)
+
 代码中第二行，执行时并不会进行内容的复制，而是会如下图所示
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/2.png?raw=true)
+
 一旦执行了第二行代码，就不能使用s1，进行操作了，类似shadow.
 执行到第三行代码的时候，实际的数据情况入下图所示
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/3.png?raw=true)
+
 以上的操作，被叫做**shallow  copy（浅拷贝）**
 
 如果在实际编写代码的时候，需要对数据进行真是的复制，即**deep copy(深拷贝)**，就需要使用到一个常见的方法，**clone**.
@@ -140,6 +143,7 @@ fn calculate_length(s: &String) -> usize {
 
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/4.png?raw=true)
 
+
 我们将calculate_length这种有reference作为参数的函数叫做borrowing。
 reference 默认是不可变的，即不可修改所指向的内容。
 如果需要修改，需要添加mut关键字。
@@ -191,6 +195,7 @@ For now, know that iter is a method that returns each element in a collection an
 现在，知道**迭代器**是一种方法，该方法返回集合中的每一个元素，并对返回的每一个元素进行封装，将每一个元素封装成一个元组，元组的第一个元素是索引，第二个元素是对实际返回元素的索引。这样会比自己判断索引方便一些。
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/5.png?raw=true)
 
+
 ```rust
  fn first_word(s: &String) -> usize {
     let bytes = s.as_bytes(); //通过 as_byts 将String 转变为 数组
@@ -217,6 +222,7 @@ let world = &s[6..11];
 
 实际运行时内存的结构如下图
 ![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89-%20Ownership/6.png?raw=true)
+
 
 ```rust
 fn first_word(s: &String) -> &str {
