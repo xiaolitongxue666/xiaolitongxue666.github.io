@@ -179,6 +179,28 @@ clean:
     rm -f $(TARGET) $(OBJ)
 ```
 
+### 5. `get_ffmpeg_module_output_bitrate.sh`
+
+```bash
+#!/bin/bash
+
+# 获取输入参数1并转换为3位10进制数
+log_file="/tmp/ffmpeg_$(printf "%03d" $1).log"
+output_file="/tmp/output_$(printf "%03d" $1).txt"
+
+# 检查日志文件是否存在
+if [ -f "$log_file" ]; then
+  # 获取日志文件的最后一行
+  last_line=$(tail -n 1 "$log_file")
+  # 将最后一行写入文件，并覆盖现有内容
+  echo "$last_line" > "$output_file"
+  echo "$last_line" > "$output_file"
+else
+  # 日志文件不存在，打印提示信息到文件
+  echo "Error: 日志文件 '$log_file' 不存在" > "$output_file"
+fi
+```
+
 ### Summary:
 - **Header File (`bitrate.h`):** Declares functions and constants.
 - **Source File (`bitrate.c`):** Implements the functions.
