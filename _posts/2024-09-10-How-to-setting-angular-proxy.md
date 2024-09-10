@@ -1,8 +1,13 @@
 # How to setting angular proxy 
 
-## Build a local server 
+In the article i will star a mock back-end server name as hotelapi,
+then i run my own angular app name as hotelinventoryapp.
 
-repo : https://github.com/santoshyadavdev/hotelapi
+Github Repo : https://github.com/xiaolitongxue666/angular_toturial
+
+# hotelapi
+
+## Star the mock back0-end server
 
 From main.ts find server port is 3000
 ```ts
@@ -36,7 +41,7 @@ cd hotelapi
 npm start
 ```
 
-Use curl request /api/Rooms
+Use curl request /api/Rooms for test
 
 ```shell
 $ curl http://localhost:3000/api/Rooms                                                                    
@@ -60,6 +65,8 @@ ime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","ratin
 ```
 
 Make sure my server works fine.
+
+# hotelinventoryapp
 
 ## Config angular proxy
 
