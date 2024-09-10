@@ -2,6 +2,42 @@
 
 ## Build a local server 
 
+repo : https://github.com/santoshyadavdev/hotelapi
+
+From main.ts find server port is 3000
+```ts
+import { NestFactory } from '@nestjs/core';  
+import { AppModule } from './app.module';  
+  
+async function bootstrap() {  
+  const app = await NestFactory.create(AppModule);  
+  await app.listen(3000);  
+}  
+bootstrap();
+```
+
+From rooms.controller.ts find path
+
+```ts
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { RoomsService } from './rooms.service';
+import { CreateRoomDto } from './dto/create-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
+
+@Controller('api/Rooms')
+export class RoomsController {
+  constructor(private readonly roomsService: RoomsService) {}
+```
+
+Star the server
+
+```shell
+cd hotelapi
+npm start
+```
+
+Use curl request /api/Rooms
+
 ```shell
 $ curl http://localhost:3000/api/Rooms                                                                    
 [{"roomNumber":"1","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":500,"phot
@@ -43,7 +79,7 @@ proxy.conf.json
 }
 ```
 
-### Modify angullar.json
+### Modify angular.json
 
 ```json
 "serve": {  
@@ -93,7 +129,7 @@ there are two line different with uppon config that can work
     }
 ```
 
-let us explpore the meaning of it 
+**let us explpore the meaning of it** 
 
 - **`changeOrigin`**: Whether to modify the request's `Origin` header information to the address of the proxy server. 
 - **`pathRewrite`**: Path rewriting rules. Here, the `/api` prefix is ​​removed from the request path. 
@@ -103,8 +139,83 @@ when i use the last config file , the real url is `http://localhost:3000/Rooms`
 
 That's why when i use the 'wrong' proxy config response is 404
 
+## Angular use http clinet send request
 
+### app.config.ts add `provideHttpClient`
 
+```ts
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideHttpClient } from "@angular/common/http";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient()
+  ]
+};
+
+```
+
+### Import `appConfig` in `main.ts`
+
+```ts
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
+```
+
+### Test http clinet module in `app.componet.ts`
+
+```ts
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { timeout } from 'rxjs/operators';
+
+export class AppComponent implements AfterViewInit, OnInit {
+  data: any; 
+  subscription: Subscription;
+
+  constructor(private http: HttpClient) {
+    this.subscription = Subscription.EMPTY;
+  }
+
+  ngOnInit(): void {
+    // 在 ngOnInit 中订阅 fetchData()
+    this.subscription = this.fetchData().subscribe(
+      (data) => {
+        this.data = data;
+        console.log('Data acquired：', this.data); 
+      },
+      (error) => {
+        console.error('Request error：', error);
+        // Provide feedback to the user
+      },
+      () => {
+        console.log('Request finish');
+      }
+    );
+  }
+
+  fetchData(): Observable<any> {
+    // return this.http.get('https://jsonplaceholder.typicode.com/todos/1').pipe(timeout(8000));
+    // return this.http.get('http://localhost:3000/api/Rooms/').pipe(timeout(8000));
+    return this.http.get('/api/Rooms/').pipe(timeout(8000));
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+}
+```
 
 
 
