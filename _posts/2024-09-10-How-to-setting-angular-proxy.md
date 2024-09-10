@@ -1,6 +1,6 @@
 # How to Set Up Angular Proxy
 
-In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp**.
+In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.
 
 GitHub Repo: [https://github.com/xiaolitongxue666/angular_toturial](https://github.com/xiaolitongxue666/angular_toturial)
 
@@ -89,6 +89,8 @@ This should return a JSON response with room details, ensuring the server is run
 ```
 
 #### Step 3: Restart the Angular App
+
+My angular app's address is `Local:   http://localhost:4200/`
 
 ```shell
 ng serve
