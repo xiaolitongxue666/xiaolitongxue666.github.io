@@ -256,6 +256,73 @@ export class AppComponent implements AfterViewInit, OnInit {
 
 Same with curl command show 
 
+## Check the `changeOrigin` option true/off diff
+
+```
+changeOrigin": true
+
+Request:
+
+GET /api/Rooms/ HTTP/1.1
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,ja;q=0.6
+Connection: keep-alive
+Cookie: Webstorm-f4a2e6a2=cf65e7fa-9dd7-4865-9caa-386479425f76; Webstorm-f4a2e6a3=ee523027-a855-4c05-87d8-f089113f2165; Webstorm-f4a2ea62=db0ee3b0-fe32-4d16-9649-a9054ad94bd1
+Host: localhost:4200
+If-None-Match: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+
+
+Response:
+
+HTTP/1.1 304 Not Modified
+Access-Control-Allow-Origin: *
+x-powered-by: Express
+etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
+date: Tue, 10 Sep 2024 13:59:26 GMT
+connection: close
+
+changeOrigin": false
+
+Request:
+
+GET /api/Rooms/ HTTP/1.1
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,ja;q=0.6
+Connection: keep-alive
+Cookie: Webstorm-f4a2e6a2=cf65e7fa-9dd7-4865-9caa-386479425f76; Webstorm-f4a2e6a3=ee523027-a855-4c05-87d8-f089113f2165; Webstorm-f4a2ea62=db0ee3b0-fe32-4d16-9649-a9054ad94bd1
+Host: localhost:4200
+If-None-Match: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+
+Response: 
+
+HTTP/1.1 304 Not Modified
+Access-Control-Allow-Origin: *
+x-powered-by: Express
+etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
+date: Tue, 10 Sep 2024 14:01:20 GMT
+connection: close
+
+```
+
+Seems no difference
 
 
 
