@@ -1,15 +1,15 @@
-# How to setting angular proxy 
+# How to Set Up Angular Proxy
 
-In the article i will star a mock back-end server name as hotelapi,
-then i run my own angular app name as hotelinventoryapp.
+In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp**.
 
-Github Repo : https://github.com/xiaolitongxue666/angular_toturial
+GitHub Repo: [https://github.com/xiaolitongxue666/angular_toturial](https://github.com/xiaolitongxue666/angular_toturial)
 
-# hotelapi
+## hotelapi
 
-## Star the mock back0-end server
+### Starting the Mock Back-End Server
 
-From main.ts find server port is 3000
+In `main.ts`, we can find that the server is set to run on port 3000:
+
 ```ts
 import { NestFactory } from '@nestjs/core';  
 import { AppModule } from './app.module';  
@@ -21,7 +21,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-From rooms.controller.ts find path
+In `rooms.controller.ts`, you can find the API path:
 
 ```ts
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
@@ -34,45 +34,29 @@ export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 ```
 
-Star the server
+### Starting the Server
 
 ```shell
 cd hotelapi
 npm start
 ```
 
-Use curl request /api/Rooms for test
+### Testing with curl
+
+You can use the following `curl` command to test the `/api/Rooms` endpoint:
 
 ```shell
-$ curl http://localhost:3000/api/Rooms                                                                    
-[{"roomNumber":"1","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":500,"phot
-
-os":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=cro
-
-p&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":4.5},{"roomNumber":"
-
-2","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":1000,"photos":"https://im
-
-ages.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60","
-
-checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":3.45654},{"roomNumber":"3","roomTyp
-
-e":"Private Suite","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":15000,"photos":"https://images.uns
-
-plash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60","checkinT
-
-ime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":2.6}]
+$ curl http://localhost:3000/api/Rooms
 ```
 
-Make sure my server works fine.
+This should return a JSON response with room details, ensuring the server is running properly.
 
-# hotelinventoryapp
+## hotelinventoryapp
 
-## Config angular proxy
+### Configuring the Angular Proxy
 
-### Create a new file `proxy.conf.json` at /src path
+#### Step 1: Create `proxy.conf.json` in the `/src` directory
 
-proxy.conf.json
 ```json
 {  
   "/api": {  
@@ -86,7 +70,7 @@ proxy.conf.json
 }
 ```
 
-### Modify angular.json
+#### Step 2: Modify `angular.json`
 
 ```json
 "serve": {  
@@ -104,15 +88,15 @@ proxy.conf.json
 },
 ```
 
-### Restart angular app
+#### Step 3: Restart the Angular App
 
 ```shell
 ng serve
 ```
 
-## Problems encountered during the process
+### Issues Encountered
 
-When i read angular official document i see those config 
+When I referred to the Angular official documentation, I found the following proxy configuration:
 
 ```json
 {
@@ -127,7 +111,7 @@ When i read angular official document i see those config
 }
 ```
 
-there are two line different with uppon config that can work 
+The configuration differs slightly from the one that worked for me. In particular:
 
 ```json
     "changeOrigin": true,
@@ -136,19 +120,16 @@ there are two line different with uppon config that can work
     }
 ```
 
-**let us explpore the meaning of it** 
+Let’s explore what these settings mean:
 
-- **`changeOrigin`**: Whether to modify the request's `Origin` header information to the address of the proxy server. 
-- **`pathRewrite`**: Path rewriting rules. Here, the `/api` prefix is ​​removed from the request path. 
+- **`changeOrigin`**: This determines whether the request's `Origin` header should be modified to the address of the proxy server.
+- **`pathRewrite`**: This defines how the request path is rewritten. Here, it removes the `/api` prefix from the request.
 
-The right request url is `http://localhost:3000/api/Rooms`
-when i use the last config file , the real url is `http://localhost:3000/Rooms`
+With the working configuration, the correct request URL is `http://localhost:3000/api/Rooms`. However, when using the alternative configuration, the request is sent to `http://localhost:3000/Rooms`, which results in a 404 error.
 
-That's why when i use the 'wrong' proxy config response is 404
+## Sending Requests in Angular using HttpClient
 
-## Angular use http clinet send request
-
-### app.config.ts add `provideHttpClient`
+### Step 1: Add `provideHttpClient` to `app.config.ts`
 
 ```ts
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
@@ -163,10 +144,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient()
   ]
 };
-
 ```
 
-### Import `appConfig` in `main.ts`
+### Step 2: Import `appConfig` in `main.ts`
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -177,7 +157,7 @@ bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 ```
 
-### Test http clinet module in `app.componet.ts`
+### Step 3: Test the HttpClient Module in `app.component.ts`
 
 ```ts
 import { HttpClient } from '@angular/common/http';
@@ -193,25 +173,22 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    // 在 ngOnInit 中订阅 fetchData()
     this.subscription = this.fetchData().subscribe(
       (data) => {
         this.data = data;
-        console.log('Data acquired：', this.data); 
+        console.log('Data acquired:', this.data); 
       },
       (error) => {
-        console.error('Request error：', error);
-        // Provide feedback to the user
+        console.error('Request error:', error);
+        // Handle the error and notify the user
       },
       () => {
-        console.log('Request finish');
+        console.log('Request completed');
       }
     );
   }
 
   fetchData(): Observable<any> {
-    // return this.http.get('https://jsonplaceholder.typicode.com/todos/1').pipe(timeout(8000));
-    // return this.http.get('http://localhost:3000/api/Rooms/').pipe(timeout(8000));
     return this.http.get('/api/Rooms/').pipe(timeout(8000));
   }
 
@@ -220,54 +197,20 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.subscription.unsubscribe();
     }
   }
-
 }
 ```
 
-### Refresh web and check the response
+### Step 4: Refresh the Web Page and Check the Response
 
-```json
-[
-    {
-        "roomNumber": "1",
-        "roomType": "Deluxe Room",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 500,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 4.5
-    },
-    {
-        "roomNumber": "2",
-        "roomType": "Deluxe Room",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 1000,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 3.45654
-    },
-    {
-        "roomNumber": "3",
-        "roomType": "Private Suite",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 15000,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 2.6
-    }
-]
-```
+The data returned should be the same as the result from the curl command.
 
-Same with curl command show 
+## Checking the Effect of the `changeOrigin` Option
 
-## Check the `changeOrigin` option true/off diff
+Let’s compare requests when `changeOrigin` is set to `true` and `false`:
 
-```
-changeOrigin": true
+With **`changeOrigin: true`**:
 
+```http
 Request:
 
 GET /api/Rooms/ HTTP/1.1
@@ -296,9 +239,11 @@ x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 13:59:26 GMT
 connection: close
+```
 
-changeOrigin": false
+With **`changeOrigin: false`**:
 
+```http
 Request:
 
 GET /api/Rooms/ HTTP/1.1
@@ -326,12 +271,7 @@ x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 14:01:20 GMT
 connection: close
-
 ```
 
-Seems no difference
-
-
-
-
+From these requests, it seems like there’s no noticeable difference in behavior between `true` and `false` in this case.
 
