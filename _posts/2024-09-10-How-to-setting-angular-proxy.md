@@ -2,7 +2,13 @@
 
 In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.
 
-GitHub Repo: [https://github.com/xiaolitongxue666/angular_toturial](https://github.com/xiaolitongxue666/angular_toturial)
+I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.
+
+The hotelapi service will be hosted at port 3000, and the proxy service will be hosted at port 4200
+
+Here is the link to the project of [hotelapi service](https://github.com/santoshyadavdev/hotelapi)
+
+Here is the link to the project of [proxy service](https://github.com/xiaolitongxue666/angular_toturial)
 
 ## hotelapi
 
@@ -41,7 +47,7 @@ cd hotelapi
 npm start
 ```
 
-### Testing with curl
+### Testing with 
 
 You can use the following `curl` command to test the `/api/Rooms` endpoint:
 
@@ -202,9 +208,16 @@ export class AppComponent implements AfterViewInit, OnInit {
 }
 ```
 
+This is the code that will call the `hotelapi` and return the response acting as a proxy.
+
+```ts
+this.http.get('/api/Rooms/').pipe(timeout(8000));
+```
+
+
 ### Step 4: Refresh the Web Page and Check the Response
 
-The data returned should be the same as the result from the curl command.
+The data returned should be the same as the result from the  command.
 
 ## Checking the Effect of the `changeOrigin` Option
 
