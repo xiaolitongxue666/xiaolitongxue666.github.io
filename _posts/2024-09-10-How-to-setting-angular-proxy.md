@@ -218,10 +218,9 @@ This is the code that will call the `hotelapi` and return the response acting as
 this.http.get('/api/Rooms/').pipe(timeout(8000));
 ```
 
-
 ### Step 4: Refresh the Web Page and Check the Response
 
-The data returned should be the same as the result from the  command.
+The response json data should be the same as the result from the curl command `curl http://localhost:3000/api/Rooms`.
 
 ## Checking the Effect of the `changeOrigin` Option
 
@@ -261,6 +260,41 @@ x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 13:59:26 GMT
 connection: close
+
+Response Body:
+
+[
+    {
+        "roomNumber": "1",
+        "roomType": "Deluxe Room",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 500,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 4.5
+    },
+    {
+        "roomNumber": "2",
+        "roomType": "Deluxe Room",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 1000,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 3.45654
+    },
+    {
+        "roomNumber": "3",
+        "roomType": "Private Suite",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 15000,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 2.6
+    }
+]
 ```
 
 With **`changeOrigin: false`**:
@@ -330,9 +364,7 @@ Response Body:
 ]
 ```
 
-As you can see, after setting the `changeOrigin` option to true, the response header includes the `Access-Control-Allow-Origin: *` item.
+Regardless of whether the changeOrigin setting is true or false, the response header still includes Access-Control-Allow-Origin: *, and the response body returns JSON data.
 
-When the `changeOrigin` option is set to false, the `Access-Control-Allow-Origin: *` is still present in the response header, but the response body contains JSON data.
-
-
+It appears that the changeOrigin option has no effect.
 
