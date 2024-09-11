@@ -47,17 +47,19 @@ cd hotelapi
 npm start
 ```
 
-### Testing with curl command `curl http://localhost:3000/api/Rooms`
+### Testing the hotel API service using the following curl command to verify it is working correctly
 
-You can use the following `curl` command to test the `/api/Rooms` endpoint:
-
+curl command:
 ```shell
-$ curl http://localhost:3000/api/Rooms
+curl http://localhost:3000/api/Rooms
+```
 
+Resposne print:
+```shell
 [{"roomNumber":"1","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":500,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=cro  p&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":4.5},{"roomNumber":"2","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":1000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",":48 checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":3.45654},{"roomNumber":"3","roomType":"Private Suite","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":15000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":2.6}]
 ```
 
-This should return a JSON response with room details, ensuring the server is running properly.
+This JSON response with room details, ensuring the server is running properly.
 
 ## hotelinventoryapp
 
@@ -223,12 +225,16 @@ The data returned should be the same as the result from the  command.
 
 ## Checking the Effect of the `changeOrigin` Option
 
-Let’s compare requests when `changeOrigin` is set to `true` and `false`:
+Test Method:
+
+Set the changeOrigin option in the proxy configuration to both true and false.
+In the lifecycle hook ngOnInit of the proxy service, make an HTTP request.
+Compare if there is any difference in the response for the same request under both configurations.
 
 With **`changeOrigin: true`**:
 
 ```http
-Request:
+Request Headers:
 
 GET /api/Rooms/ HTTP/1.1
 Accept: application/json, text/plain, */*
@@ -247,8 +253,7 @@ sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "macOS"
 
-
-Response:
+Response Headers:
 
 HTTP/1.1 304 Not Modified
 Access-Control-Allow-Origin: *
@@ -261,7 +266,7 @@ connection: close
 With **`changeOrigin: false`**:
 
 ```http
-Request:
+Request Headers:
 
 GET /api/Rooms/ HTTP/1.1
 Accept: application/json, text/plain, */*
@@ -280,7 +285,7 @@ sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "macOS"
 
-Response: 
+Response Headers: 
 
 HTTP/1.1 304 Not Modified
 Access-Control-Allow-Origin: *
@@ -288,14 +293,46 @@ x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 14:01:20 GMT
 connection: close
+
+Response Body:
+
+[
+    {
+        "roomNumber": "1",
+        "roomType": "Deluxe Room",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 500,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 4.5
+    },
+    {
+        "roomNumber": "2",
+        "roomType": "Deluxe Room",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 1000,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 3.45654
+    },
+    {
+        "roomNumber": "3",
+        "roomType": "Private Suite",
+        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+        "price": 15000,
+        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        "checkinTime": "2021-11-10T16:00:00.000Z",
+        "checkoutTime": "2021-11-11T16:00:00.000Z",
+        "rating": 2.6
+    }
+]
 ```
 
-As you can see, after the `changeOrigin` option is set to `true`, 
-then the response header now contains the item `Access-Control-Allow-Origin: *` .
+As you can see, after setting the `changeOrigin` option to true, the response header includes the `Access-Control-Allow-Origin: *` item.
 
-```http
-Access-Control-Allow-Origin: *
-```
+When the `changeOrigin` option is set to false, the `Access-Control-Allow-Origin: *` is still present in the response header, but the response body contains JSON data.
 
-From these requests, it seems like there’s no noticeable difference in behavior between `true` and `false` in this case.
+
 
