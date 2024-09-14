@@ -212,15 +212,35 @@ export class AppComponent implements AfterViewInit, OnInit {
 }
 ```
 
+
 This is the code that will call the `hotelapi` and return the response acting as a proxy.
+
 
 ```ts
 this.http.get('/api/Rooms/').pipe(timeout(8000));
 ```
 
+
+Because we angular proxry config file, all `/api` request, for example `/api/Rooms` will rewrite to `http://localhost:3000/api/Rooms`
+```json
+{  
+  "/api": {  
+    "target": "http://localhost:3000",  
+    "secure": false,  
+    "changeOrigin": true,  
+    "pathRewrite": {  
+      "^/api": "/api"  
+    }  
+  }  
+}
+```
+
 ### Step 4: Refresh the Web Page and Check the Response
 
-The response json data should be the same as the result from the curl command `curl http://localhost:3000/api/Rooms`.
+The response json data should be the same as the result from the curl command 
+```shell
+curl http://localhost:3000/api/Rooms
+```
 
 ## Checking the Effect of the `changeOrigin` Option
 
@@ -231,6 +251,12 @@ In the lifecycle hook ngOnInit of the proxy service, make an HTTP request.
 Compare if there is any difference in the response for the same request under both configurations.
 
 With **`changeOrigin: true`**:
+
+Open Chrome Dev Tools 
+
+F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data
+
+Now see the Request Raw Data and Response Raw Data
 
 ```http
 Request Headers:
