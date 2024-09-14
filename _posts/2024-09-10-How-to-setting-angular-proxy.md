@@ -14,7 +14,9 @@ Here is the link to the project of [proxy service](https://github.com/xiaolitong
 
 ### Starting the Mock Back-End Server
 
+
 In `main.ts`, we can find that the server is set to run on port 3000:
+
 
 ```ts
 import { NestFactory } from '@nestjs/core';  
@@ -28,6 +30,7 @@ bootstrap();
 ```
 
 In `rooms.controller.ts`, you can find the API path:
+
 
 ```ts
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
@@ -108,7 +111,9 @@ ng serve
 
 ### Issues Encountered
 
+
 When I referred to the Angular official documentation, I found the following proxy configuration:
+
 
 ```json
 {
@@ -123,7 +128,9 @@ When I referred to the Angular official documentation, I found the following pro
 }
 ```
 
+
 The configuration differs slightly from the one that worked for me. In particular:
+
 
 ```json
     "changeOrigin": true,
@@ -132,16 +139,21 @@ The configuration differs slightly from the one that worked for me. In particula
     }
 ```
 
+
 Let’s explore what these settings mean:
+
 
 - **`changeOrigin`**: This determines whether the request's `Origin` header should be modified to the address of the proxy server.
 - **`pathRewrite`**: This defines how the request path is rewritten. Here, it removes the `/api` prefix from the request.
 
+
 With the working configuration, the correct request URL is `http://localhost:3000/api/Rooms`. However, when using the alternative configuration, the request is sent to `http://localhost:3000/Rooms`, which results in a 404 error.
+
 
 ## Sending Requests in Angular using HttpClient
 
 ### Step 1: Add `provideHttpClient` to `app.config.ts`
+
 
 ```ts
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
@@ -160,6 +172,7 @@ export const appConfig: ApplicationConfig = {
 
 ### Step 2: Import `appConfig` in `main.ts`
 
+
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
@@ -170,6 +183,7 @@ bootstrapApplication(AppComponent, appConfig)
 ```
 
 ### Step 3: Test the HttpClient Module in `app.component.ts`
+
 
 ```ts
 import { HttpClient } from '@angular/common/http';
@@ -213,6 +227,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 ```
 
 
+
 This is the code that will call the `hotelapi` and return the response acting as a proxy.
 
 
@@ -235,7 +250,9 @@ Because we angular proxry config file, all `/api` request, for example `/api/Roo
 }
 ```
 
+
 ### Step 4: Refresh the Web Page and Check the Response
+
 
 The response json data should be the same as the result from the curl command 
 ```shell
@@ -244,19 +261,26 @@ curl http://localhost:3000/api/Rooms
 
 ## Checking the Effect of the `changeOrigin` Option
 
+
 Test Method:
+
 
 Set the changeOrigin option in the proxy configuration to both true and false.
 In the lifecycle hook ngOnInit of the proxy service, make an HTTP request.
 Compare if there is any difference in the response for the same request under both configurations.
 
-With **`changeOrigin: true`**:
 
 Open Chrome Dev Tools 
 
+
 F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data
 
+
 Now see the Request Raw Data and Response Raw Data
+
+
+With **`changeOrigin: true`**:
+
 
 ```http
 Request Headers:
@@ -323,7 +347,9 @@ Response Body:
 ]
 ```
 
+
 With **`changeOrigin: false`**:
+
 
 ```http
 Request Headers:
@@ -390,7 +416,9 @@ Response Body:
 ]
 ```
 
+
 Regardless of whether the changeOrigin setting is true or false, the response header still includes Access-Control-Allow-Origin: *, and the response body returns JSON data.
+
 
 It appears that the changeOrigin option has no effect.
 
