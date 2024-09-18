@@ -1,12 +1,10 @@
-# How to Set Up Angular Proxy  
+# How to Set Up Angular Proxy
 
-<br>
+In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.  
 
-In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.  <br>
+I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.  
 
-I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.  <br>
-
-The hotelapi service will be hosted at port 3000, and the proxy service will be hosted at port 4200.  <br>
+The hotelapi service will be hosted at port 3000, and the proxy service will be hosted at port 4200.  
 
 Here is the link to the project of [hotelapi service](https://github.com/santoshyadavdev/hotelapi)  
 
@@ -14,13 +12,9 @@ Here is the link to the project of [proxy service](https://github.com/xiaolitong
 
 ## hotelapi  
 
-### Starting the Mock Back-End Server  
+### Starting the Mock Back-End Server
 
-<br>
-
-  
-
-In `main.ts`, we can find that the server is set to run on port 3000.  <br>
+In `main.ts`, we can find that the server is set to run on port 3000.  
 
 ```ts
 import { NestFactory } from '@nestjs/core';  
@@ -32,8 +26,6 @@ async function bootstrap() {
 }  
 bootstrap();
 ```
-
-<br>
   
 In `rooms.controller.ts`, you can find the API path:  
 
@@ -55,27 +47,21 @@ cd hotelapi
 npm start
 ```
 
-### Testing the hotel API service using the following curl command to verify it is working correctly  
+### Testing the hotel API service using the following curl command to verify it is working correctly
 
-<br>
-
-curl command:  <br>
+curl command:  
 
 ```shell
 curl http://localhost:3000/api/Rooms
 ```
 
-<br>
-
-Resposne print:  <br>
+Resposne print:  
 
 ```shell
 [{"roomNumber":"1","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":500,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=cro  p&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":4.5},{"roomNumber":"2","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":1000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",":48 checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":3.45654},{"roomNumber":"3","roomType":"Private Suite","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":15000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":2.6}]
 ```
 
-<br>
-
-This JSON response with room details, ensuring the server is running properly.  <br>
+This JSON response with room details, ensuring the server is running properly.  
 
 ## hotelinventoryapp  
 
@@ -116,11 +102,11 @@ This JSON response with room details, ensuring the server is running properly.  
 
 #### Step 3: Restart the Angular App  
 
-<br>
+
 
 My angular app's address is `http://localhost:4200/`  
 
-Start proxy service  <br>
+Start proxy service  
 
 ```shell
 ng serve
@@ -128,9 +114,7 @@ ng serve
 
 ### Issues Encountered  
 
-<br>
-
-When I referred to the Angular official documentation, I found the following proxy configuration:  <br>
+When I referred to the Angular official documentation, I found the following proxy configuration:  
 
 ```json
 {
@@ -145,9 +129,7 @@ When I referred to the Angular official documentation, I found the following pro
 }
 ```
 
-<br>
-
-The configuration differs slightly from the one that worked for me. In particular:  <br>
+The configuration differs slightly from the one that worked for me. In particular:  
 
 ```json
     "changeOrigin": true,
@@ -156,13 +138,9 @@ The configuration differs slightly from the one that worked for me. In particula
     }
 ```
 
-<br>
-
-Let’s explore what these settings mean:  <br>
+Let’s explore what these settings mean:  
 - **`changeOrigin`**: This determines whether the request's `Origin` header should be modified to the address of the proxy server.
 - **`pathRewrite`**: This defines how the request path is rewritten. Here, it removes the `/api` prefix from the request.
-
-<br>
 
 With the working configuration, the correct request URL is `http://localhost:3000/api/Rooms`. However, when using the alternative configuration, the request is sent to `http://localhost:3000/Rooms`, which results in a 404 error.  
 
@@ -186,7 +164,6 @@ export const appConfig: ApplicationConfig = {
 ```
 
 ### Step 2: Import `appConfig` in `main.ts`  
-
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -240,17 +217,13 @@ export class AppComponent implements AfterViewInit, OnInit {
 }
 ```
 
-<br>
-
-This is the code that will call the `hotelapi` and return the response acting as a proxy.  <br>
+This is the code that will call the `hotelapi` and return the response acting as a proxy.  
 
 ```ts
 this.http.get('/api/Rooms/').pipe(timeout(8000));
 ```
 
-<br>
-
-Because we angular proxry config file, all `/api` request, for example `/api/Rooms` will rewrite to `http://localhost:3000/api/Rooms`  <br>
+Because we angular proxry config file, all `/api` request, for example `/api/Rooms` will rewrite to `http://localhost:3000/api/Rooms`  
 
 ```json
 {  
@@ -275,19 +248,17 @@ curl http://localhost:3000/api/Rooms
 
 ## Checking the Effect of the `changeOrigin` Option  
 
-<br>
-
-Test Method:  <br>
+Test Method:  
 
 Set the changeOrigin option in the proxy configuration to both true and false.
 In the lifecycle hook ngOnInit of the proxy service, make an HTTP request.
-Compare if there is any difference in the response for the same request under both configurations.  <br>
+Compare if there is any difference in the response for the same request under both configurations.  
 
-Open Chrome Dev Tools  <br>
+Open Chrome Dev Tools  
 
-F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data  <br>
+F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data  
 
-Now see the Request Raw Data and Response Raw Data  <br>
+Now see the Request Raw Data and Response Raw Data  
 
 With **`changeOrigin: true`**:  
 
@@ -356,8 +327,6 @@ Response Body:
 ]
 ```
 
-<br>
-
 With **`changeOrigin: false`**:  
 
 ```http
@@ -424,8 +393,6 @@ Response Body:
     }
 ]
 ```
-
-<br>
 
 Regardless of whether the changeOrigin setting is true or false, the response header still includes Access-Control-Allow-Origin: *, and the response body returns JSON data.  <br>
 
