@@ -1,5 +1,7 @@
 # How to Set Up Angular Proxy  
 
+<br>
+
 In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.  
 
 I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.  
