@@ -1,22 +1,20 @@
-# How to Set Up Angular Proxy
+# How to Set Up Angular Proxy  
 
-In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.
+In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.  
 
-I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.
+I'll set up a hotelapi service locally, and then set up another local service that proxy the request to the hotelapi service.  
 
-The hotelapi service will be hosted at port 3000, and the proxy service will be hosted at port 4200
+The hotelapi service will be hosted at port 3000, and the proxy service will be hosted at port 4200.  
 
-Here is the link to the project of [hotelapi service](https://github.com/santoshyadavdev/hotelapi)
+Here is the link to the project of [hotelapi service](https://github.com/santoshyadavdev/hotelapi)  
 
-Here is the link to the project of [proxy service](https://github.com/xiaolitongxue666/angular_toturial)
+Here is the link to the project of [proxy service](https://github.com/xiaolitongxue666/angular_toturial)  
 
-## hotelapi
+## hotelapi  
 
-### Starting the Mock Back-End Server
+### Starting the Mock Back-End Server  
 
-
-In `main.ts`, we can find that the server is set to run on port 3000:
-
+In `main.ts`, we can find that the server is set to run on port 3000.  
 
 ```ts
 import { NestFactory } from '@nestjs/core';  
@@ -29,8 +27,8 @@ async function bootstrap() {
 bootstrap();
 ```
 
-In `rooms.controller.ts`, you can find the API path:
-
+  
+In `rooms.controller.ts`, you can find the API path:  
 
 ```ts
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
@@ -43,32 +41,34 @@ export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 ```
 
-### Starting the Server
+### Starting the Server  
 
 ```shell
 cd hotelapi
 npm start
 ```
 
-### Testing the hotel API service using the following curl command to verify it is working correctly
+### Testing the hotel API service using the following curl command to verify it is working correctly  
 
-curl command:
+curl command:  
+
 ```shell
 curl http://localhost:3000/api/Rooms
 ```
 
-Resposne print:
+Resposne print:  
+
 ```shell
 [{"roomNumber":"1","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":500,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=cro  p&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":4.5},{"roomNumber":"2","roomType":"Deluxe Room","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":1000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",":48 checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":3.45654},{"roomNumber":"3","roomType":"Private Suite","amenities":"Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen","price":15000,"photos":"https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60","checkinTime":"2021-11-10T16:00:00.000Z","checkoutTime":"2021-11-11T16:00:00.000Z","rating":2.6}]
 ```
 
-This JSON response with room details, ensuring the server is running properly.
+This JSON response with room details, ensuring the server is running properly.  
 
-## hotelinventoryapp
+## hotelinventoryapp  
 
-### Configuring the Angular Proxy
+### Configuring the Angular Proxy  
 
-#### Step 1: Create `proxy.conf.json` in the `/src` directory
+#### Step 1: Create `proxy.conf.json` in the `/src` directory  
 
 ```json
 {  
@@ -83,7 +83,7 @@ This JSON response with room details, ensuring the server is running properly.
 }
 ```
 
-#### Step 2: Modify `angular.json`
+#### Step 2: Modify `angular.json`  
 
 ```json
 "serve": {  
@@ -101,19 +101,17 @@ This JSON response with room details, ensuring the server is running properly.
 },
 ```
 
-#### Step 3: Restart the Angular App
+#### Step 3: Restart the Angular App  
 
-My angular app's address is `Local:   http://localhost:4200/`
+My angular app's address is `http://localhost:4200/`  
 
 ```shell
 ng serve
 ```
 
-### Issues Encountered
+### Issues Encountered  
 
-
-When I referred to the Angular official documentation, I found the following proxy configuration:
-
+When I referred to the Angular official documentation, I found the following proxy configuration:  
 
 ```json
 {
@@ -128,9 +126,7 @@ When I referred to the Angular official documentation, I found the following pro
 }
 ```
 
-
-The configuration differs slightly from the one that worked for me. In particular:
-
+The configuration differs slightly from the one that worked for me. In particular:  
 
 ```json
     "changeOrigin": true,
@@ -139,21 +135,18 @@ The configuration differs slightly from the one that worked for me. In particula
     }
 ```
 
-
-Let’s explore what these settings mean:
-
+Let’s explore what these settings mean:  
 
 - **`changeOrigin`**: This determines whether the request's `Origin` header should be modified to the address of the proxy server.
+
 - **`pathRewrite`**: This defines how the request path is rewritten. Here, it removes the `/api` prefix from the request.
 
 
-With the working configuration, the correct request URL is `http://localhost:3000/api/Rooms`. However, when using the alternative configuration, the request is sent to `http://localhost:3000/Rooms`, which results in a 404 error.
+With the working configuration, the correct request URL is `http://localhost:3000/api/Rooms`. However, when using the alternative configuration, the request is sent to `http://localhost:3000/Rooms`, which results in a 404 error.  
 
+## Sending Requests in Angular using HttpClient  
 
-## Sending Requests in Angular using HttpClient
-
-### Step 1: Add `provideHttpClient` to `app.config.ts`
-
+### Step 1: Add `provideHttpClient` to `app.config.ts`  
 
 ```ts
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
@@ -170,7 +163,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Step 2: Import `appConfig` in `main.ts`
+### Step 2: Import `appConfig` in `main.ts`  
 
 
 ```ts
@@ -182,8 +175,7 @@ bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 ```
 
-### Step 3: Test the HttpClient Module in `app.component.ts`
-
+### Step 3: Test the HttpClient Module in `app.component.ts`  
 
 ```ts
 import { HttpClient } from '@angular/common/http';
@@ -226,17 +218,14 @@ export class AppComponent implements AfterViewInit, OnInit {
 }
 ```
 
-
-
-This is the code that will call the `hotelapi` and return the response acting as a proxy.
-
+This is the code that will call the `hotelapi` and return the response acting as a proxy.  
 
 ```ts
 this.http.get('/api/Rooms/').pipe(timeout(8000));
 ```
 
+Because we angular proxry config file, all `/api` request, for example `/api/Rooms` will rewrite to `http://localhost:3000/api/Rooms`  
 
-Because we angular proxry config file, all `/api` request, for example `/api/Rooms` will rewrite to `http://localhost:3000/api/Rooms`
 ```json
 {  
   "/api": {  
@@ -250,37 +239,29 @@ Because we angular proxry config file, all `/api` request, for example `/api/Roo
 }
 ```
 
+### Step 4: Refresh the Web Page and Check the Response  
 
-### Step 4: Refresh the Web Page and Check the Response
+The response json data should be the same as the result from the curl command  
 
-
-The response json data should be the same as the result from the curl command 
 ```shell
 curl http://localhost:3000/api/Rooms
 ```
 
-## Checking the Effect of the `changeOrigin` Option
+## Checking the Effect of the `changeOrigin` Option  
 
-
-Test Method:
-
+Test Method:  
 
 Set the changeOrigin option in the proxy configuration to both true and false.
 In the lifecycle hook ngOnInit of the proxy service, make an HTTP request.
-Compare if there is any difference in the response for the same request under both configurations.
+Compare if there is any difference in the response for the same request under both configurations.  
 
+Open Chrome Dev Tools  
 
-Open Chrome Dev Tools 
+F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data  
 
+Now see the Request Raw Data and Response Raw Data  
 
-F12(Open Dev Tools) -> Network Tab -> Filter 'Rooms' -> Raw Data
-
-
-Now see the Request Raw Data and Response Raw Data
-
-
-With **`changeOrigin: true`**:
-
+With **`changeOrigin: true`**:  
 
 ```http
 Request Headers:
@@ -347,9 +328,7 @@ Response Body:
 ]
 ```
 
-
-With **`changeOrigin: false`**:
-
+With **`changeOrigin: false`**:  
 
 ```http
 Request Headers:
@@ -416,9 +395,6 @@ Response Body:
 ]
 ```
 
+Regardless of whether the changeOrigin setting is true or false, the response header still includes Access-Control-Allow-Origin: *, and the response body returns JSON data.  
 
-Regardless of whether the changeOrigin setting is true or false, the response header still includes Access-Control-Allow-Origin: *, and the response body returns JSON data.
-
-
-It appears that the changeOrigin option has no effect.
-
+It appears that the changeOrigin option has no effect.  
