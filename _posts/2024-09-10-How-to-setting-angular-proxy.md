@@ -97,7 +97,7 @@ This JSON response with room details, ensuring the server is running properly.
     }  
   },  
   "defaultConfiguration": "development"  
-},
+}
 ```
 
 #### Step 3: Restart the Angular App  
@@ -132,7 +132,7 @@ When I referred to the Angular official documentation, I found the following pro
 The configuration differs slightly from the one that worked for me. In particular:  
 
 ```json
-    "changeOrigin": true,
+    "changeOrigin": true
     "pathRewrite": {
       "^/api": ""
     }
@@ -262,9 +262,8 @@ Now see the Request Raw Data and Response Raw Data
 
 With **`changeOrigin: true`**:  
 
-```http
 Request Headers:
-
+```http
 GET /api/Rooms/ HTTP/1.1
 Accept: application/json, text/plain, */*
 Accept-Encoding: gzip, deflate, br, zstd
@@ -281,18 +280,20 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
 sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "macOS"
+```
 
 Response Headers:
-
+```http
 HTTP/1.1 304 Not Modified
 Access-Control-Allow-Origin: *
 x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 13:59:26 GMT
 connection: close
+```
 
 Response Body:
-
+```http
 [
     {
         "roomNumber": "1",
@@ -329,9 +330,8 @@ Response Body:
 
 With **`changeOrigin: false`**:  
 
-```http
 Request Headers:
-
+```http
 GET /api/Rooms/ HTTP/1.1
 Accept: application/json, text/plain, */*
 Accept-Encoding: gzip, deflate, br, zstd
@@ -348,18 +348,20 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
 sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "macOS"
+```
 
 Response Headers: 
-
+```html
 HTTP/1.1 304 Not Modified
 Access-Control-Allow-Origin: *
 x-powered-by: Express
 etag: W/"448-8jQzp84V7yAC14xZPDuGE0UOZdU"
 date: Tue, 10 Sep 2024 14:01:20 GMT
 connection: close
+```
 
 Response Body:
-
+```http
 [
     {
         "roomNumber": "1",
