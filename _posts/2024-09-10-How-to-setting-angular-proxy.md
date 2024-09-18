@@ -361,7 +361,7 @@ connection: close
 ```
 
 Response Body:
-```http
+```json
   {
       "roomNumber": "1",
       "roomType": "Deluxe Room",
