@@ -293,39 +293,37 @@ connection: close
 ```
 
 Response Body:
-```http
-[
-    {
-        "roomNumber": "1",
-        "roomType": "Deluxe Room",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 500,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 4.5
-    },
-    {
-        "roomNumber": "2",
-        "roomType": "Deluxe Room",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 1000,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 3.45654
-    },
-    {
-        "roomNumber": "3",
-        "roomType": "Private Suite",
-        "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
-        "price": 15000,
-        "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        "checkinTime": "2021-11-10T16:00:00.000Z",
-        "checkoutTime": "2021-11-11T16:00:00.000Z",
-        "rating": 2.6
-    }
-]
+```json
+  {
+      "roomNumber": "1",
+      "roomType": "Deluxe Room",
+      "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+      "price": 500,
+      "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "checkinTime": "2021-11-10T16:00:00.000Z",
+      "checkoutTime": "2021-11-11T16:00:00.000Z",
+      "rating": 4.5
+  },
+  {
+      "roomNumber": "2",
+      "roomType": "Deluxe Room",
+      "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+      "price": 1000,
+      "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "checkinTime": "2021-11-10T16:00:00.000Z",
+      "checkoutTime": "2021-11-11T16:00:00.000Z",
+      "rating": 3.45654
+  },
+  {
+      "roomNumber": "3",
+      "roomType": "Private Suite",
+      "amenities": "Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen",
+      "price": 15000,
+      "photos": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "checkinTime": "2021-11-10T16:00:00.000Z",
+      "checkoutTime": "2021-11-11T16:00:00.000Z",
+      "rating": 2.6
+  }
 ```
 
 With **`changeOrigin: false`**:  
