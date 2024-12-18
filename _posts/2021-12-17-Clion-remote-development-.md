@@ -125,6 +125,10 @@ windowns下idea修改配置
 
 #### 检查和验证部署配置
 
+第一次部署需要在IDEA中手动点击才会不影响后续的自动上传
+
+![image](https://github.com/user-attachments/assets/2473e99b-f38d-4c0e-920c-b36004c41874)
+
 ![image](https://user-images.githubusercontent.com/35646108/146505705-eb176b13-e349-48f0-a0a3-f72daa37f1c1.png)
 
 ![image](https://user-images.githubusercontent.com/35646108/146505729-5089d1d3-0ffe-40b4-b7e7-90e6ffb573d6.png)
