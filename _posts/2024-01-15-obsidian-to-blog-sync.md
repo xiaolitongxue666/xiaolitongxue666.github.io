@@ -86,8 +86,8 @@ categories:
 - 支持中文标题
 
 ### 图片处理
-- **Obsidian格式转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_001.png)` → `![image.png](/assets/images/posts/image.png)`
-- **相对路径转换**：`![alt](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_003.png)` → `![alt](/assets/images/posts/image.png)`
+- **Obsidian格式转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0001.png)` → `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0002.png)`
+- **相对路径转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0003.png)` → `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0004.png)`
 - **自动复制图片**：将引用的图片文件复制到博客仓库的 `/assets/images/posts/` 目录
 - **智能查找**：在整个Obsidian仓库中搜索引用的图片文件
 - **格式支持**：支持常见图片格式（png, jpg, jpeg, gif, svg等）
@@ -113,10 +113,10 @@ categories:
 
 这是一篇关于技术的文章。
 
-![示例图片](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_004.png)
+![example.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0005.png)
 
 还可以使用Obsidian的wiki链接格式：
-![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_002.jpg)
+![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0006.jpg)
 
 
 
@@ -138,10 +138,10 @@ categories:
 
 这是一篇关于技术的文章。
 
-![示例图片](/assets/images/posts/example.png)
+![example.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0007.png)
 
 还可以使用Obsidian的wiki链接格式：
-![screenshot.jpg](/assets/images/posts/screenshot.jpg)
+![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0008.jpg)
 
 ## 内容
 
@@ -200,6 +200,59 @@ categories:
 2. 查看"Process blog posts"步骤的输出
 3. 检查"Commit and push changes"步骤是否正确执行
 4. 使用`gh run view <run-id>`命令查看详细日志
+
+## Obsidian仓库图片管理规则
+
+为了保持Obsidian仓库中图片文件的统一管理和良好的组织结构，请遵循以下规则：
+
+### 图片存放位置
+
+- **规则**：每个主题目录下建立独立的 `attachments` 文件夹
+- **结构**：`笔记文件名/attachments/`
+- **示例**：
+  ```
+  LeonLi/Knowledge/Programming/Programming language/Angular/
+  ├── Angular Tutorial.md
+  └── Angular Tutorial/
+      └── attachments/
+          ├── Angular Tutorial-001.png
+          ├── Angular Tutorial-002.png
+          └── Angular Tutorial-003.png
+  ```
+
+### 图片命名规则
+
+- **格式**：`笔记名称-00x.图片格式`
+- **编号**：从001开始，按顺序递增（001, 002, 003...）
+- **示例**：
+  - `Angular Tutorial-001.png`
+  - `Angular Tutorial-002.jpg`
+  - `代码随想录学习笔记-001.gif`
+
+### 图片引用方式
+
+- **优先使用**：Obsidian Wiki格式 `![图片名称](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0009)`
+- **格式示例**：
+  ```markdown
+  ![Angular Tutorial-001.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0010.png)
+  ![Angular Tutorial-002.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0011.jpg)
+  ```
+- **优势**：保持与Obsidian的最佳兼容性，支持图片预览和链接跳转
+
+### 规则说明
+
+1. **一致性**：所有笔记的图片都应遵循相同的命名和存放规则
+2. **可维护性**：清晰的命名规则便于图片管理和查找
+3. **兼容性**：Wiki格式确保在Obsidian中的最佳使用体验
+4. **扩展性**：支持未来的自动化处理和批量操作
+
+### 迁移指南
+
+如需将现有图片调整为新规则：
+1. 为每个包含图片的笔记创建对应的 `attachments` 文件夹
+2. 按照命名规则重命名图片文件
+3. 更新笔记中的图片引用为Wiki格式
+4. 验证所有图片链接正常工作
 
 ## 贡献
 
