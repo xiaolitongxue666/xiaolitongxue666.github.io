@@ -55,7 +55,11 @@ categories:
 工作流会在以下情况下自动触发：
 - 推送到 `main` 或 `master` 分支
 - 创建Pull Request到 `main` 或 `master` 分支
-- 修改的文件包含 `.md` 文件
+- 修改的文件包含：
+  - 带有 `` 标签的 `.md` 文件
+  - 被这些博客文章引用的图片文件
+
+**智能检测机制**：工作流会自动检测变更的文件是否与博客内容相关，只有相关变更才会执行同步操作，避免不必要的资源消耗。
 
 ### 3. 使用方法
 
@@ -86,11 +90,13 @@ categories:
 - 支持中文标题
 
 ### 图片处理
-- **Obsidian格式转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0001.png)` → `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0002.png)`
-- **相对路径转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0003.png)` → `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0004.png)`
-- **自动复制图片**：将引用的图片文件复制到博客仓库的 `/assets/images/posts/` 目录
+- **Obsidian格式转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_001.png)` → `![image](/assets/images/posts/YYYY/article-dir/article-title_001.png)`
+- **路径规范化**：自动生成符合Jekyll规范的图片路径
+- **自动复制图片**：将引用的图片文件复制到博客仓库的 `/assets/images/posts/YYYY/article-directory/` 目录
+- **智能重命名**：图片文件按 `article-title_NNN.ext` 格式重命名（3位数字编号）
 - **智能查找**：在整个Obsidian仓库中搜索引用的图片文件
 - **格式支持**：支持常见图片格式（png, jpg, jpeg, gif, svg等）
+- **目录结构**：按年份和文章目录组织图片文件
 
 ## 目录结构
 
@@ -113,10 +119,10 @@ categories:
 
 这是一篇关于技术的文章。
 
-![example.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0005.png)
+![example.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_002.png)
 
 还可以使用Obsidian的wiki链接格式：
-![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0006.jpg)
+![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_003.jpg)
 
 
 
@@ -138,10 +144,10 @@ categories:
 
 这是一篇关于技术的文章。
 
-![example.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0007.png)
+![example](/assets/images/posts/2024/2024-01-15-我的新博客文章/我的新博客文章_001.png)
 
 还可以使用Obsidian的wiki链接格式：
-![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0008.jpg)
+![screenshot](/assets/images/posts/2024/2024-01-15-我的新博客文章/我的新博客文章_002.jpg)
 
 ## 内容
 
@@ -150,7 +156,9 @@ categories:
 
 ### 图片文件处理
 - 原始图片：`LeonLi/images/example.png`
-- 复制到：`博客仓库/assets/images/posts/example.png`
+- 复制到：`博客仓库/assets/images/posts/2024/2024-01-15-我的新博客文章/我的新博客文章_001.png`
+- 原始图片：`LeonLi/attachments/screenshot.jpg`
+- 复制到：`博客仓库/assets/images/posts/2024/2024-01-15-我的新博客文章/我的新博客文章_002.jpg`
 
 ## 注意事项
 
@@ -231,11 +239,11 @@ categories:
 
 ### 图片引用方式
 
-- **优先使用**：Obsidian Wiki格式 `![图片名称](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0009)`
+- **优先使用**：Obsidian Wiki格式 `![图片名称](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_004)`
 - **格式示例**：
   ```markdown
-  ![Angular Tutorial-001.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0010.png)
-  ![Angular Tutorial-002.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0011.jpg)
+  ![Angular Tutorial-001.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_005.png)
+  ![Angular Tutorial-002.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_006.jpg)
   ```
 - **优势**：保持与Obsidian的最佳兼容性，支持图片预览和链接跳转
 
@@ -253,6 +261,121 @@ categories:
 2. 按照命名规则重命名图片文件
 3. 更新笔记中的图片引用为Wiki格式
 4. 验证所有图片链接正常工作
+
+## GitHub Actions 技术详解
+
+### 工作流触发机制
+
+#### 触发条件详细说明
+
+**Push 事件触发**：
+- **目标分支**: `main` 或 `master` 分支
+- **路径监控**: 监控以下类型文件的变化
+  - 所有 Markdown 文件 (`**/*.md`)
+  - 所有 images 目录下的文件 (`**/images/**`)
+  - LeonLi/images 目录下的文件 (`LeonLi/images/**`)
+- **智能过滤**: 工作流启动后会进一步检测变更文件是否与博客相关
+
+**Pull Request 事件触发**：
+- **目标分支**: 针对 `main` 或 `master` 分支的 PR
+- **路径监控**: 与 Push 事件相同的文件类型监控
+- **智能过滤**: 同样进行博客相关性检测
+
+### 工作流执行流程
+
+#### 第一阶段：环境准备
+1. **代码检出**: 使用 `actions/checkout@v4` 检出 Obsidian 仓库
+2. **Node.js 环境**: 设置 Node.js 18 运行环境
+3. **依赖准备**: 为后续脚本执行做准备
+
+#### 第二阶段：智能变更检测
+**检测逻辑**：
+- 获取变更文件列表（区分 Push 和 PR 事件）
+- 扫描仓库中所有包含 `` 标签的 Markdown 文件
+- 提取这些博客文章中引用的所有图片路径
+- 精确判断变更文件是否与博客相关：
+  - 变更的 Markdown 文件是否包含 `` 标签
+  - 变更的图片文件是否被带有博客标签的文章引用
+- 只有满足上述条件的变更才会触发后续处理流程
+
+**优化机制**：
+- 避免处理无关的 Markdown 文件和图片文件
+- 支持复杂的图片引用关系检测和匹配
+- 大幅减少不必要的资源消耗和执行时间
+
+#### 第三阶段：内容处理与转换
+**博客文章处理** (`process-blog-posts.js`)：
+
+1. **文件发现**：
+   - 递归扫描所有 Markdown 文件
+   - 过滤包含 `` 标签的文件
+
+2. **元数据提取**：
+   - **标题提取**: 优先级 `# 标题` > YAML front matter > 文件名
+   - **日期提取**: 优先级 YAML front matter > 文件名模式 > 当前日期
+
+3. **内容转换**：
+   - **文件名规范化**: 转换为 Jekyll 格式 `YYYY-MM-DD-title.md`
+   - **图片路径转换**: 
+     - Obsidian Wiki 链接 `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_007.png)` → Jekyll 格式
+     - 相对路径图片 → 绝对路径格式
+     - 路径模式: `/assets/images/posts/YYYY/article-directory/article-title_NNNN.ext`
+   - **标签清理**: 移除 `` 标签
+   - **Front Matter 生成**: 添加 Jekyll 兼容的 YAML 头部
+
+#### 第四阶段：文件同步
+**博客仓库操作**：
+1. **仓库检出**: 检出目标博客仓库 `xiaolitongxue666/xiaolitongxue666.github.io`
+2. **文件复制**: 
+   - Markdown 文件 → `_posts/` 目录
+   - 图片文件 → `/assets/images/posts/YYYY/article-directory/` 目录
+3. **图片处理**：
+   - 智能查找原始图片文件
+   - 按规范重命名图片文件
+   - 维护正确的目录结构
+
+#### 第五阶段：版本控制
+**Git 操作流程**：
+1. 配置 Git 用户信息
+2. 添加变更文件到暂存区 (`git add`)
+3. 检查暂存区变更 (`git diff --staged --quiet`)
+4. 条件性提交和推送
+5. 生成带时间戳的提交信息
+
+### 核心技术特性
+
+#### 智能检测机制
+- **路径过滤**: 只监控相关文件类型变更
+- **内容分析**: 深度检测博客标签和图片引用关系
+- **变更关联**: 智能判断文件变更与博客内容的关联性
+
+#### 内容转换引擎
+- **格式转换**: Obsidian → Jekyll 无缝转换
+- **路径重写**: 自动处理图片路径和文件引用
+- **元数据处理**: 智能提取和生成文章元信息
+
+#### 文件管理系统
+- **目录规范**: 遵循 Jekyll 博客的标准目录结构
+- **命名规范**: 自动生成符合规范的文件名
+- **资源管理**: 统一管理图片和附件资源
+
+#### 错误处理与监控
+- **状态检查**: 每个步骤都有完整的状态验证
+- **条件执行**: 基于前置条件的智能执行控制
+- **日志输出**: 详细的执行日志和状态报告
+
+### 性能优化
+
+- **按需执行**: 只在相关文件变更时触发
+- **增量处理**: 只处理变更的相关文件
+- **资源复用**: 高效的文件操作和 Git 管理
+- **并行处理**: 支持多文件并行处理
+
+### 安全机制
+
+- **Token 管理**: 使用 GitHub Secrets 安全存储访问令牌
+- **权限控制**: 最小权限原则的仓库访问
+- **路径验证**: 防止路径遍历和恶意文件操作
 
 ## 贡献
 
