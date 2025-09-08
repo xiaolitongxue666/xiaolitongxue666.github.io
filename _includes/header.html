@@ -6,11 +6,11 @@
         <meta name="description" content="{% if page.description %}{{ page.description }}{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% if page.title %} {{ page.title }} {% else %} {{ site.title }} {% endif %} </title>
-        <link rel="stylesheet" href="{{ site.url }}/assets/css/default.css" type="text/css" />
-        <link rel="stylesheet" href="{{ site.url }}/assets/css/small.css" type="text/css" media="(max-width: 720px)"/>
-        <link rel="stylesheet" href="{{ site.url }}/assets/css/syntax.css" type="text/css" />
+        <link rel="stylesheet" href="{{ '/assets/css/default.css' | relative_url }}" type="text/css" />
+        <link rel="stylesheet" href="{{ '/assets/css/small.css' | relative_url }}" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}" type="text/css" />
         {% seo %}
-        <link rel="shortcut icon" href="{{ site.url }}/favicon.ico" type="image/x-icon" />
-        <script src="{{ site.url }}/assets/js/theme-toggle.js"></script>
+        <link rel="shortcut icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon" />
+        <script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>
     </head>
     <body>

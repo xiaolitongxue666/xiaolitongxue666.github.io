@@ -1,10 +1,3 @@
----
-layout: default
-title: "测试博客文章 - 包含图片"
-date: 2025-09-08 12:00:00 +0800
-categories:
----
-
 # 测试博客文章 - 包含图片
 
 这是一个用于测试图片处理功能的博客文章。
@@ -12,23 +5,12 @@ categories:
 ## Obsidian Wiki格式图片
 
 下面是使用Obsidian wiki链接格式的图片：
-![test-image.png](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_001.png)
+![[/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_001.png]]
 
 ## 标准Markdown格式图片
 
 这是使用标准markdown格式的图片：
-![测试图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_002.jpg)
-
-## 相对路径图片
-
-相对路径的图片引用：
-![另一张图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_003.png)
-
-## 新上传的测试图片
-
-使用用户新上传的图片进行测试：
-![皮卡丘图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_004.jpg)
-![动漫角色图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_005.png)
+![[/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_002.png]]
 
 ## 文章内容
 
@@ -60,7 +42,7 @@ console.log('Hello, World!');
 - 验证自动同步机制
 - 确认Jekyll格式转换
 
-
+#xiaolitongxue666_blog
 
 ### 测试更新 - 2025年1月27日
 
@@ -68,3 +50,20 @@ console.log('Hello, World!');
 - 已替换pikachu-sample.jpg图片文件
 - 验证图片处理和文件同步功能
 - 测试Action配置的正确性
+
+### 图片交换测试 - 2025年1月27日
+
+**测试目标：** 验证GitHub Actions能否正确检测和处理图片文件的变更
+
+**执行操作：**
+- 交换了 `test-blog-post-with-images-001.png` 和 `test-blog-post-with-images-002.jpg` 的文件名
+- 修改了当前markdown文件内容
+- 预期GitHub Actions会检测到3个文件的变更（2个图片 + 1个markdown）
+
+**验证要点：**
+1. Actions是否能检测到所有3个文件的变更
+2. 图片文件是否正确复制到博客仓库
+3. 文件内容是否保持一致（仅文件名发生变化）
+4. 生成的Jekyll格式文件是否符合规范
+
+**测试时间：** 2025年1月27日 15:30
