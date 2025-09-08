@@ -5,7 +5,20 @@ baseurl:
 url: https://xiaolitongxue666.github.io/
 date_format: "ordinal"
 title: xiaolitongxue666 Blog
-author: xiaolitongxue666
+description: 技术分享与学习笔记 - 专注于编程、系统架构和开发工具
+author:
+  name: xiaolitongxue666
+  email: 
+  bio: 软件开发工程师
+  avatar: /assets/images/avatar.jpg
+  github: xiaolitongxue666
+
+# SEO设置
+seo:
+  type: Person
+  name: xiaolitongxue666
+  links:
+    - https://github.com/xiaolitongxue666
 
 # ---------------- #
 #   RSS / Email    #
@@ -19,12 +32,14 @@ email:
 markdown: kramdown
 kramdown:
     input: GFM
-paginate: 9
+paginate: 10
+paginate_path: "/page:num/"
 permalink: /:year/:month/:day/:title/
-gems:
+plugins:
     - jekyll-paginate
     - jekyll-sitemap
     - jekyll-feed
+    - jekyll-seo-tag
     - jemoji
 collections:
     wiki:
