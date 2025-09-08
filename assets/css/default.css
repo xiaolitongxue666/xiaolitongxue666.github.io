@@ -241,3 +241,131 @@ td {
 tr:nth-child(2n) {
   background-color: #f8f8f8;
 }
+
+/* 主题切换按钮样式 */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0.25em;
+  margin-left: 0.5em;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 暗色主题样式 */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] div.main {
+  border: 1px solid #444;
+  background-color: #2d2d2d;
+}
+
+[data-theme="dark"] H1, [data-theme="dark"] H2, [data-theme="dark"] H3, [data-theme="dark"] H4 {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] H1, [data-theme="dark"] H2 {
+  border-bottom: 2px #444 solid;
+}
+
+[data-theme="dark"] H3, [data-theme="dark"] H4 {
+  border-bottom: 1px #444 solid;
+}
+
+[data-theme="dark"] blockquote {
+  border-left: 0.25em #666 solid;
+}
+
+[data-theme="dark"] pre {
+  border: solid 1px #444;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] code {
+  border: solid 1px #444;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] a {
+  color: #6db3f2;
+}
+
+[data-theme="dark"] a:hover {
+  color: #8cc8ff;
+}
+
+[data-theme="dark"] div.nav {
+  border-top: 1px solid #444;
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
+  background-color: #2d2d2d;
+}
+
+[data-theme="dark"] div.nav a {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] div.nav a:hover {
+  background-color: #444;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .image-caption {
+  color: #999;
+}
+
+[data-theme="dark"] hr {
+  background-color: #444;
+}
+
+[data-theme="dark"] strong {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] div.date {
+  color: #999;
+}
+
+[data-theme="dark"] div.paginator {
+  color: #999;
+}
+
+[data-theme="dark"] .prev_next li span {
+  background-color: #555;
+}
+
+[data-theme="dark"] div.post_footer a {
+  border: #666 1px dashed;
+}
+
+[data-theme="dark"] th {
+  border: 1px solid #444;
+  background-color: #333;
+}
+
+[data-theme="dark"] td {
+  border: 1px solid #444;
+}
+
+[data-theme="dark"] tr:nth-child(2n) {
+  background-color: #333;
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
