@@ -9,6 +9,13 @@ categories:
 
 这个仓库包含一个自动化的GitHub Action工作流，可以将Obsidian中带有特定标签的Markdown文件自动同步到Jekyll博客。
 
+## 项目状态
+
+✅ **功能完整** - 所有核心功能已实现并测试通过
+✅ **Git逻辑修复** - 已修复文件同步中的Git变化检测问题
+✅ **图片处理** - 支持Obsidian wiki链接和标准Markdown图片格式转换
+✅ **自动化测试** - 通过实际博客文章同步验证功能正常
+
 ## 功能特性
 
 - 🔍 自动检测带有 `` 标签的Markdown文件
@@ -159,10 +166,40 @@ categories:
 1. **工作流失败**：检查GitHub Secrets是否正确配置
 2. **文件未同步**：确认文件中包含正确的标签
 3. **权限错误**：验证Personal Access Token的权限设置
+4. **Git变化检测问题**：如果文件复制成功但未提交，可能是Git变化检测逻辑问题
+
+### 已知问题及解决方案
+
+#### Git变化检测逻辑修复
+
+**问题描述**：GitHub Action成功复制文件到博客仓库，但Git报告"No changes to commit"，导致文件未被提交。
+
+**原因分析**：原始工作流使用`git diff --quiet`检查工作目录变化，但新复制的文件需要先执行`git add`才能被检测到。
+
+**解决方案**：已修复工作流逻辑，将`git add`操作提前到`git diff --staged --quiet`检查之前：
+
+```yaml
+# 修复后的逻辑
+- name: Commit and push changes
+  run: |
+    cd blog-repo
+    git add _posts/ assets/images/posts/
+    if ! git diff --staged --quiet; then
+      git commit -m "Sync blog posts from Obsidian"
+      git push
+    else
+      echo "No changes to commit"
+    fi
+```
 
 ### 查看日志
 
-在GitHub仓库的Actions标签页中可以查看详细的执行日志。
+在GitHub仓库的Actions标签页中可以查看详细的执行日志。如果遇到问题，可以：
+
+1. 检查"Sync Blog Posts"工作流的运行日志
+2. 查看"Process blog posts"步骤的输出
+3. 检查"Commit and push changes"步骤是否正确执行
+4. 使用`gh run view <run-id>`命令查看详细日志
 
 ## 贡献
 
