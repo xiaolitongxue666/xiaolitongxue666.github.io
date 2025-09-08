@@ -4,7 +4,7 @@
     
     // 获取当前主题
     function getCurrentTheme() {
-        return localStorage.getItem('theme') || 'light';
+        return localStorage.getItem('theme') || 'dark';
     }
     
     // 设置主题
@@ -43,19 +43,34 @@
         return button;
     }
     
-    // DOM加载完成后初始化
+    // 页面加载完成后初始化
     document.addEventListener('DOMContentLoaded', function() {
+        // 初始化主题
         initTheme();
         
-        // 在导航栏中添加主题切换按钮
-        const nav = document.querySelector('div.nav');
-        if (nav) {
-            const toggleBtn = createThemeToggleButton();
-            const navRss = nav.querySelector('div.nav_rss');
-            if (navRss) {
-                navRss.appendChild(toggleBtn);
-            } else {
+        // 查找现有的主题切换按钮
+        const existingBtn = document.getElementById('theme-toggle');
+        if (existingBtn) {
+            // 使用现有按钮
+            existingBtn.addEventListener('click', toggleTheme);
+            // 立即设置初始图标和状态
+            setTheme(getCurrentTheme());
+        } else {
+            // 如果没有现有按钮，创建新的
+            const nav = document.querySelector('div.nav');
+            if (nav) {
+                const toggleBtn = createThemeToggleButton();
                 nav.appendChild(toggleBtn);
+            } else {
+                const body = document.body;
+                if (body) {
+                    const toggleBtn = createThemeToggleButton();
+                    toggleBtn.style.position = 'fixed';
+                    toggleBtn.style.top = '10px';
+                    toggleBtn.style.right = '10px';
+                    toggleBtn.style.zIndex = '1000';
+                    body.appendChild(toggleBtn);
+                }
             }
         }
     });
