@@ -43,20 +43,20 @@ let mut user1 = User {
 
 **using the field init shorthand when variables and fields have the same name**
 
-![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89-%20Struct/1.png?raw=true)
+![rust_struct](/assets/images/posts/2020/2020-06-25-rust学习笔记四-Struct/2020-06-25-rust学习笔记四-Struct_0001.png)
 
-![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89-%20Struct/2.png?raw=true)
+![rust_struct](/assets/images/posts/2020/2020-06-25-rust学习笔记四-Struct/2020-06-25-rust学习笔记四-Struct_0002.png)
 
 形参和结构体变量名完全一致，就可以用简略的写法，对结构体变量赋值。不必在重复书写。
 
 
 **creating instances from other instances with struct update syntax**
 
-![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89-%20Struct/3.png?raw=true)
+![rust_struct](/assets/images/posts/2020/2020-06-25-rust学习笔记四-Struct/2020-06-25-rust学习笔记四-Struct_0003.png)
 
 更新结构体部分变量数据可以简写为
 
-![](https://github.com/xiaolitongxue666/blog_image_2020_01/blob/master/2020-06-25-rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89-%20Struct/4.png?raw=true)
+![rust_struct](/assets/images/posts/2020/2020-06-25-rust学习笔记四-Struct/2020-06-25-rust学习笔记四-Struct_0004.png)
 
 **tuple structs**
 当您想给整个元组起一个名字并使元组成为与其他元组不同的类型时，元组结构很有用。

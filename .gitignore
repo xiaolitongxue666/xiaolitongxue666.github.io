@@ -1,5 +1,33 @@
+# Jekyll generated files
 _site/
-*.swp
-.DS_Store
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ruby and Bundler
 Gemfile.lock
+.bundle/
+vendor/
+
+# Editor and IDE files
+*.swp
+*.swo
+*~
+.vscode/
 .idea/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
