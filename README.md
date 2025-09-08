@@ -132,6 +132,11 @@ bundle exec jekyll serve --port 4001
 
 在 `_posts` 目录下创建新文件，文件名格式：`YYYY-MM-DD-title.md`
 
+**文件命名规则：**
+- 文件名应与obsidian源文件保持一致
+- 格式：`YYYY-MM-DD-源文件名.md`
+- 示例：obsidian中的 `test-blog-post.md` → 博客中的 `2025-09-08-test-blog-post.md`
+
 ```markdown
 ---
 layout: post
@@ -158,17 +163,17 @@ tags: [标签1, 标签2]
 
 **目录命名规则：**
 - 普通文章：使用完整的文章文件名作为目录名
-  - 示例：`2020-02-01-how-to-build-opencv_over_win10.md` → `2020-02-01-how-to-build-opencv_over-win10/`
+  - 示例：`2020-02-01-how-to-build-opencv_over_win10.md` → `2020-02-01-how-to-build-opencv_over_win10/`
 - 系列文章：使用完整的文章标题作为目录名
   - 示例：Rust学习笔记系列 → `2020-06-25-rust学习笔记一-基础概念介绍和环境搭建/`、`2020-06-25-rust学习笔记三-Ownership/`、`2020-06-25-rust学习笔记四-Struct/`
 
 **图片命名规则：**
-- 命名格式：`{文章完整标题}_{四位数字编号}.{扩展名}`
-- 编号规则：从 `0001` 开始，按图片在文章中出现的顺序递增
+- 命名格式：`{文章完整标题}_{三位数字编号}.{扩展名}`
+- 编号规则：从 `001` 开始，按图片在文章中出现的顺序递增
 - 示例：
-  - `2020-02-01-how-to-build-opencv_over_win10_0001.png`
-  - `2020-06-25-rust学习笔记三-Ownership_0001.png`
-  - `2020-06-25-rust学习笔记四-Struct_0004.png`
+  - `2020-02-01-how-to-build-opencv_over_win10_001.png`
+  - `2020-06-25-rust学习笔记三-Ownership_001.png`
+  - `2020-06-25-rust学习笔记四-Struct_004.png`
 
 #### 图片引用方式
 
@@ -180,10 +185,10 @@ tags: [标签1, 标签2]
 **实际使用示例：**
 ```markdown
 # 普通文章图片引用
-![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over-win10/2020-02-01-how-to-build-opencv_over_win10_0001.png)
+![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_001.png)
 
 # 系列文章图片引用
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0001.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_001.png)
 
 # 居中显示
 ![图片描述](/assets/images/posts/2020/文章目录/图片文件名){: .center-image }

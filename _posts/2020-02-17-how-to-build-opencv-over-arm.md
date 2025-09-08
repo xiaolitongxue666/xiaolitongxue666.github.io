@@ -37,23 +37,23 @@ PS: 这里需要特别提出来说的是cmake-gui这个程序，如果你编译�
 
 常规操作在你自己的opencv操作目录，解压两个程序包。
 运行 cmake-gui 打开配置界面
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0001.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_001.png)
 
 下面是关键的配置选择了
 需要特别提出的几点是，WITH_CUDA WITH_TIFF 各种 TEST OPTION 需要取消。
 编译工具选择 arm-hisiv200-gcc arm-hisiv200-g++, 路径要找到你安装的交叉编译工具的真正程序，注意不是link。默认的路径是**/opt/hisi-linux/x86-arm/arm-hisiv200-linux/bin**.
 System选择Linux，Processor选择arm.
 下面是详细的配置内容
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0002.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0003.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0004.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0005.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0006.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0007.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0008.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0009.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0010.png)
-![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_0011.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_002.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_003.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_004.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_005.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_006.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_007.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_008.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_009.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_010.png)
+![cmake UI](/assets/images/posts/2020/2020-02-17-how-to-build-opencv-over-arm/2020-02-17-how-to-build-opencv-over-arm_011.png)
 细心的朋友应该可能看到，我编译的是静态库，嵌入式环境下，为了方便尽早验证功能，在存储空间允许的情况下我会先使用静态库，先实现好功能。
 
 配置完成后，点击Configure后，点击Generate,这时候，在**Where to build the binaries:**选择的目录下就可以进行编译了，进入该目录。

@@ -47,14 +47,14 @@ println!("{}, world!", s1);
 2. 所指向数据的长度（byte）
 3. 当前已使用的长度（byte）
 ⚠️ (len >= capacity)
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0001.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_001.png)
 
 代码中第二行，执行时并不会进行内容的复制，而是会如下图所示
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0002.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_002.png)
 
 一旦执行了第二行代码，就不能使用s1，进行操作了，类似shadow.
 执行到第三行代码的时候，实际的数据情况入下图所示
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0003.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_003.png)
 
 以上的操作，被叫做**shallow  copy（浅拷贝）**
 
@@ -141,7 +141,7 @@ fn calculate_length(s: &String) -> usize {
 }
 ```
 
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0004.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_004.png)
 
 
 我们将calculate_length这种有reference作为参数的函数叫做borrowing。
@@ -193,7 +193,7 @@ slice可以引用集合中连续的元素序列，而不是整个集合
 For now, know that iter is a method that returns each element in a collection and that enumerate wraps the result of iter and returns each element as part of a tuple instead. The first element of the tuple returned from enumerate is the index, and the second element is a reference to the element. This is a bit more convenient than calculating the index ourselves.
 
 现在，知道**迭代器**是一种方法，该方法返回集合中的每一个元素，并对返回的每一个元素进行封装，将每一个元素封装成一个元组，元组的第一个元素是索引，第二个元素是对实际返回元素的索引。这样会比自己判断索引方便一些。
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0005.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_005.png)
 
 
 ```rust
@@ -221,7 +221,7 @@ let world = &s[6..11];
 ```
 
 实际运行时内存的结构如下图
-![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_0006.png)
+![rust_ownership](/assets/images/posts/2020/2020-06-25-rust学习笔记三-Ownership/2020-06-25-rust学习笔记三-Ownership_006.png)
 
 
 ```rust

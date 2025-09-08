@@ -12,23 +12,23 @@ categories:
 ## Obsidian Wiki格式图片
 
 下面是使用Obsidian wiki链接格式的图片：
-![test-image.png](/assets/images/posts/2025/2025-09-08-测试博客文章-包含图片/2025-09-08-测试博客文章-包含图片_0001.png)
+![test-image.png](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_001.png)
 
 ## 标准Markdown格式图片
 
 这是使用标准markdown格式的图片：
-![测试图片](/assets/images/posts/2025/2025-09-08-测试博客文章-包含图片/2025-09-08-测试博客文章-包含图片_0002.jpg)
+![测试图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_002.jpg)
 
 ## 相对路径图片
 
 相对路径的图片引用：
-![另一张图片](/assets/images/posts/2025/2025-09-08-测试博客文章-包含图片/2025-09-08-测试博客文章-包含图片_0003.png)
+![另一张图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_003.png)
 
 ## 新上传的测试图片
 
 使用用户新上传的图片进行测试：
-![皮卡丘图片](/assets/images/posts/2025/2025-09-08-测试博客文章-包含图片/2025-09-08-测试博客文章-包含图片_0004.jpg)
-![动漫角色图片](/assets/images/posts/2025/2025-09-08-测试博客文章-包含图片/2025-09-08-测试博客文章-包含图片_0005.png)
+![皮卡丘图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_004.jpg)
+![动漫角色图片](/assets/images/posts/2025/2025-09-08-test-blog-post-with-images/2025-09-08-test-blog-post-with-images_005.png)
 
 ## 文章内容
 

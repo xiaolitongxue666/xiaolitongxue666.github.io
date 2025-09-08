@@ -18,13 +18,13 @@ IDE 和 编译工具安装好， 源码包也下载好后，就可以开始我�
 
 ## 配置cmake和生成
 打开cmke,选择好source code的位置，和build the binaries的位置。
-![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0001.png)
+![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_001.png)
 点击Configure，等待进度条完成， 第一次配置完成之后，在Search栏中输入 **OPENCV_EXTRA_MODULES_PATH** 选择opencv_contrib解压后的文件夹位置。
 
 在Search栏中输入 BUILD_opencv_xfeatures2d 并勾选该选项。
 
 再次点击Configure，完成后 点击Generate.耐心等待。
-![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0002.png)
+![cmake UI](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_002.png)
 如果在生成过程中报错出现红色文件，可以根据 ../opencv-4.2.0_build/CMakeDownloadLog.txt 的日志进行排查，在整个过程中，需要联网下载一些文件库，建议开启全局科学上网，如果还是无法下载，可以通过手工下载的方式，如果需要下载的文件较小，可以通过网页直接访问日志中的网址，复制到指定的文件名，放在指定的位置即可，推荐的方式是 在window10下安装cmder这个命令行工具，使用 curl link_address > file_name 这种方式进性下载，能够看到下载过程，也不会出现校验文件报错。建议一定要到没有报错之后再进行后面的步骤。
 这里举一个我在配置编译的过程中遇到的一个下载错误：
 ```
@@ -51,23 +51,23 @@ cd4eb1d/vgg_generated_120.i"
 
 ## 编译生成目标库
 打开opencv-4.2.0_build文件夹，找到**OpenCV.sln**双击打开项目。
-![opencv_vs_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0003.png)
+![opencv_vs_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_003.png)
 方法一：点击项目结构中的批量生成，选择你的系统平台的的debug和release,还有install.
 生成时间有点长，这会可以干点别的休息下。
 方法二：右键点击ALL_BUILD，然后点击生成，完成后右键点击INTALL，再点击生成。
-![opencv_vs_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0004.png)
+![opencv_vs_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_004.png)
 好啦，无报错编译生成后，将opencv_build文件夹下install文件夹，单独复制出来。
 我是复制到了opencv_build平行路径下，并且重命名为vc16x64，可以根据自己平台和软件版本进行重命名。
 
 ## 添加环境变量
-![system_path](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0005.png)
+![system_path](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_005.png)
 
 ## 创建自己的opencv 测试项目
 接下来就是使用编译生成好的opencv相关的一系列库来实现我们需要的功能了。
 建议再opencv_build平行目录下，创建一个新的文件夹MyOpenCV并创建一个新的vs2019项目。
 新建一个控制台项目并选择好系统平台（x86 or x64），然后配置项目属性。
-![my_opencv_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0006.png){: .center-image }
-![my_opencv_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0007.png)
+![my_opencv_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_006.png){: .center-image }
+![my_opencv_project](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_007.png)
 
 <br>
 附加依赖项：
@@ -225,7 +225,7 @@ int main()
 ```
 <br>
 编译运行结果如下：
-![object_match](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_0008.jpg)
+![object_match](/assets/images/posts/2020/2020-02-01-how-to-build-opencv_over_win10/2020-02-01-how-to-build-opencv_over_win10_008.jpg)
 
 图片完美匹配，本blog格式上还会有所调整，会更易阅读，后续会针对测试代码进行专门的讲解。
 
