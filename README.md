@@ -10,6 +10,7 @@
 - 🔍 **SEO 优化** - 集成 jekyll-seo-tag 插件
 - 📝 **Markdown 支持** - 完整的 Markdown 语法支持
 - 🖼️ **图片优化** - 响应式图片和本地资源管理
+- 🤖 **自动同步** - 通过 GitHub Actions 从 Obsidian 仓库自动同步内容
 
 ## 技术栈
 
@@ -18,6 +19,8 @@
 - **样式**: CSS3 + 响应式设计
 - **SEO**: jekyll-seo-tag
 - **部署**: GitHub Pages
+- **内容管理**: Obsidian + GitHub Actions 自动同步
+- **图片处理**: 自动转换和重命名系统
 
 ## 项目结构
 
@@ -125,6 +128,55 @@ bundle exec jekyll serve --port 4001
 **Vite客户端错误**
 - 这是浏览器缓存问题，不影响网站功能
 - 可通过清除浏览器缓存或使用无痕模式解决
+
+## 自动同步机制
+
+本博客采用自动化内容管理系统，通过 GitHub Actions 从 Obsidian 笔记仓库自动同步博客文章和图片资源。
+
+### 工作原理
+
+1. **内容来源**: 博客内容来自 [obsidian_repo](https://github.com/xiaolitongxue666/obsidian_repo) 仓库
+2. **触发条件**: 当 Obsidian 仓库中包含 `#xiaolitongxue666_blog` 标签的文件发生变更时自动触发
+3. **智能检测**: 只处理包含博客标签的 Markdown 文件及其引用的图片
+4. **格式转换**: 自动将 Obsidian 格式转换为 Jekyll 兼容格式
+5. **资源管理**: 自动处理图片复制、重命名和路径更新
+
+### 同步流程
+
+1. **检测变更**: GitHub Actions 监控 Obsidian 仓库的文件变更
+2. **内容处理**: 提取带有 `#xiaolitongxue666_blog` 标签的 Markdown 文件
+3. **格式转换**: 
+   - 转换文件名为 Jekyll 格式 (`YYYY-MM-DD-title.md`)
+   - 添加 YAML front matter
+   - 转换图片引用格式
+4. **图片处理**:
+   - 在 Obsidian 仓库中查找引用的图片文件
+   - 按规范重命名: `article-title_NNN.ext` (3位数字编号)
+   - 复制到 `/assets/images/posts/YYYY/article-directory/` 目录
+5. **自动提交**: 将处理后的文件提交到博客仓库
+6. **自动部署**: GitHub Pages 自动构建和部署更新
+
+### 图片引用转换
+
+系统自动将 Obsidian 的图片引用格式转换为 Jekyll 兼容格式：
+
+**转换前 (Obsidian 格式)**:
+```markdown
+![[example.png]]
+```
+
+**转换后 (Jekyll 格式)**:
+```markdown
+![example](/assets/images/posts/2024/2024-01-15-article-title/article-title_001.png)
+```
+
+### 自动化优势
+
+- **无缝写作**: 在 Obsidian 中正常写作，添加标签即可自动发布
+- **格式统一**: 自动处理格式转换，确保博客格式一致性
+- **资源管理**: 自动处理图片复制和重命名，避免手动操作错误
+- **版本控制**: 完整的变更记录和自动提交
+- **零维护**: 博客仓库无需手动维护，专注于内容创作
 
 ## 写作指南
 
