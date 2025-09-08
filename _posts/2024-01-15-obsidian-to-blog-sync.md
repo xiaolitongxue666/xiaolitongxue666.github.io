@@ -86,8 +86,8 @@ categories:
 - 支持中文标题
 
 ### 图片处理
-- **Obsidian格式转换**：`![image.png](/assets/images/posts/image.png)` → `![image.png](/assets/images/posts/image.png)`
-- **相对路径转换**：`![alt](/assets/images/posts/image.png)` → `![alt](/assets/images/posts/image.png)`
+- **Obsidian格式转换**：`![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0001.png)` → `![image.png](/assets/images/posts/image.png)`
+- **相对路径转换**：`![alt](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0003.png)` → `![alt](/assets/images/posts/image.png)`
 - **自动复制图片**：将引用的图片文件复制到博客仓库的 `/assets/images/posts/` 目录
 - **智能查找**：在整个Obsidian仓库中搜索引用的图片文件
 - **格式支持**：支持常见图片格式（png, jpg, jpeg, gif, svg等）
@@ -113,10 +113,10 @@ categories:
 
 这是一篇关于技术的文章。
 
-![示例图片](/assets/images/posts/example.png)
+![示例图片](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0004.png)
 
 还可以使用Obsidian的wiki链接格式：
-![screenshot.jpg](/assets/images/posts/screenshot.jpg)
+![screenshot.jpg](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_0002.jpg)
 
 
 
