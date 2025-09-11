@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 author: xiaoli
 ---
 # 在家里老旧的笔记本上安装arch Linux(BIOS+MBR)

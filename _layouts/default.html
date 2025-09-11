@@ -50,4 +50,16 @@
         </div>
     </div>
 </div>
+
+<!-- 浮动按钮 - 只在博客文章页面显示 -->
+{% if page.layout == 'default' and page.url != '/' %}
+<meta name="post-date" content="{{ page.date | date: '%Y-%m-%d' }}">
+<meta name="post-title" content="{{ page.title }}">
+<div class="floating-buttons">
+    <button class="floating-btn back-to-top" id="back-to-top" title="回到顶部">↑</button>
+    <a class="floating-btn back-to-pagination" id="back-to-pagination" title="回到分页">📄</a>
+    <a class="floating-btn back-to-home" href="/" title="回到主页">🏠</a>
+</div>
+{% endif %}
+
 {% include footer.html %}

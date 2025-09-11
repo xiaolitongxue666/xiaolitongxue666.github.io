@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 author: xiaoli
 ---
 # 怎么在win10上搭建opencv开发环境

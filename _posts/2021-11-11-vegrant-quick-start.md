@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Vagrant quick start"
+date: 2021-11-11 12:00:00 +0800
+categories: [Vagrant]
+tags: [vagrant, quick-start]
+---
+
 # Vagrant quick start
 
 参考 

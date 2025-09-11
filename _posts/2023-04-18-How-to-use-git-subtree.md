@@ -1,3 +1,11 @@
+---
+layout: default
+title: "How to use git subtree"
+date: 2023-04-18 12:00:00 +0800
+categories: [Git]
+tags: [git, subtree]
+---
+
 # subtree的用法
 
 [Git 进阶 - 子仓库 subtree](https://www.jianshu.com/p/e9f6ff4e09dc)

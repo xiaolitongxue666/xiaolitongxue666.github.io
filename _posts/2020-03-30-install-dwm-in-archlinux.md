@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 author: xiaoli
 ---
 # 在archlinux上安装dwm

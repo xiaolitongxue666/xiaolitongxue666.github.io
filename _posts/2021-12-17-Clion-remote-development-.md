@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Clion remote development"
+date: 2021-12-17 12:00:00 +0800
+categories: [IDE]
+tags: [clion, remote, development]
+---
+
 # Clion remote development
 
 参考:

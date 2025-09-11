@@ -2,6 +2,15 @@
 (function() {
     'use strict';
     
+    // 全局错误处理
+    window.addEventListener('error', function(e) {
+        // 忽略来自扩展的错误
+        if (e.filename && e.filename.includes('content.bundle.js')) {
+            return;
+        }
+        // 其他错误可以在这里处理
+    });
+    
     // 获取当前主题
     function getCurrentTheme() {
         return localStorage.getItem('theme') || 'dark';

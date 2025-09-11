@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Makefile Tutorial"
+date: 2023-10-15 12:00:00 +0800
+categories: [Makefile]
+tags: [make, makefile, tutorial]
+---
+
 #make #makefile 
 
 [github](https://github.com/theicfire/makefiletutorial)

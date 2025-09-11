@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 author: xiaoli
 ---
 # 软件调试的艺术 读书笔记(未完待续)

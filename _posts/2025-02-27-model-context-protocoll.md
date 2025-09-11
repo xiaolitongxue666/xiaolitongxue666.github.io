@@ -1,3 +1,11 @@
+---
+layout: default
+title: "MCP Model Context Protocol 模型上下文协议"
+date: 2025-02-27 12:00:00 +0800
+categories: [AI, MCP]
+tags: [ai, mcp]
+---
+
 # MCP Model Context Protocol 模型上下文协议
 
 #ai #mcp 

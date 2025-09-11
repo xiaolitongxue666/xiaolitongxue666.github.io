@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 author: xiaoli
 ---
 # 怎么在arm上搭建opencv

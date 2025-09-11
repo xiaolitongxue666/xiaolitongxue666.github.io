@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Get ffmpeg input bitrate"
+date: 2024-08-22 12:00:00 +0800
+categories: [FFmpeg]
+tags: [ffmpeg, bash, bitrate]
+---
+
 #ffmpeg #bash 
 
 monitor_bitrate.sh

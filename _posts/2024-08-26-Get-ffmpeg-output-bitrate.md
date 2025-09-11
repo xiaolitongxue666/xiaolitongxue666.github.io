@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Get ffmpeg output bitrate"
+date: 2024-08-26 12:00:00 +0800
+categories: [FFmpeg]
+tags: [ffmpeg, bitrate]
+---
+
 To organize your code into separate files, you can follow these steps:
 
 1. **Create Header File (`bitrate.h`):**

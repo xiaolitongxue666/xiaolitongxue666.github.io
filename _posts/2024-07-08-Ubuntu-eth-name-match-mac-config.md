@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Ubuntu eth name match mac config"
+date: 2024-07-08 12:00:00 +0800
+categories: [Ubuntu, Network]
+tags: [ubuntu, network, mac, config]
+---
+
 Bash script with additional echo statements to display the network interface names and MAC addresses for debugging purposes:
 
 ```shell

@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Vagrant Document Sub"
+date: 2021-11-11 12:00:00 +0800
+categories: [Vagrant]
+tags: [vagrant, document]
+---
+
 # Vagrant Document Sub
 参考:
 https://www.vagrantup.com/docs/vagrantfile

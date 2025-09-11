@@ -1,3 +1,11 @@
+---
+layout: default
+title: "How to setting angular proxy"
+date: 2024-09-10 12:00:00 +0800
+categories: [Angular]
+tags: [angular, proxy]
+---
+
 # How to Set Up Angular Proxy
 
 In this article, I'll demonstrate how to start a mock back-end server called **hotelapi** and run my Angular app named **hotelinventoryapp** to test setting angular proxy.  
