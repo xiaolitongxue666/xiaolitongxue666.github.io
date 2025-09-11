@@ -133,13 +133,6 @@ categories:
 
 ### 转换后的Jekyll文件
 ```markdown
----
-layout: default
-title: "我的新博客文章"
-date: 2024-01-15 12:00:00 +0800
-categories:
----
-
 # 我的新博客文章
 
 这是一篇关于技术的文章。

@@ -268,44 +268,7 @@ div.tag_cloud a {
   word-break: normal;
 }
 
-div.nav a {
-  text-decoration: none;
-  color: #555;
-}
-
-div.nav a:hover {
-  background-color: LightGrey;
-  color: #ffffff;
-}
-
-div.nav {
-  border-top: 1px solid #d4d4d4;
-  border-left: 1px solid #d4d4d4;
-  border-right: 1px solid #d4d4d4;
-  margin: auto;
-  padding: 0 5% 0 5%;
-  width: 1000px;
-  height: 1.5em;
-  line-height: 150%;
-  font-size: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@media (max-width: 1024px) {
-  div.nav {
-    width: 95%;
-  }
-}
-
-div.nav_rss {
-  text-align: right;
-}
-
-div.nav_nav {
-  flex: 1;
-}
+/* 导航样式已移除 - 不再使用navigation.html */
 
 img {
   display: block;
@@ -513,21 +476,7 @@ tr:nth-child(2n) {
   color: #99ccff;
 }
 
-[data-theme="dark"] div.nav {
-  border-top: 1px solid #404040;
-  border-left: 1px solid #404040;
-  border-right: 1px solid #404040;
-  background-color: #2d2d2d;
-}
-
-[data-theme="dark"] div.nav a {
-  color: #e0e0e0;
-}
-
-[data-theme="dark"] div.nav a:hover {
-  background-color: #444;
-  color: #ffffff;
-}
+/* 深色主题导航样式已移除 - 不再使用navigation.html */
 
 [data-theme="dark"] .image-caption {
   color: #999;

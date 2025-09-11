@@ -31,15 +31,12 @@
 ├── README.md            # 项目说明文档
 ├── _config.yml          # Jekyll 站点配置文件
 ├── _includes/           # 页面组件模板
-│   ├── comments.html    # 评论组件
 │   ├── footer.html      # 页脚组件
 │   ├── header.html      # 页头组件
-│   ├── navigation.html  # 导航组件
 │   └── pagination.html  # 分页组件
 ├── _layouts/            # 页面布局模板
-│   ├── default.html     # 默认布局
+│   ├── default.html     # 默认布局（博客文章）
 │   ├── page.html        # 页面布局
-│   ├── post.html        # 文章布局
 │   └── wiki.html        # Wiki 页面布局
 ├── _posts/              # 博客文章 (Markdown 格式)
 │   ├── 2020-*           # 2020年文章

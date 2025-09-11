@@ -1,10 +1,12 @@
 {% include header.html %}
 <div class="container">
-    {% include navigation.html %}
-    <div class="main">
-        <h2> {{ page.title }} </h2>
-        {{ content }}
-        {% include comments.html %}
+    <div class="content-wrapper">
+        <div class="main">
+            <div class="title-header">
+                <h2> {{ page.title }} <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换主题">☀️</button></h2>
+            </div>
+            {{ content }}
+        </div>
     </div>
 </div>
 {% include footer.html %}

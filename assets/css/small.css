@@ -20,27 +20,7 @@ H3, H4 {
   color: blue;
 }
 
-div.nav {
-  width: 100%;
-  padding: 0 0 0 0;
-  border: 1px solid #d4d4d4;
-}
-
-div.nav a {
-  padding: 0.25em 0.75em;
-}
-
-div.nav_nav {
-  width: 100%;
-}
-
-div.nav_rss {
-  display: none;
-}
-
-a.nav_a1 {
-  background: #d4d4d4;
-}
+/* 导航样式已移除 - 不再使用navigation.html */
 
 div.overview {
   margin: 1.5em 0 1.5em 0.75em;
