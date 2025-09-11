@@ -1,8 +1,10 @@
 /* modified from http://www.yinwang.org/main.css */
 body {
   font-family:"lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  background-color: white;
+  background-color: #f8f9fa;
+  color: #2c3e50;
   font-size: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 内容包装器 - 两栏布局 */
@@ -18,8 +20,10 @@ div.main {
   flex: 1;
   padding: 2% 5% 5% 5%;
   line-height: 150%;
-  border: 1px solid LightGrey;
+  border: 1px solid #e1e5e9;
+  background-color: #ffffff;
   min-width: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .title-header {
@@ -42,7 +46,7 @@ div.main {
   cursor: pointer;
   font-size: 14px;
   margin-left: 15px;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
@@ -84,11 +88,12 @@ div.main {
 }
 
 .github-info {
-  border: 1px solid LightGrey;
+  border: 1px solid #e1e5e9;
   border-radius: 8px;
   padding: 20px;
-  background-color: #fafafa;
+  background-color: #ffffff;
   margin-top: 60px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .sidebar-inline .github-info {
@@ -199,36 +204,43 @@ H1, H2, H3, H4 {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, Helvetica, STKaiti, SimSun, serif; 
   width: 98%;
   line-height: 150%;
-  color: #666666;
+  color: #2c3e50;
+  transition: color 0.3s ease;
 }
 
 H1, H2 {
   margin-bottom: 1.67em;
   padding: 0.2em;
-  border-bottom: 2px LightGrey solid;
+  border-bottom: 2px #e1e5e9 solid;
+  transition: border-color 0.3s ease;
 }
 
 H3, H4 {
   margin-top: 2.14em;
   margin-bottom: 1.5em;
-  border-bottom: 1px LightGrey solid;
+  border-bottom: 1px #e1e5e9 solid;
+  transition: border-color 0.3s ease;
 }
 
 blockquote {
   margin: 0 0 0 0.25em;
   padding: 0 0 0 0.5em;
-  border-left: 0.25em lightgrey solid;
+  border-left: 0.25em #e1e5e9 solid;
+  background-color: #f8f9fa;
+  color: #495057;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 pre {
   font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace;
-  border: solid 1px #ddd;
+  border: solid 1px #e1e5e9;
   border-radius: 3px;
-  background-color: #f8f8ff;
+  background-color: #f8f9fa;
   padding: 6px 10px;
   font-size: 1em;
   line-height: 100%;
   overflow: auto;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 code {
@@ -236,11 +248,13 @@ code {
   font-size: 0.75em;
   border: none;
   border-radius: 3px;
-  background-color: #f8f8ff;
+  background-color: #f1f3f4;
+  color: #2c3e50;
   margin: 0 2px;
   padding: 0px 5px;
   word-wrap: break-word;
   word-break: break-all;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 pre code {
@@ -254,13 +268,16 @@ pre code {
 a {
   text-decoration: none;
   padding: 1px;
-  color: #204A87;
+  color: #3498db;
   word-wrap: break-word;
   word-break: break-all;
+  transition: color 0.3s ease;
 }
 
 a:hover {
   text-decoration: underline;
+  color: #2980b9;
+  transition: color 0.3s ease;
 }
 
 div.tag_cloud a {
@@ -431,11 +448,13 @@ tr:nth-child(2n) {
 [data-theme="dark"] body {
   background-color: #1a1a1a;
   color: #e0e0e0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 [data-theme="dark"] div.main {
   border: 1px solid #444;
   background-color: #2d2d2d;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 [data-theme="dark"] H1, [data-theme="dark"] H2, [data-theme="dark"] H3, [data-theme="dark"] H4 {

@@ -18,6 +18,9 @@
     
     // 设置主题
     function setTheme(theme) {
+        // 添加过渡类，防止闪烁
+        document.body.style.transition = 'none';
+        
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
         
@@ -27,6 +30,11 @@
             toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
             toggleBtn.setAttribute('aria-label', theme === 'dark' ? '切换到亮色主题' : '切换到暗色主题');
         }
+        
+        // 重新启用过渡效果
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 10);
     }
     
     // 切换主题
