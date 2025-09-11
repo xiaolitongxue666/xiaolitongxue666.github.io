@@ -1,8 +1,8 @@
 /* modified from http://www.yinwang.org/main.css */
 body {
   font-family:"lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  background-color: #f8f9fa;
-  color: #2c3e50;
+  background-color: #F5E8C7;
+  color: #4A4035;
   font-size: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -20,8 +20,8 @@ div.main {
   flex: 1;
   padding: 2% 5% 5% 5%;
   line-height: 150%;
-  border: 1px solid #e1e5e9;
-  background-color: #ffffff;
+  border: 1px solid #D8A48F;
+  background-color: #FDF6E3;
   min-width: 0;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -51,8 +51,8 @@ div.main {
 }
 
 .title-header h2 .theme-toggle-btn:hover {
-  background-color: #f0f0f0;
-  border-color: #999;
+  background-color: #F5E8C7;
+  border-color: #D8A48F;
 }
 
 /* 主内容区域布局 */
@@ -69,7 +69,7 @@ div.main {
 
 .vertical-divider {
   width: 1px;
-  background-color: #e0e0e0;
+  background-color: #D8A48F;
   align-self: stretch;
   flex-shrink: 0;
 }
@@ -88,10 +88,10 @@ div.main {
 }
 
 .github-info {
-  border: 1px solid #e1e5e9;
+  border: 1px solid #D8A48F;
   border-radius: 8px;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #FDF6E3;
   margin-top: 60px;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -204,38 +204,38 @@ H1, H2, H3, H4 {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, Helvetica, STKaiti, SimSun, serif; 
   width: 98%;
   line-height: 150%;
-  color: #2c3e50;
+  color: #4A4035;
   transition: color 0.3s ease;
 }
 
 H1, H2 {
   margin-bottom: 1.67em;
   padding: 0.2em;
-  border-bottom: 2px #e1e5e9 solid;
+  border-bottom: 2px #D8A48F solid;
   transition: border-color 0.3s ease;
 }
 
 H3, H4 {
   margin-top: 2.14em;
   margin-bottom: 1.5em;
-  border-bottom: 1px #e1e5e9 solid;
+  border-bottom: 1px #D8A48F solid;
   transition: border-color 0.3s ease;
 }
 
 blockquote {
   margin: 0 0 0 0.25em;
   padding: 0 0 0 0.5em;
-  border-left: 0.25em #e1e5e9 solid;
-  background-color: #f8f9fa;
-  color: #495057;
+  border-left: 0.25em #A8B5A2 solid;
+  background-color: #F5E8C7;
+  color: #4A4035;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 pre {
   font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace;
-  border: solid 1px #e1e5e9;
+  border: solid 1px #A8B5A2;
   border-radius: 3px;
-  background-color: #f8f9fa;
+  background-color: #FDF6E3;
   padding: 6px 10px;
   font-size: 1em;
   line-height: 100%;
@@ -248,8 +248,8 @@ code {
   font-size: 0.75em;
   border: none;
   border-radius: 3px;
-  background-color: #f1f3f4;
-  color: #2c3e50;
+  background-color: #F5E8C7;
+  color: #4A4035;
   margin: 0 2px;
   padding: 0px 5px;
   word-wrap: break-word;
@@ -268,7 +268,7 @@ pre code {
 a {
   text-decoration: none;
   padding: 1px;
-  color: #3498db;
+  color: #D8A48F;
   word-wrap: break-word;
   word-break: break-all;
   transition: color 0.3s ease;
@@ -276,7 +276,7 @@ a {
 
 a:hover {
   text-decoration: underline;
-  color: #2980b9;
+  color: #A8B5A2;
   transition: color 0.3s ease;
 }
 
