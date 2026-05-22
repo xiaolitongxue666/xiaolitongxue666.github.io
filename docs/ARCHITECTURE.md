@@ -37,7 +37,7 @@ xiaolitongxue666.github.io (Jekyll 站点)
 | 依赖 | `Gemfile` | `github-pages` gem |
 | 布局 | `_layouts/default.html` | 首页、文章页（含分页 meta、浮动按钮） |
 | 布局 | `_layouts/page.html` | 静态页、Wiki 页 |
-| 组件 | `_includes/` | header、footer、pagination |
+| 组件 | `_includes/` | header、footer、pagination、build-version（首页 commit 版本） |
 | 内容 | `_posts/` | 博客文章 |
 | 内容 | `pages/`、`index.html` | 静态页与首页 |
 | 内容 | `_wiki/` | Wiki 集合 |
@@ -52,7 +52,7 @@ xiaolitongxue666.github.io (Jekyll 站点)
 
 | Workflow | 触发 | 作用 |
 |----------|------|------|
-| `jekyll-build.yml` | push/PR/workflow_dispatch → master | 生产构建 + 直写路径 E2E（`run-publish-e2e.js`） |
+| `jekyll-build.yml` | push/PR/workflow_dispatch → master | 写 build info + 生产构建 + 直写路径 E2E |
 | `e2e-publish.yml` | `_posts/` 等变更；workflow_dispatch | 直写发布 E2E；手动 HTTP 线上验证 |
 | GitHub Pages | push → master | 自动部署（内置，非 workflow 文件） |
 
@@ -90,7 +90,7 @@ BLOG_REPO_DIR=/path/to/xiaolitongxue666.github.io node .github/scripts/e2e/run-s
 
 # Blog 直写 E2E
 cd xiaolitongxue666.github.io
-node .github/scripts/e2e/run-publish-e2e.js
+bash .github/scripts/e2e/run-ci-parity.sh
 ```
 
 ### 手动 HTTP 验证
@@ -114,6 +114,23 @@ gh workflow run e2e-publish.yml --repo xiaolitongxue666/xiaolitongxue666.github.
 **Path 1（Obsidian 同步）**：合规 md 转换、Wiki 图片同步、无标签跳过、Jekyll build、_site marker 断言；live 模式追加 HTTP 200。
 
 **Path 2（Blog 直写）**：合规 front matter、permalink 生成、Jekyll build、_site marker 断言；live 模式追加 HTTP 200。
+
+## 首页版本号
+
+首页右下角固定显示 commit 短哈希与更新日期，便于确认线上部署版本。
+
+| 环境 | commit | 日期 |
+|------|--------|------|
+| GitHub Pages | `site.github.build_revision` | `site.github.pushed_at` |
+| 本地 / 离线 | `_data/build.yml` → `commit` | `_data/build.yml` → `date` |
+
+相关文件：
+
+- `_includes/build-version.html` — 仅 `page.url == '/'` 时由 `default.html` 引入
+- `.github/scripts/update-build-info.sh` — 从 git 生成 `_data/build.yml`
+- `_config.yml` 的 `repository:` — 启用 jekyll-github-metadata
+
+合并前运行 `bash .github/scripts/e2e/run-ci-parity.sh` 会顺带刷新 build info。
 
 ## 博客 MD 命名规范
 

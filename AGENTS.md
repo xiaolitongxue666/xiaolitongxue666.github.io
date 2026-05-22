@@ -20,26 +20,33 @@ Jekyll 静态博客，部署于 GitHub Pages（`master` 分支）。内容可来
 - Favicon：使用 `assets/images/avatar.jpg`，无根目录 `favicon.ico`
 - Wiki 页：使用 `layout: page`（已合并原 `wiki.html`）
 - 无评论系统：勿在 `_config.yml` 恢复 disqus/gitalk 等未接入配置
+- 首页版本号：仅 `/` 显示；依赖 `repository:` + `jekyll-github-metadata`；勿删除 `_includes/build-version.html`
 
 ## 构建与测试
 
 ```bash
 bundle install
 bundle exec jekyll serve --port 4001
-bundle exec jekyll build --trace
-node .github/scripts/e2e/run-publish-e2e.js
+bash .github/scripts/e2e/run-ci-parity.sh   # 合并前推荐（含 build + E2E）
+bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ```
+
+## E2E 陷阱
+
+- `run-publish-e2e.js` 在 `.e2e-staging/` 内 build 时须设置 `BUNDLE_GEMFILE` 指向仓库根
+- 勿用 `--source .e2e-staging` + 绝对路径 `--config`（layout 路径会错）
+- E2E 不依赖 `upload-artifact`；PASS/FAIL 看脚本 exit code
 
 ## 关联仓库
 
 - **obsidian_repo**：内容源，`.github/workflows/sync-blog-posts.yml` 同步到本仓库
-- Secret（obsidian 侧）：`BLOG_REPO_TOKEN`
+- Secret（obsidian 侧，仅存 GitHub Secrets）：`BLOG_REPO_TOKEN` — **勿提交 token 到仓库**
 
 ## 修改前检查
 
 1. 是否影响现有文章 URL？
 2. 是否需同步更新 `docs/` 与 Obsidian 侧文档？
-3. 变更 `_posts/` 或 layout 后是否运行 E2E？
+3. 变更 `_posts/` 或 layout 后是否运行 `run-ci-parity.sh`？
 
 ## Cursor 规则
 

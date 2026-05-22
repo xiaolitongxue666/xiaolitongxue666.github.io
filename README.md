@@ -8,6 +8,7 @@
 - 响应式布局，适配移动端和桌面端
 - 明暗主题切换（`theme-toggle.js`）
 - 文章页浮动导航按钮（`floating-buttons.js`）
+- 首页右下角 commit 版本号与更新日期（`build-version.html`）
 - SEO 优化（jekyll-seo-tag）
 - Obsidian 笔记自动同步（GitHub Actions，见 [obsidian_repo](https://github.com/xiaolitongxue666/obsidian_repo)）
 
@@ -24,10 +25,11 @@
 ```
 ├── .github/workflows/   # jekyll-build.yml, e2e-publish.yml
 ├── .github/e2e/         # E2E 测试夹具
-├── .github/scripts/e2e/ # E2E 断言脚本
+├── .github/scripts/e2e/ # E2E 断言脚本；run-ci-parity.sh 合并前验证
+├── _data/build.yml      # 本地 build 版本 fallback（脚本生成，可提交）
+├── _includes/           # header / footer / pagination / build-version
 ├── Gemfile              # Ruby 依赖（github-pages）
-├── _config.yml          # Jekyll 站点配置
-├── _includes/           # header / footer / pagination
+├── _config.yml          # Jekyll 站点配置（含 repository 供版本号 metadata）
 ├── _layouts/            # default（文章/首页）、page（静态页/Wiki）
 ├── _posts/              # 博客文章（35 篇）
 ├── _wiki/               # Wiki 集合

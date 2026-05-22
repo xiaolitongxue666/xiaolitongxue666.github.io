@@ -51,6 +51,7 @@ function main() {
   const expected = JSON.parse(fs.readFileSync(EXPECTED_PATH, 'utf8'));
   copyMinimalSite();
 
+  // staging 内 cwd build；CI 须复用根目录 bundle（见 TROUBLESHOOTING.md）
   execSync('bundle exec jekyll build --trace --config _config.yml,_config.e2e.yml', {
     cwd: STAGING_DIR,
     stdio: 'inherit',

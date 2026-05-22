@@ -703,6 +703,60 @@ tr:nth-child(2n) {
   color: #a0aec0;
 }
 
+/* 首页右下角：commit 版本与更新日期 */
+.build-version {
+  position: fixed;
+  right: 20px;
+  bottom: 16px;
+  z-index: 900;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: right;
+  pointer-events: auto;
+}
+
+.build-version a {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e9ecef;
+  color: #6c757d;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.build-version a:hover {
+  border-color: #0366d6;
+  color: #0366d6;
+}
+
+.build-version-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.build-version-date {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+[data-theme="dark"] .build-version a {
+  background: rgba(45, 55, 72, 0.92);
+  border-color: #4a5568;
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .build-version a:hover {
+  border-color: #63b3ed;
+  color: #63b3ed;
+}
+
 /* 浮动按钮样式 */
 .floating-buttons {
   position: fixed;

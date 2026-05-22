@@ -4,6 +4,7 @@
 # 修改 permalink/url/plugins 会影响全部历史文章 URL，变更前必读 docs/TROUBLESHOOTING.md
 baseurl:
 url: https://xiaolitongxue666.github.io/
+repository: xiaolitongxue666/xiaolitongxue666.github.io
 date_format: "ordinal"
 title: xiaolitongxue666 Blog
 description: 技术分享与学习笔记 - 专注于编程、系统架构和开发工具

@@ -70,4 +70,7 @@
 </div>
 {% endif %}
 
+{% if page.layout == 'default' and page.url == '/' %}
+{% include build-version.html %}
+{% endif %}
 {% include footer.html %}

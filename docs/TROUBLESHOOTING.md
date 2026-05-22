@@ -15,6 +15,7 @@
 | about 页内容错误 | 仍为 jekyll-theme-solid 原作者信息 | 更新 `pages/about.md` 为 xiaolitongxue666 个人信息 |
 | Gemfile 冗余依赖 | 单独声明 `jekyll-seo-tag`，`github-pages` 已包含 | 仅保留 `gem 'github-pages'` |
 | 无构建校验 CI | 仅依赖 GitHub Pages 内置构建 | 新增 `.github/workflows/jekyll-build.yml` + E2E 脚本 |
+| 首页无部署版本信息 | 无法从页面确认当前构建 commit | 首页右下角 `build-version`：GitHub Pages 用 `site.github.build_revision` + `pushed_at`；本地 fallback `_data/build.yml`（`update-build-info.sh` 生成） |
 
 ## Obsidian 仓库（obsidian_repo）
 
@@ -34,6 +35,7 @@
 | 生产 `_posts` 被 E2E 污染 | 测试产物写入博客仓库 | E2E 使用 `_config.e2e.yml` 输出到 `_site-e2e`；fixture 在 `.e2e-staging` 隔离构建 |
 | 本地 publish E2E 过、CI 挂 | staging 目录无 bundle，本地有缓存/全局 gems | staging 内 build 时设置 `BUNDLE_GEMFILE` 指向仓库根 `Gemfile`；合并前跑 `run-ci-parity.sh` |
 | CI 红但 E2E 逻辑已通过 | artifact 配额满导致 upload 失败 | 已移除 routine artifact；E2E 以脚本 exit code 为准 |
+| `--source .e2e-staging` 从根目录 build 失败 | Jekyll 将绝对路径 config 与 source 错误拼接，layout 404 | 保持 staging 内 `cwd` build + `BUNDLE_GEMFILE` 指向根目录（勿用绝对路径 `--config`） |
 | 线上 live 验证失败 | 对应文章尚未 push/部署 | 先完成 sync/push，再用 `workflow_dispatch` + `live_verify=true`；HTTP 验证带重试 |
 
 ## 不可违反的约束
@@ -41,13 +43,16 @@
 - **禁止**批量重命名已有 `_posts/`（permalink 由文件名 slug 决定）
 - **禁止**修改 `permalink`、`url`、GitHub Pages 部署分支（`master`）
 - Obsidian 同步 **仅** 在 `push` 事件写入博客仓库
-- 合并前本地执行：`bundle exec jekyll build` 与 E2E 脚本
+- 合并前本地执行：`bash .github/scripts/e2e/run-ci-parity.sh`（含 `update-build-info.sh` + jekyll build + publish E2E）
 
 ## 本地验证命令
 
 ```bash
 # 博客生产构建 + CI 等价 E2E（合并前推荐）
 bash .github/scripts/e2e/run-ci-parity.sh
+
+# 刷新首页版本 fallback 数据（_data/build.yml）
+bash .github/scripts/update-build-info.sh
 
 # 或分步执行
 bundle exec jekyll build --trace

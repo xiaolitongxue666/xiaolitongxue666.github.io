@@ -20,6 +20,9 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
+      - name: Write build info
+        run: bash .github/scripts/update-build-info.sh
+
       - name: Build site
         run: bundle exec jekyll build --trace
 
