@@ -25,7 +25,7 @@
 ```
 ├── .github/workflows/   # jekyll-build.yml, e2e-publish.yml
 ├── .github/e2e/         # E2E 测试夹具
-├── .github/scripts/e2e/ # E2E 断言脚本；run-ci-parity.sh 合并前验证
+├── .github/scripts/e2e/ # E2E 断言；run-ci-parity.sh 含 assert-homepage-build-version.js
 ├── _data/build.yml      # 本地 build 版本 fallback（脚本生成，可提交）
 ├── _includes/           # header / footer / pagination / build-version
 ├── Gemfile              # Ruby 依赖（github-pages）

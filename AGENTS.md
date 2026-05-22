@@ -20,7 +20,7 @@ Jekyll 静态博客，部署于 GitHub Pages（`master` 分支）。内容可来
 - Favicon：使用 `assets/images/avatar.jpg`，无根目录 `favicon.ico`
 - Wiki 页：使用 `layout: page`（已合并原 `wiki.html`）
 - 无评论系统：勿在 `_config.yml` 恢复 disqus/gitalk 等未接入配置
-- 首页版本号：仅 `/` 显示；依赖 `repository:` + `jekyll-github-metadata`；勿删除 `_includes/build-version.html`
+- 首页版本号：仅 `/` 显示；commit 来自 `jekyll-github-metadata` 的 `build_revision`，**date 来自 `_data/build.yml`**（非 `pushed_at`）；根元素含 inline fixed 定位；勿删 `_includes/build-version.html`
 
 ## 构建与测试
 

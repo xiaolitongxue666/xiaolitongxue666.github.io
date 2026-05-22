@@ -15,11 +15,13 @@ Jekyll 站点 `xiaolitongxue666.github.io`，GitHub Pages 部署分支为 **mast
 - 勿改 `_config.yml` 的 `permalink`、`url`、`plugins`
 - 文章 front matter 使用 `layout: default`（无 `post` layout）
 - 保留 `_config.yml` 的 `repository:`（首页 commit 版本号依赖 jekyll-github-metadata）
+- 首页 `build-version`：须同时显示 commit + date；合并前提交 `_data/build.yml`
 
 ## 常见陷阱
 
 - 图片路径：`assets/images/posts/{YYYY}/{date}-{slug}/...`；历史文章存在 slug 混用（下划线/连字符/大小写）
 - 分页 meta：`default.html` 中 `posts_per_page = 10` 须与 `paginate` 一致
+- **build-version**：勿用 `site.github.pushed_at` 作日期；commit/date Liquid 分支须解耦；保留 inline fixed style
 - E2E 构建用 `_config.e2e.yml` → `_site-e2e`，勿污染生产 `_site/`
 - E2E staging build：须 `BUNDLE_GEMFILE` 指向仓库根；勿 routine 上传 artifact
 - 合并前验证用 `run-ci-parity.sh`，不要只跑 `node run-publish-e2e.js`

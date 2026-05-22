@@ -676,6 +676,11 @@ tr:nth-child(2n) {
   .stat-number, .stat-label {
     display: inline;
   }
+
+  .build-version {
+    right: 15px;
+    bottom: 15px;
+  }
 }
 
 /* GitHub区域内的footer样式 */
@@ -708,6 +713,7 @@ tr:nth-child(2n) {
   position: fixed;
   right: 20px;
   bottom: 16px;
+  left: auto;
   z-index: 900;
   font-size: 0.75rem;
   line-height: 1.4;

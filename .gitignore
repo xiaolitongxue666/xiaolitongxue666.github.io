@@ -41,4 +41,4 @@ Thumbs.db
 # 本地浏览器/DevTools 产物
 .well-known/
 
-# 注意：_data/build.yml  intentionally tracked（本地版本号 fallback，由 update-build-info.sh 更新）
+# 注意：_data/build.yml intentionally tracked（首页版本号 date fallback，由 update-build-info.sh 更新，合并前须提交）

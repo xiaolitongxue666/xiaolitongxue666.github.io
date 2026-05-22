@@ -15,7 +15,9 @@
 | about 页内容错误 | 仍为 jekyll-theme-solid 原作者信息 | 更新 `pages/about.md` 为 xiaolitongxue666 个人信息 |
 | Gemfile 冗余依赖 | 单独声明 `jekyll-seo-tag`，`github-pages` 已包含 | 仅保留 `gem 'github-pages'` |
 | 无构建校验 CI | 仅依赖 GitHub Pages 内置构建 | 新增 `.github/workflows/jekyll-build.yml` + E2E 脚本 |
-| 首页无部署版本信息 | 无法从页面确认当前构建 commit | 首页右下角 `build-version`：GitHub Pages 用 `site.github.build_revision` + `pushed_at`；本地 fallback `_data/build.yml`（`update-build-info.sh` 生成） |
+| 首页无部署版本信息 | 无法从页面确认当前构建 commit | 新增 `build-version.html` + `_data/build.yml`；合并前运行 `update-build-info.sh` 并提交 |
+| 首页版本号无日期（线上仅 v hash） | Liquid 在 `build_revision` 分支内读 `site.github.pushed_at`，该字段不在 jekyll-github-metadata 文档中；`_data/build.yml` 的 date 被 `elsif` 跳过 | commit 与 date **解耦**：Pages 用 `build_revision`，date 回退 `_data/build.yml` → `date`（最后兜底 `site.time`）；见 `_includes/build-version.html` |
+| 首页版本号位置不一致（如 Playwright 左下、浏览器右下） | `.build-version` 仅依赖外部 CSS 的 `position:fixed`；样式未加载时退化为文档流底部左对齐 | 根元素加 inline `position:fixed;right:20px;left:auto`；CSS 补 `left:auto`；Playwright 用 `waitUntil:'networkidle'` |
 
 ## Obsidian 仓库（obsidian_repo）
 
@@ -37,6 +39,7 @@
 | CI 红但 E2E 逻辑已通过 | artifact 配额满导致 upload 失败 | 已移除 routine artifact；E2E 以脚本 exit code 为准 |
 | `--source .e2e-staging` 从根目录 build 失败 | Jekyll 将绝对路径 config 与 source 错误拼接，layout 404 | 保持 staging 内 `cwd` build + `BUNDLE_GEMFILE` 指向根目录（勿用绝对路径 `--config`） |
 | 线上 live 验证失败 | 对应文章尚未 push/部署 | 先完成 sync/push，再用 `workflow_dispatch` + `live_verify=true`；HTTP 验证带重试 |
+| 首页 build-version 回归 | 改 layout/CSS 后未断言 | `run-ci-parity.sh` 调用 `assert-homepage-build-version.js`：检查 id、date、fixed 定位 |
 
 ## 不可违反的约束
 

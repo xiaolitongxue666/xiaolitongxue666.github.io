@@ -121,13 +121,20 @@ gh workflow run e2e-publish.yml --repo xiaolitongxue666/xiaolitongxue666.github.
 
 | 环境 | commit | 日期 |
 |------|--------|------|
-| GitHub Pages | `site.github.build_revision` | `site.github.pushed_at` |
+| GitHub Pages | `site.github.build_revision` | `_data/build.yml` → `date`（`pushed_at` 不可用，须提交 build.yml） |
 | 本地 / 离线 | `_data/build.yml` → `commit` | `_data/build.yml` → `date` |
+
+**常见陷阱（2026-05）**
+
+1. **无日期**：勿在 `if build_revision` 分支内单独取 date；date 须独立回退链。
+2. **位置漂移**：inline fixed 样式 + `default.css` 双保险；勿移除 inline style。
+3. **合并前**：`update-build-info.sh` 刷新并提交 `_data/build.yml`；`run-ci-parity.sh` 含 homepage 断言。
 
 相关文件：
 
 - `_includes/build-version.html` — 仅 `page.url == '/'` 时由 `default.html` 引入
 - `.github/scripts/update-build-info.sh` — 从 git 生成 `_data/build.yml`
+- `.github/scripts/e2e/assert-homepage-build-version.js` — CI 断言 id + date + 定位
 - `_config.yml` 的 `repository:` — 启用 jekyll-github-metadata
 
 合并前运行 `bash .github/scripts/e2e/run-ci-parity.sh` 会顺带刷新 build info。
