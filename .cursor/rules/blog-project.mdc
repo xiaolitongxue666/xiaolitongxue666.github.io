@@ -1,0 +1,37 @@
+---
+description: xiaolitongxue666 Jekyll 博客项目约定、约束与已知陷阱
+alwaysApply: true
+---
+
+# 博客项目 Agent 规则
+
+## 仓库角色
+
+Jekyll 站点 `xiaolitongxue666.github.io`，GitHub Pages 部署分支为 **master**。
+
+## 不可破坏
+
+- 勿重命名/删除已有 `_posts/`（permalink 由文件名 slug 决定）
+- 勿改 `_config.yml` 的 `permalink`、`url`、`plugins`
+- 文章 front matter 使用 `layout: default`（无 `post` layout）
+
+## 常见陷阱
+
+- 图片路径：`assets/images/posts/{YYYY}/{date}-{slug}/...`；历史文章存在 slug 混用（下划线/连字符/大小写）
+- 分页 meta：`default.html` 中 `posts_per_page = 10` 须与 `paginate` 一致
+- E2E 构建用 `_config.e2e.yml` → `_site-e2e`，勿污染生产 `_site/`
+
+## 文档优先
+
+修改 CI、布局、同步相关逻辑前阅读：
+- `docs/ARCHITECTURE.md`
+- `docs/TROUBLESHOOTING.md`
+- `docs/PROJECT_MEMORY.md`
+- `AGENTS.md`
+
+## 验证
+
+```bash
+bundle exec jekyll build --trace
+node .github/scripts/e2e/run-publish-e2e.js
+```

@@ -1,22 +1,26 @@
-# Jekyll generated files
+# Jekyll 构建产物
 _site/
+_site-e2e/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
 
-# Ruby and Bundler
+# E2E 隔离目录（勿提交）
+.e2e-staging/
+
+# Ruby / Bundler
 Gemfile.lock
 .bundle/
 vendor/
 
-# Editor and IDE files
+# 编辑器与 IDE
 *.swp
 *.swo
 *~
 .vscode/
 .idea/
 
-# OS generated files
+# 操作系统
 .DS_Store
 .DS_Store?
 ._*
@@ -25,9 +29,10 @@ vendor/
 ehthumbs.db
 Thumbs.db
 
-# Logs
+# 日志与临时文件
 *.log
-
-# Temporary files
 *.tmp
 *.temp
+
+# 本地浏览器/DevTools 产物
+.well-known/

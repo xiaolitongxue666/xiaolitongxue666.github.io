@@ -1,0 +1,75 @@
+name: E2E Publish
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - '_posts/**'
+      - '.github/e2e/**'
+      - '.github/scripts/e2e/**'
+      - '_config.yml'
+      - '_layouts/**'
+      - '.github/workflows/e2e-publish.yml'
+  push:
+    branches: [master]
+    paths:
+      - '_posts/**'
+      - '.github/e2e/**'
+      - '.github/scripts/e2e/**'
+      - '_config.yml'
+      - '_layouts/**'
+      - '.github/workflows/e2e-publish.yml'
+  workflow_dispatch:
+    inputs:
+      live_verify:
+        description: 'HTTP verify live published URL'
+        type: boolean
+        default: false
+      post_permalink:
+        description: 'Live URL path (e.g. /2026/05/22/e2e-direct-post/)'
+        required: false
+        default: '/2026/05/22/e2e-direct-post/'
+      marker:
+        description: 'Marker text expected on live page'
+        required: false
+        default: 'e2e-direct-marker-v1'
+
+jobs:
+  e2e-build:
+    if: github.event_name != 'workflow_dispatch' || inputs.live_verify != true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Run direct publish E2E
+        run: node .github/scripts/e2e/run-publish-e2e.js
+
+  e2e-live:
+    if: github.event_name == 'workflow_dispatch' && inputs.live_verify == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Verify live URL
+        env:
+          E2E_PERMALINK: ${{ inputs.post_permalink }}
+          E2E_MARKER: ${{ inputs.marker }}
+        run: node .github/scripts/e2e/verify-live.js

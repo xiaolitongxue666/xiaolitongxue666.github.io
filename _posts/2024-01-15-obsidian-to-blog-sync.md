@@ -18,7 +18,7 @@ categories:
 
 ## 功能特性
 
-- 🔍 自动检测带有 `` 标签的Markdown文件
+- 🔍 自动检测带有 #xiaolitongxue666_blog 标签的Markdown文件
 - 📝 智能提取文章标题和日期信息
 - 🔄 自动转换为Jekyll兼容的格式
 - 🖼️ 自动处理图片引用，转换Obsidian格式到Jekyll格式
@@ -56,14 +56,14 @@ categories:
 - 推送到 `main` 或 `master` 分支
 - 创建Pull Request到 `main` 或 `master` 分支
 - 修改的文件包含：
-  - 带有 `` 标签的 `.md` 文件
+  - 带有 #xiaolitongxue666_blog 标签的 `.md` 文件
   - 被这些博客文章引用的图片文件
 
 **智能检测机制**：工作流会自动检测变更的文件是否与博客内容相关，只有相关变更才会执行同步操作，避免不必要的资源消耗。
 
 ### 3. 使用方法
 
-1. 在Obsidian中的任意Markdown文件中添加 `` 标签
+1. 在Obsidian中的任意Markdown文件中添加 #xiaolitongxue666_blog 标签
 2. 提交并推送到GitHub
 3. GitHub Action会自动：
    - 检测带有标签的文件
@@ -155,7 +155,7 @@ categories:
 
 ## 注意事项
 
-1. **标签位置**：`` 标签可以放在文件的任意位置
+1. **标签位置**：#xiaolitongxue666_blog 标签可以放在文件的任意位置
 2. **文件保留**：原始文件会保留在Obsidian中，不会被移动或删除
 3. **重复处理**：相同的文件会被重复处理，建议在博客发布后移除标签
 4. **权限要求**：确保Personal Access Token有足够的权限访问博客仓库
@@ -272,7 +272,7 @@ categories:
 **Pull Request 事件触发**：
 - **目标分支**: 针对 `main` 或 `master` 分支的 PR
 - **路径监控**: 与 Push 事件相同的文件类型监控
-- **智能过滤**: 同样进行博客相关性检测
+- **行为**: 执行内容处理与 Jekyll 构建验证，**不会 push 到博客仓库**
 
 ### 工作流执行流程
 
@@ -281,13 +281,13 @@ categories:
 2. **Node.js 环境**: 设置 Node.js 18 运行环境
 3. **依赖准备**: 为后续脚本执行做准备
 
-#### 第二阶段：智能变更检测
-**检测逻辑**：
+#### 第二阶段：变更检测与内容处理
+**检测逻辑**（由 `process-blog-posts.js` 统一负责）：
 - 获取变更文件列表（区分 Push 和 PR 事件）
-- 扫描仓库中所有包含 `` 标签的 Markdown 文件
+- 扫描仓库中所有包含 #xiaolitongxue666_blog 标签的 Markdown 文件
 - 提取这些博客文章中引用的所有图片路径
 - 精确判断变更文件是否与博客相关：
-  - 变更的 Markdown 文件是否包含 `` 标签
+  - 变更的 Markdown 文件是否包含 #xiaolitongxue666_blog 标签
   - 变更的图片文件是否被带有博客标签的文章引用
 - 只有满足上述条件的变更才会触发后续处理流程
 
@@ -301,7 +301,7 @@ categories:
 
 1. **文件发现**：
    - 递归扫描所有 Markdown 文件
-   - 过滤包含 `` 标签的文件
+   - 过滤包含 #xiaolitongxue666_blog 标签的文件
 
 2. **元数据提取**：
    - **标题提取**: 优先级 `# 标题` > YAML front matter > 文件名
@@ -313,7 +313,7 @@ categories:
      - Obsidian Wiki 链接 `![image.png](/assets/images/posts/2024/2024-01-15-obsidian-to-blog-sync/2024-01-15-obsidian-to-blog-sync_007.png)` → Jekyll 格式
      - 相对路径图片 → 绝对路径格式
      - 路径模式: `/assets/images/posts/YYYY/article-directory/article-title_NNNN.ext`
-   - **标签清理**: 移除 `` 标签
+   - **标签清理**: 移除 #xiaolitongxue666_blog 标签
    - **Front Matter 生成**: 添加 Jekyll 兼容的 YAML 头部
 
 #### 第四阶段：文件同步

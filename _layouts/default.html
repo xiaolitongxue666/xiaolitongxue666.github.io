@@ -51,10 +51,18 @@
     </div>
 </div>
 
-<!-- 浮动按钮 - 只在博客文章页面显示 -->
+<!-- 浮动按钮：仅文章页；pagination-page 由 Jekyll 按 site.posts 顺序与 paginate(10) 计算 -->
 {% if page.layout == 'default' and page.url != '/' %}
+{% assign posts_per_page = 10 %}
+{% assign pagination_page = 1 %}
+{% for p in site.posts %}
+  {% if p.url == page.url %}
+    {% assign pagination_page = forloop.index | minus: 1 | divided_by: posts_per_page | plus: 1 %}
+  {% endif %}
+{% endfor %}
 <meta name="post-date" content="{{ page.date | date: '%Y-%m-%d' }}">
 <meta name="post-title" content="{{ page.title }}">
+<meta name="pagination-page" content="{{ pagination_page }}">
 <div class="floating-buttons">
     <button class="floating-btn back-to-top" id="back-to-top" title="回到顶部">↑</button>
     <a class="floating-btn back-to-pagination" id="back-to-pagination" title="回到分页">📄</a>

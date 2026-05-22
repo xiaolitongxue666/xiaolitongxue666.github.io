@@ -1,28 +1,24 @@
 ---
 layout: page
-title: Zhuang Ma
-description: Zhuang Ma的个人简介。
-keywords: Zhuang Ma, 马壮
+title: About
+description: xiaolitongxue666 的个人简介。
+keywords: xiaolitongxue666, 技术博客
 permalink: /about/
 ---
 
-**Software Engineer at [Sogou, Inc.](http://www.sogou.com)**
+**软件开发工程师**
 
-Beijing City, China \| Computer Software
-  
-*Education:* Wuhan Institute of Technology
+专注于编程、系统架构和开发工具相关的技术分享与学习记录。
 
-scholar, CS/IT
+*GitHub:* [xiaolitongxue666](https://github.com/xiaolitongxue666)
 
-*Contact:* `print '%s@%s' % ('ChumpMa', 'gmail.com')  #via Python`
-
-*Social:*  [github](http://github.com/mzlogin) 
+*Blog:* [xiaolitongxue666.github.io](https://xiaolitongxue666.github.io/)
 
 ```c++
 #include <iostream>
 int main()
 {
-	std::cout << "Hello, friends!" << std::endl;
-	return 0;
+    std::cout << "Hello, friends!" << std::endl;
+    return 0;
 }
 ```
