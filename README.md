@@ -66,7 +66,8 @@ bundle exec jekyll serve --port 4001
 ### 构建验证
 
 ```bash
-bundle exec jekyll build --trace
+# CI 等价验证（生产 build + publish E2E，合并前推荐）
+bash .github/scripts/e2e/run-ci-parity.sh
 ```
 
 ## 自动同步机制
@@ -123,6 +124,7 @@ assets/images/posts/{YYYY}/{articleDate}-{sanitizedTitle}/{articleDate}-{sanitiz
 ## E2E 测试
 
 - **日常 CI**：`jekyll-build.yml` 构建成功后运行 `node .github/scripts/e2e/run-publish-e2e.js`
+- **合并前本地验证**：`bash .github/scripts/e2e/run-ci-parity.sh`（复现 CI bundle 路径行为）
 - **手动线上验证**：`gh workflow run e2e-publish.yml -f live_verify=true`
 - 详细说明见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#e2e-测试)
 

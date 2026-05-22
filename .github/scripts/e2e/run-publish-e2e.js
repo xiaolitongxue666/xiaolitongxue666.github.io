@@ -26,7 +26,6 @@ function copyMinimalSite() {
   const copyList = [
     '_config.yml',
     '_config.e2e.yml',
-    'Gemfile',
     'index.html',
     '_includes',
     '_layouts',
@@ -54,7 +53,12 @@ function main() {
 
   execSync('bundle exec jekyll build --trace --config _config.yml,_config.e2e.yml', {
     cwd: STAGING_DIR,
-    stdio: 'inherit'
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      JEKYLL_ENV: 'test',
+      BUNDLE_GEMFILE: path.join(REPO_ROOT, 'Gemfile')
+    }
   });
 
   const report = assertBuiltSite({

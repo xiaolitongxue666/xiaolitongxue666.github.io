@@ -32,6 +32,8 @@
 |------|------|----------|
 | 本地 sync E2E 图片断言失败 | 图片复制到 obsidian 下的 `./blog-repo` 而非真实博客路径 | 运行前设置 `BLOG_REPO_DIR=/path/to/xiaolitongxue666.github.io` |
 | 生产 `_posts` 被 E2E 污染 | 测试产物写入博客仓库 | E2E 使用 `_config.e2e.yml` 输出到 `_site-e2e`；fixture 在 `.e2e-staging` 隔离构建 |
+| 本地 publish E2E 过、CI 挂 | staging 目录无 bundle，本地有缓存/全局 gems | staging 内 build 时设置 `BUNDLE_GEMFILE` 指向仓库根 `Gemfile`；合并前跑 `run-ci-parity.sh` |
+| CI 红但 E2E 逻辑已通过 | artifact 配额满导致 upload 失败 | 已移除 routine artifact；E2E 以脚本 exit code 为准 |
 | 线上 live 验证失败 | 对应文章尚未 push/部署 | 先完成 sync/push，再用 `workflow_dispatch` + `live_verify=true`；HTTP 验证带重试 |
 
 ## 不可违反的约束
@@ -44,10 +46,11 @@
 ## 本地验证命令
 
 ```bash
-# 博客生产构建
-cd xiaolitongxue666.github.io && bundle exec jekyll build --trace
+# 博客生产构建 + CI 等价 E2E（合并前推荐）
+bash .github/scripts/e2e/run-ci-parity.sh
 
-# 博客直写 E2E
+# 或分步执行
+bundle exec jekyll build --trace
 node .github/scripts/e2e/run-publish-e2e.js
 
 # Obsidian 同步 E2E
