@@ -1,0 +1,19 @@
+---
+import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import { getAllWikiPages } from '../../lib/wiki';
+import { SITE } from '../../lib/site';
+
+const wikiPages = getAllWikiPages().filter((page) => page.title !== 'Wiki Template');
+---
+
+<DefaultLayout title="Wiki" description="个人知识管理，随手笔记更新备忘。" keywords="维基, Wiki">
+  <ul>
+    {
+      wikiPages.map((page) => (
+        <li>
+          <a href={`${SITE.url}${page.url}`}>{page.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</DefaultLayout>

@@ -7,8 +7,9 @@ on:
       - '_posts/**'
       - '.github/e2e/**'
       - '.github/scripts/e2e/**'
-      - '_config.yml'
-      - '_layouts/**'
+      - 'src/**'
+      - 'astro.config.mjs'
+      - 'package.json'
       - '.github/workflows/e2e-publish.yml'
   push:
     branches: [master]
@@ -16,8 +17,9 @@ on:
       - '_posts/**'
       - '.github/e2e/**'
       - '.github/scripts/e2e/**'
-      - '_config.yml'
-      - '_layouts/**'
+      - 'src/**'
+      - 'astro.config.mjs'
+      - 'package.json'
       - '.github/workflows/e2e-publish.yml'
   workflow_dispatch:
     inputs:
@@ -42,16 +44,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
-          bundler-cache: true
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run direct publish E2E
         run: node .github/scripts/e2e/run-publish-e2e.js
@@ -66,7 +66,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Verify live URL
         env:

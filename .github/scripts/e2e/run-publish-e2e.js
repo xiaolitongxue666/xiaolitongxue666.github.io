@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * E2E: Direct blog post fixture -> isolated Jekyll build -> assert _site.
+ * E2E: Direct blog post fixture -> isolated Astro build -> assert dist.
  */
 
 const fs = require('fs');
@@ -24,13 +24,15 @@ function copyMinimalSite() {
   fs.mkdirSync(STAGING_DIR, { recursive: true });
 
   const copyList = [
-    '_config.yml',
-    '_config.e2e.yml',
-    'index.html',
-    '_includes',
-    '_layouts',
-    'pages',
-    'assets'
+    'package.json',
+    'package-lock.json',
+    'astro.config.mjs',
+    'tsconfig.json',
+    'src',
+    'public',
+    '_data',
+    '_wiki',
+    'assets',
   ];
 
   for (const item of copyList) {
@@ -51,22 +53,25 @@ function main() {
   const expected = JSON.parse(fs.readFileSync(EXPECTED_PATH, 'utf8'));
   copyMinimalSite();
 
-  // staging 内 cwd build；CI 须复用根目录 bundle（见 TROUBLESHOOTING.md）
-  execSync('bundle exec jekyll build --trace --config _config.yml,_config.e2e.yml', {
+  execSync('npm ci', {
+    cwd: STAGING_DIR,
+    stdio: 'inherit',
+  });
+
+  execSync('E2E_OUT_DIR=dist-e2e npm run build', {
     cwd: STAGING_DIR,
     stdio: 'inherit',
     env: {
       ...process.env,
-      JEKYLL_ENV: 'test',
-      BUNDLE_GEMFILE: path.join(REPO_ROOT, 'Gemfile')
-    }
+      E2E_OUT_DIR: 'dist-e2e',
+    },
   });
 
   const report = assertBuiltSite({
-    siteDir: path.join(STAGING_DIR, '_site-e2e'),
+    siteDir: path.join(STAGING_DIR, 'dist-e2e'),
     sourceDir: STAGING_DIR,
     marker: expected.marker,
-    permalinkPattern: expected.permalinkPattern
+    permalinkPattern: expected.permalinkPattern,
   });
 
   console.log(JSON.stringify(report, null, 2));

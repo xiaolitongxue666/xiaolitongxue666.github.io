@@ -8,7 +8,7 @@ const path = require('path');
 
 function assertHomepageBuildVersion(options = {}) {
   const repoRoot = options.repoRoot || path.resolve(__dirname, '../../..');
-  const siteDir = options.siteDir || path.join(repoRoot, '_site');
+  const siteDir = options.siteDir || path.join(repoRoot, 'dist');
   const indexPath = path.join(siteDir, 'index.html');
   const cssPath = path.join(repoRoot, 'assets/css/default.css');
 
@@ -66,7 +66,7 @@ function printReport(report) {
 
 if (require.main === module) {
   const repoRoot = process.env.E2E_REPO_ROOT || path.resolve(__dirname, '../../..');
-  const siteDir = process.env.E2E_SITE_DIR || path.join(repoRoot, '_site');
+  const siteDir = process.env.E2E_SITE_DIR || path.join(repoRoot, 'dist');
   printReport(assertHomepageBuildVersion({ repoRoot, siteDir }));
 }
 

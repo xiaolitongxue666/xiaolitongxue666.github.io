@@ -1,65 +1,68 @@
 # 问题与解决方案
 
-本文档归纳博客双仓库项目在优化与 E2E 测试过程中遇到的问题及处理方式。架构与 CI 见 [ARCHITECTURE.md](ARCHITECTURE.md)。
+本文档归纳博客双仓库项目在优化、E2E 与 **Jekyll → Astro 迁移（2026-05）** 中的问题及处理方式。架构见 [ARCHITECTURE.md](ARCHITECTURE.md)。
+
+## Astro 迁移（2026-05）
+
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| E2E 脚本报 `require is not defined` | `package.json` 设 `"type": "module"` 后，`.github/scripts/e2e/*.js` 为 CommonJS | **勿**在根 `package.json` 加 `"type": "module"`；Astro 配置用 `astro.config.mjs` 即可 |
+| 首页 build-version 无 `YYYY-MM-DD` | `js-yaml` 将 `date: 2026-05-22` 解析为 `Date`，模板输出长字符串 | `src/lib/build-info.ts` 中 `formatDateValue()` 统一格式化为 `YYYY-MM-DD` |
+| Astro build 路径 import 失败 | 嵌套页面相对路径层级错误 | 按目录深度引用：`src/pages/` 用 `../`；`wiki/[slug]/` 用 `../../../`；`[year]/.../[slug]/` 用 `../../../../../` |
+| 分页 URL 与 Jekyll 不一致 | Astro 默认 `/page/2/` | 使用 `src/pages/[page].astro`，`getStaticPaths` 返回 `page2`、`page3` 等 param，生成 `/page2/` |
+| 历史文章 URL 404 | 对 slug 二次 sanitize | **禁止**二次处理；从文件名 `YYYY-MM-DD-{slug}.md` 直接取 slug（保留大小写/下划线） |
+| GitHub Pages 仍跑 Jekyll | 仓库 Settings 仍为内置 Jekyll | Settings → Pages → Source 改为 **GitHub Actions**；由 `astro-build.yml` deploy-pages |
+| Obsidian CI 仍 `jekyll build` | workflow 未随博客迁移更新 | `sync-blog-posts.yml` 改为 `npm ci && npm run build`；`run-sync-e2e.js` 输出 `dist-e2e/` |
+| E2E 污染生产 `_posts/` | sync E2E 写入真实博客路径 | 测试后清理 fixture 文章与 `assets/images/posts/2026/`；勿提交 E2E 产物 |
+| 静态资源路径变更 | Obsidian 硬编码 `assets/images/posts/` | 保留根目录 `assets/`；`public/assets` → `../assets` 符号链接 |
 
 ## 博客仓库（xiaolitongxue666.github.io）
 
 | 问题 | 原因 | 解决方案 |
 |------|------|----------|
-| README 与代码不一致 | 文档沿用旧主题说明 | 修正：`layout: default`（非 `post`）、部署分支 `master`、JS 文件存在、图片路径为 `assets/images/posts/` |
-| 评论系统无效且凭证暴露 | `_config.yml` 配置了 disqus/gitment/gitalk，但 layout/include 未引用 | 删除整块评论配置；勿重新加入未接入模板的 OAuth 凭证 |
-| `_layouts/wiki.html` 冗余 | 与 `page.html` 完全相同 | 删除 `wiki.html`，`_wiki/*.md` 改用 `layout: page` |
-| favicon 404 | `header.html` 引用不存在的 `favicon.ico` | 改用 `assets/images/avatar.jpg` 作为站点图标 |
-| 浮动按钮「回到分页」跳转错误 | JS 用硬编码年份/heuristic 估算页码 | 在 `default.html` 构建时注入 `meta[name=pagination-page]`；`posts_per_page` 须与 `_config.yml` 的 `paginate` 一致（10） |
-| OpenCV 文章图片不显示 | 目录名 `opencv_over-win10` 与正文引用 `opencv_over_win10` 不一致 | 修正 Markdown 内图片路径以匹配实际目录；**勿**重命名 `_posts` 文件（会破坏 permalink） |
-| about 页内容错误 | 仍为 jekyll-theme-solid 原作者信息 | 更新 `pages/about.md` 为 xiaolitongxue666 个人信息 |
-| Gemfile 冗余依赖 | 单独声明 `jekyll-seo-tag`，`github-pages` 已包含 | 仅保留 `gem 'github-pages'` |
-| 无构建校验 CI | 仅依赖 GitHub Pages 内置构建 | 新增 `.github/workflows/jekyll-build.yml` + E2E 脚本 |
-| 首页无部署版本信息 | 无法从页面确认当前构建 commit | 新增 `build-version.html` + `_data/build.yml`；合并前运行 `update-build-info.sh` 并提交 |
-| 首页版本号无日期（线上仅 v hash） | Liquid 在 `build_revision` 分支内读 `site.github.pushed_at`，该字段不在 jekyll-github-metadata 文档中；`_data/build.yml` 的 date 被 `elsif` 跳过 | commit 与 date **解耦**：Pages 用 `build_revision`，date 回退 `_data/build.yml` → `date`（最后兜底 `site.time`）；见 `_includes/build-version.html` |
-| 首页版本号位置不一致（如 Playwright 左下、浏览器右下） | `.build-version` 仅依赖外部 CSS 的 `position:fixed`；样式未加载时退化为文档流底部左对齐 | 根元素加 inline `position:fixed;right:20px;left:auto`；CSS 补 `left:auto`；Playwright 用 `waitUntil:'networkidle'` |
+| favicon 404 | 根目录 `favicon.ico` 与 header 不一致 | 删除根目录 `favicon.ico`；仅用 `assets/images/avatar.jpg` |
+| 浮动按钮「回到分页」跳转错误 | JS 硬编码估算页码 | `FloatingButtons.astro` 注入 `meta[name=pagination-page]`；`POSTS_PER_PAGE=10` 与 `floating-buttons.js` 一致 |
+| OpenCV 文章图片不显示 | 目录名与正文引用不一致 | 修正 Markdown 内路径；**勿**重命名 `_posts` 文件 |
+| 无构建校验 CI | 仅依赖 Pages 内置构建 | `astro-build.yml`：build + E2E + deploy-pages |
+| 首页版本号无日期 | `_data/build.yml` 未提交或 date 格式错 | 合并前 `update-build-info.sh` 并提交 `_data/build.yml`；见 Astro 迁移表 |
+| 首页版本号位置漂移 | 仅依赖 CSS `position:fixed` | `BuildVersion.astro` 保留 inline fixed style |
+
+### 历史（Jekyll 时代，已移除）
+
+评论系统未接入、`_layouts/wiki.html` 冗余、Gemfile 依赖、`--source .e2e-staging` + Jekyll config 路径错误等——随 Jekyll 移除，仅作归档参考。
 
 ## Obsidian 仓库（obsidian_repo）
 
 | 问题 | 原因 | 解决方案 |
 |------|------|----------|
-| PR 误推送到博客仓库 | `sync-blog-posts.yml` 在 `pull_request` 事件也执行 push | push/commit 步骤增加 `if: github.event_name == 'push'`；PR 仅预览 + Jekyll build |
-| 变更检测重复 | workflow shell 层与 `process-blog-posts.js` 内 Git diff 逻辑重叠 | 移除 workflow shell 层检测，统一由脚本负责 |
-| E2E 同步图片路径错误 | `sync-images.js` 硬编码 `TARGET_REPO_DIR=./blog-repo` | 支持 `E2E_BLOG_REPO_DIR` / `BLOG_REPO_DIR` 环境变量 |
-| E2E fixture 未被处理 | Git diff 过滤跳过临时目录中的笔记 | `process-blog-posts.js` 支持 `E2E_FORCE_FULL_SCAN=true` 与 `E2E_CONTENT_ROOT` |
-| obsidian-to-blog-sync 文章标签显示为空 | Markdown 中 `` 占位符损坏 | 替换为 `#xiaolitongxue666_blog`；批量替换时注意勿破坏 ` ``` ` 代码块 |
+| PR 误推送到博客 | workflow 在 PR 也 push | push 步骤加 `if: github.event_name == 'push'` |
+| E2E 图片路径错误 | 硬编码 `./blog-repo` | 使用 `BLOG_REPO_DIR` / `E2E_BLOG_REPO_DIR` |
+| E2E fixture 未处理 | Git diff 跳过临时目录 | `E2E_FORCE_FULL_SCAN=true` + `E2E_CONTENT_ROOT` |
+| 博客构建验证失败（迁移后） | 仍 checkout 无 `package.json` 的旧逻辑 | `ensureBlogRepo()` 检查 `package.json`；构建用 `npm run build` |
 
 ## E2E 测试
 
 | 问题 | 原因 | 解决方案 |
 |------|------|----------|
-| 本地 sync E2E 图片断言失败 | 图片复制到 obsidian 下的 `./blog-repo` 而非真实博客路径 | 运行前设置 `BLOG_REPO_DIR=/path/to/xiaolitongxue666.github.io` |
-| 生产 `_posts` 被 E2E 污染 | 测试产物写入博客仓库 | E2E 使用 `_config.e2e.yml` 输出到 `_site-e2e`；fixture 在 `.e2e-staging` 隔离构建 |
-| 本地 publish E2E 过、CI 挂 | staging 目录无 bundle，本地有缓存/全局 gems | staging 内 build 时设置 `BUNDLE_GEMFILE` 指向仓库根 `Gemfile`；合并前跑 `run-ci-parity.sh` |
-| CI 红但 E2E 逻辑已通过 | artifact 配额满导致 upload 失败 | 已移除 routine artifact；E2E 以脚本 exit code 为准 |
-| `--source .e2e-staging` 从根目录 build 失败 | Jekyll 将绝对路径 config 与 source 错误拼接，layout 404 | 保持 staging 内 `cwd` build + `BUNDLE_GEMFILE` 指向根目录（勿用绝对路径 `--config`） |
-| 线上 live 验证失败 | 对应文章尚未 push/部署 | 先完成 sync/push，再用 `workflow_dispatch` + `live_verify=true`；HTTP 验证带重试 |
-| 首页 build-version 回归 | 改 layout/CSS 后未断言 | `run-ci-parity.sh` 调用 `assert-homepage-build-version.js`：检查 id、date、fixed 定位 |
+| 本地 sync E2E 失败 | 未设真实博客路径 | `BLOG_REPO_DIR=/path/to/xiaolitongxue666.github.io` |
+| publish E2E 污染生产 | fixture 写入仓库根 | 隔离目录 `.e2e-staging` + `E2E_OUT_DIR=dist-e2e` |
+| 本地过、CI 挂 | staging 未 `npm ci` | staging 内完整 `npm ci && E2E_OUT_DIR=dist-e2e npm run build` |
+| homepage 回归 | 改 layout 未断言 | `run-ci-parity.sh` 含 `assert-homepage-build-version.js` |
+| live 验证失败 | 尚未 deploy | push 后 `gh workflow run e2e-publish.yml -f live_verify=true` |
 
 ## 不可违反的约束
 
 - **禁止**批量重命名已有 `_posts/`（permalink 由文件名 slug 决定）
-- **禁止**修改 `permalink`、`url`、GitHub Pages 部署分支（`master`）
+- **禁止**修改 permalink 规则、GitHub Pages 部署分支（`master`）
 - Obsidian 同步 **仅** 在 `push` 事件写入博客仓库
-- 合并前本地执行：`bash .github/scripts/e2e/run-ci-parity.sh`（含 `update-build-info.sh` + jekyll build + publish E2E）
+- **禁止**提交 `node_modules/`、`dist/`、`.e2e-staging/`、E2E fixture 文章
+- 合并前：`bash .github/scripts/e2e/run-ci-parity.sh`
 
 ## 本地验证命令
 
 ```bash
-# 博客生产构建 + CI 等价 E2E（合并前推荐）
+# 博客（合并前推荐）
 bash .github/scripts/e2e/run-ci-parity.sh
-
-# 刷新首页版本 fallback 数据（_data/build.yml）
-bash .github/scripts/update-build-info.sh
-
-# 或分步执行
-bundle exec jekyll build --trace
-node .github/scripts/e2e/run-publish-e2e.js
 
 # Obsidian 同步 E2E
 cd obsidian_repo

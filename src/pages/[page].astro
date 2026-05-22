@@ -1,0 +1,48 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import Pagination from '../components/Pagination.astro';
+import { getAllPosts } from '../lib/posts';
+import { getPostsForPage, getTotalPages } from '../lib/pagination';
+import { SITE } from '../lib/site';
+
+export function getStaticPaths() {
+  const totalPages = getTotalPages(getAllPosts().length);
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => ({
+    params: { page: `page${index + 2}` },
+    props: { pageNumber: index + 2 },
+  }));
+}
+
+const { pageNumber } = Astro.props;
+const posts = getAllPosts();
+const pagePosts = getPostsForPage(posts, pageNumber);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  });
+}
+---
+
+<DefaultLayout
+  title={SITE.title}
+  description="Xiaolitongxue666's Blog"
+  keywords="xiaolitongxue666"
+  showSidebar={true}
+>
+  <div class="postlist">
+    {
+      pagePosts.map((post) => (
+        <div class="overview">
+          <div class="date">{formatDate(post.date)}</div>
+          <div class="detail">
+            <a href={post.url}>{post.title}</a>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <Pagination currentPage={pageNumber} totalPosts={posts.length} />
+</DefaultLayout>

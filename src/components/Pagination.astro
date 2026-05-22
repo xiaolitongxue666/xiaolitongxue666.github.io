@@ -1,0 +1,49 @@
+---
+import { SITE } from '../lib/site';
+import { getTotalPages, getPageUrl } from '../lib/pagination';
+
+interface Props {
+  currentPage: number;
+  totalPosts: number;
+}
+
+const { currentPage, totalPosts } = Astro.props;
+const totalPages = getTotalPages(totalPosts);
+---
+
+<div id="post-pagination" class="paginator">
+  {
+    currentPage > 1 ? (
+      <a href={getPageUrl(currentPage - 1)}>&lt;前页</a>
+    ) : (
+      <span class="previous disabled">&lt;前页</span>
+    )
+  }
+
+  {
+    currentPage === 1 ? (
+      <span class="current-page">1</span>
+    ) : (
+      <a href="/">1</a>
+    )
+  }
+
+  {
+    Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => index + 2).map((page) =>
+      page === currentPage ? (
+        <span class="current-page">{page}</span>
+      ) : (
+        <a href={getPageUrl(page)}>{page}</a>
+      ),
+    )
+  }
+
+  {
+    currentPage < totalPages ? (
+      <a class="next" href={getPageUrl(currentPage + 1)}>后页&gt;</a>
+    ) : (
+      <span class="next disabled">后页&gt;</span>
+    )
+  }
+  (共{totalPosts}篇)
+</div>

@@ -1,0 +1,61 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BuildVersion from '../components/BuildVersion.astro';
+import GitHubSidebar from '../components/GitHubSidebar.astro';
+import FloatingButtons from '../components/FloatingButtons.astro';
+import { SITE } from '../lib/site';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string | string[];
+  showSidebar?: boolean;
+  showBuildVersion?: boolean;
+  post?: Post;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  showSidebar = false,
+  showBuildVersion = false,
+  post,
+} = Astro.props;
+
+const pageTitle = title ?? SITE.title;
+---
+
+<Header title={pageTitle} description={description} keywords={keywords} />
+<div class="container">
+  <div class="content-wrapper">
+    <div class="main">
+      <div class="title-header">
+        <h2>
+          {pageTitle}
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换主题">☀️</button>
+        </h2>
+      </div>
+      {
+        showSidebar ? (
+          <div class="main-content-wrapper">
+            <div class="content-area">
+              <slot />
+            </div>
+            <div class="vertical-divider"></div>
+            <div class="sidebar-inline">
+              <GitHubSidebar />
+            </div>
+          </div>
+        ) : (
+          <slot />
+        )
+      }
+    </div>
+  </div>
+</div>
+{post && <FloatingButtons post={post} />}
+{showBuildVersion && <BuildVersion />}
+<Footer />

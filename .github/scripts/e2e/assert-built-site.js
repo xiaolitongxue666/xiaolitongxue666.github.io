@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Assert Jekyll _site output: marker text, optional permalink path, image src paths.
+ * Assert built static site output: marker text, optional permalink path, image src paths.
  */
 
 const fs = require('fs');
@@ -111,7 +111,7 @@ function assertBuiltSite(options) {
 
   if (!report.markerFound) {
     report.pass = false;
-    report.errors.push(`Marker not found in _site: ${marker}`);
+    report.errors.push(`Marker not found in site output: ${marker}`);
   }
 
   if (permalinkPattern) {
@@ -119,7 +119,7 @@ function assertBuiltSite(options) {
     report.permalinkMatched = matched;
     if (!matched) {
       report.pass = false;
-      report.errors.push(`Permalink not found in _site: ${permalinkPattern}`);
+      report.errors.push(`Permalink not found in site output: ${permalinkPattern}`);
     } else {
       const content = fs.readFileSync(matched, 'utf8');
       if (!content.includes(marker)) {
@@ -168,7 +168,7 @@ function printReport(report) {
 }
 
 if (require.main === module) {
-  const siteDir = process.env.E2E_SITE_DIR || '_site-e2e';
+  const siteDir = process.env.E2E_SITE_DIR || 'dist-e2e';
   const sourceDir = process.env.E2E_SOURCE_DIR || '.';
   const marker = process.env.E2E_MARKER;
   const permalinkPattern = process.env.E2E_PERMALINK || null;

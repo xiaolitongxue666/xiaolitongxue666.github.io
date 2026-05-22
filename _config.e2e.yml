@@ -1,2 +1,0 @@
-# E2E 专用：合并 _config.yml，输出到 _site-e2e，不影响 GitHub Pages 生产构建
-destination: _site-e2e

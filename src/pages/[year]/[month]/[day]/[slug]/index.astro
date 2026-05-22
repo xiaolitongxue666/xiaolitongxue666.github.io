@@ -1,0 +1,24 @@
+---
+import DefaultLayout from '../../../../../layouts/DefaultLayout.astro';
+import { getAllPosts } from '../../../../../lib/posts';
+import { renderMarkdown } from '../../../../../lib/markdown';
+
+export function getStaticPaths() {
+  return getAllPosts().map((post) => ({
+    params: {
+      year: post.year,
+      month: post.month,
+      day: post.day,
+      slug: post.slug,
+    },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const html = await renderMarkdown(post.content);
+---
+
+<DefaultLayout title={post.title} post={post}>
+  <Fragment set:html={html} />
+</DefaultLayout>

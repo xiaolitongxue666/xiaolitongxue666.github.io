@@ -1,6 +1,6 @@
 # AGENTS.md — 博客仓库 AI 助手指南
 
-Jekyll 静态博客，部署于 GitHub Pages（`master` 分支）。内容可来自 Obsidian 自动同步或直接编辑 `_posts/`。
+Astro 静态博客，部署于 GitHub Pages（`master` 分支源码 + GitHub Actions deploy-pages）。内容可来自 Obsidian 自动同步或直接编辑 `_posts/`。
 
 ## 必读文档
 
@@ -13,28 +13,28 @@ Jekyll 静态博客，部署于 GitHub Pages（`master` 分支）。内容可来
 
 ## 关键事实（避免重复犯错）
 
-- 文章 layout：**`default`**（不存在 `_layouts/post.html`）
-- 部署分支：**`master`**（非 `main`）
+- 文章 layout front matter：**`default`**（Obsidian 同步仍输出此字段；Astro 忽略）
+- 部署分支：**`master`**（非 `main`）；Pages Source = **GitHub Actions**
 - Permalink：`/:year/:month/:day/:title/` — **禁止**重命名已发布 `_posts` 文件
-- 分页：`paginate: 10`；`default.html` 与 `floating-buttons.js` 须保持一致
+- 分页：`POSTS_PER_PAGE = 10`（`src/lib/pagination.ts`）；须与 `floating-buttons.js` 一致
 - Favicon：使用 `assets/images/avatar.jpg`，无根目录 `favicon.ico`
-- Wiki 页：使用 `layout: page`（已合并原 `wiki.html`）
-- 无评论系统：勿在 `_config.yml` 恢复 disqus/gitalk 等未接入配置
-- 首页版本号：仅 `/` 显示；commit 来自 `jekyll-github-metadata` 的 `build_revision`，**date 来自 `_data/build.yml`**（非 `pushed_at`）；根元素含 inline fixed 定位；勿删 `_includes/build-version.html`
+- Wiki 页：使用 `PageLayout`（原 `layout: page`）
+- 无评论系统
+- 首页版本号：仅 `/` 显示；commit 来自 `GITHUB_SHA` 或 `_data/build.yml`；**date 来自 `_data/build.yml`**；根元素含 inline fixed 定位
 
 ## 构建与测试
 
 ```bash
-bundle install
-bundle exec jekyll serve --port 4001
+npm install
+npm run dev -- --port 4001
 bash .github/scripts/e2e/run-ci-parity.sh   # 合并前推荐（含 build + E2E）
 bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ```
 
 ## E2E 陷阱
 
-- `run-publish-e2e.js` 在 `.e2e-staging/` 内 build 时须设置 `BUNDLE_GEMFILE` 指向仓库根
-- 勿用 `--source .e2e-staging` + 绝对路径 `--config`（layout 路径会错）
+- `run-publish-e2e.js` 在 `.e2e-staging/` 内须 `npm ci` 后 `E2E_OUT_DIR=dist-e2e npm run build`
+- E2E 输出目录为 `dist-e2e/`，生产为 `dist/`
 - E2E 不依赖 `upload-artifact`；PASS/FAIL 看脚本 exit code
 
 ## 关联仓库

@@ -1,5 +1,5 @@
 ---
-description: xiaolitongxue666 Jekyll 博客项目约定、约束与已知陷阱
+description: xiaolitongxue666 Astro 博客项目约定、约束与已知陷阱
 alwaysApply: true
 ---
 
@@ -7,32 +7,28 @@ alwaysApply: true
 
 ## 仓库角色
 
-Jekyll 站点 `xiaolitongxue666.github.io`，GitHub Pages 部署分支为 **master**。
+Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **Source = GitHub Actions**（非内置 Jekyll）。
 
 ## 不可破坏
 
-- 勿重命名/删除已有 `_posts/`（permalink 由文件名 slug 决定）
-- 勿改 `_config.yml` 的 `permalink`、`url`、`plugins`
-- 文章 front matter 使用 `layout: default`（无 `post` layout）
-- 保留 `_config.yml` 的 `repository:`（首页 commit 版本号依赖 jekyll-github-metadata）
-- 首页 `build-version`：须同时显示 commit + date；合并前提交 `_data/build.yml`
+- 勿重命名/删除已有 `_posts/`（permalink 由文件名 slug 决定，含历史大小写混用）
+- 勿改 permalink 规则（`/:year/:month/:day/:title/`）
+- Obsidian 契约：`_posts/` + `assets/images/posts/` + front matter `layout: default`
+- 首页 build-version：commit + `YYYY-MM-DD` date；合并前提交 `_data/build.yml`
 
 ## 常见陷阱
 
-- 图片路径：`assets/images/posts/{YYYY}/{date}-{slug}/...`；历史文章存在 slug 混用（下划线/连字符/大小写）
-- 分页 meta：`default.html` 中 `posts_per_page = 10` 须与 `paginate` 一致
-- **build-version**：勿用 `site.github.pushed_at` 作日期；commit/date Liquid 分支须解耦；保留 inline fixed style
-- E2E 构建用 `_config.e2e.yml` → `_site-e2e`，勿污染生产 `_site/`
-- E2E staging build：须 `BUNDLE_GEMFILE` 指向仓库根；勿 routine 上传 artifact
-- 合并前验证用 `run-ci-parity.sh`，不要只跑 `node run-publish-e2e.js`
+- **package.json**：勿加 `"type": "module"`（E2E 脚本为 CommonJS）
+- **build-version date**：`_data/build.yml` 的 date 经 js-yaml 可能变 Date，须 `formatDateValue()`
+- **分页 URL**：`/page2/` 不是 `/page/2/`（`src/pages/[page].astro` + param `page2`）
+- **静态资源**：`public/assets` 符号链接到根 `assets/`，Obsidian 图片路径不变
+- **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`；勿提交 E2E fixture 到 `_posts/`
+- **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
 
 ## 文档优先
 
-修改 CI、布局、同步相关逻辑前阅读：
-- `docs/ARCHITECTURE.md`
-- `docs/TROUBLESHOOTING.md`
-- `docs/PROJECT_MEMORY.md`
-- `AGENTS.md`
+- `docs/ARCHITECTURE.md`、`docs/TROUBLESHOOTING.md`（含 Astro 迁移表）
+- `docs/PROJECT_MEMORY.md`、`AGENTS.md`
 
 ## 验证
 

@@ -1,0 +1,23 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { getAllWikiPages } from '../../../lib/wiki';
+import { renderMarkdown } from '../../../lib/markdown';
+
+export function getStaticPaths() {
+  return getAllWikiPages().map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const html = await renderMarkdown(page.content);
+---
+
+<PageLayout
+  title={page.title}
+  description={page.description}
+  keywords={page.keywords}
+>
+  <Fragment set:html={html} />
+</PageLayout>
