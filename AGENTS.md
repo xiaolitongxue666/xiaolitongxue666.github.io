@@ -25,7 +25,7 @@ Astro 静态博客，部署于 GitHub Pages（`master` 分支源码 + GitHub Act
 ## 构建与测试
 
 ```bash
-npm install
+npm install   # 需要 Node >= 22.12
 npm run dev -- --port 4001
 bash .github/scripts/e2e/run-ci-parity.sh   # 合并前推荐（含 build + E2E）
 bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml

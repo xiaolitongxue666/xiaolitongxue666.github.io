@@ -11,7 +11,8 @@
 | Astro build 路径 import 失败 | 嵌套页面相对路径层级错误 | 按目录深度引用：`src/pages/` 用 `../`；`wiki/[slug]/` 用 `../../../`；`[year]/.../[slug]/` 用 `../../../../../` |
 | 分页 URL 与 Jekyll 不一致 | Astro 默认 `/page/2/` | 使用 `src/pages/[page].astro`，`getStaticPaths` 返回 `page2`、`page3` 等 param，生成 `/page2/` |
 | 历史文章 URL 404 | 对 slug 二次 sanitize | **禁止**二次处理；从文件名 `YYYY-MM-DD-{slug}.md` 直接取 slug（保留大小写/下划线） |
-| GitHub Pages 仍跑 Jekyll | 仓库 Settings 仍为内置 Jekyll | Settings → Pages → Source 改为 **GitHub Actions**；由 `astro-build.yml` deploy-pages |
+| GitHub Pages 仍跑 Jekyll（`pages-build-deployment` 失败） | Pages `build_type` 仍为 `legacy`，push 触发内置 Jekyll 构建 | Settings → Pages → **GitHub Actions**；或 `gh api --method PUT repos/{owner}/{repo}/pages -f build_type=workflow` |
+| Dependabot Astro 6 PR 构建失败 | Astro 6 要求 Node `>=22.12.0`，CI 用 Node 20 | workflow 改用 Node 22；`package.json` 声明 `engines.node` |
 | Obsidian CI 仍 `jekyll build` | workflow 未随博客迁移更新 | `sync-blog-posts.yml` 改为 `npm ci && npm run build`；`run-sync-e2e.js` 输出 `dist-e2e/` |
 | E2E 污染生产 `_posts/` | sync E2E 写入真实博客路径 | 测试后清理 fixture 文章与 `assets/images/posts/2026/`；勿提交 E2E 产物 |
 | 静态资源路径变更 | Obsidian 硬编码 `assets/images/posts/` | 保留根目录 `assets/`；`public/assets` → `../assets` 符号链接 |
