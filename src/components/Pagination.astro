@@ -24,7 +24,7 @@ const totalPages = getTotalPages(totalPosts);
     currentPage === 1 ? (
       <span class="current-page">1</span>
     ) : (
-      <a href="/">1</a>
+      <a href={getPageUrl(1)}>1</a>
     )
   }
 

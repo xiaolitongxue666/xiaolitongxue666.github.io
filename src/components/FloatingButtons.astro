@@ -2,7 +2,7 @@
 import type { Post } from '../lib/posts';
 import { getPostIndex } from '../lib/posts';
 import { getAllPosts } from '../lib/posts';
-import { getPaginationPageForPostIndex } from '../lib/pagination';
+import { getPaginationPageForPostIndex, getPageUrl } from '../lib/pagination';
 
 interface Props {
   post: Post;
@@ -21,5 +21,5 @@ const postDate = post.date.toISOString().slice(0, 10);
 <div class="floating-buttons">
   <button class="floating-btn back-to-top" id="back-to-top" title="回到顶部">↑</button>
   <a class="floating-btn back-to-pagination" id="back-to-pagination" title="回到分页">📄</a>
-  <a class="floating-btn back-to-home" href="/" title="回到主页">🏠</a>
+  <a class="floating-btn back-to-home" href={getPageUrl(1)} title="回到主页">🏠</a>
 </div>

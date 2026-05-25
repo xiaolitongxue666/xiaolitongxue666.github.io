@@ -1,14 +1,24 @@
 # AGENTS.md — 博客仓库 AI 助手指南
 
-Astro 静态博客，部署于 GitHub Pages（`master` 分支源码 + GitHub Actions deploy-pages）。内容可来自 Obsidian 自动同步或直接编辑 `_posts/`。
+Astro 静态博客：**GitHub Pages**（`astro-build.yml`）+ **VPS 镜像**（`deploy-vps.yml`，路径 `/blog/`）。内容可来自 Obsidian 同步或直接编辑 `_posts/`。
+
+## Memory 索引（优先）
+
+| 文件 | 何时读 |
+|------|--------|
+| [memory_skills/README.md](memory_skills/README.md) | 总索引 |
+| [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md) | VPS 双构建、Docker、Secrets、验收 |
+| [memory_skills/blog-troubleshooting.md](memory_skills/blog-troubleshooting.md) | 子路径、proxy、curl 502 |
+
+Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 
 ## 必读文档
 
 | 文档 | 用途 |
 |------|------|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 双仓库架构、CI、命名规范、E2E |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 双仓库架构、CI、VPS 链路 |
 | [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | 已知问题与解决方案 |
-| [docs/PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md) | 跨会话 Agent 要点 |
+| [docs/PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md) | 跨会话要点索引 |
 | [README.md](README.md) | 本地开发与写作指南 |
 
 ## 关键事实（避免重复犯错）
@@ -40,7 +50,8 @@ bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ## 关联仓库
 
 - **obsidian_repo**：内容源，`.github/workflows/sync-blog-posts.yml` 同步到本仓库
-- Secret（obsidian 侧，仅存 GitHub Secrets）：`BLOG_REPO_TOKEN` — **勿提交 token 到仓库**
+- **vps_nginx**：宿主机 `/blog/` → `127.0.0.1:3001`（见该仓 `memory_skills/`）
+- Secret（仅存 GitHub Secrets，**勿提交**）：obsidian 侧 `BLOG_REPO_TOKEN`；VPS 部署 `VPS_SSH_KEY` 等见 [blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
 
 ## 修改前检查
 
@@ -51,3 +62,4 @@ bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ## Cursor 规则
 
 - `.cursor/rules/blog-project.mdc`（`alwaysApply: true`）
+- `.cursor/skills/blog-knowledge/SKILL.md`

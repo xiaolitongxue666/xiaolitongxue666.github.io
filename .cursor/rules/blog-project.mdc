@@ -21,13 +21,15 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 - **package.json**：勿加 `"type": "module"`（E2E 脚本为 CommonJS）
 - **build-version date**：`_data/build.yml` 的 date 经 js-yaml 可能变 Date，须 `formatDateValue()`
 - **分页 URL**：`/page2/` 不是 `/page/2/`（`src/pages/[page].astro` + param `page2`）
-- **静态资源**：`public/assets` 符号链接到根 `assets/`，Obsidian 图片路径不变
-- **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`；勿提交 E2E fixture 到 `_posts/`
+- **静态资源**：`public/assets` 符号链接到根 `assets/`；子路径部署须 `withBase()`（见 `src/lib/base.ts`）
+- **VPS 子路径**：独立 workflow `deploy-vps.yml`；勿在 Pages 构建中设 `ASTRO_BASE`
+- **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`（Node >= 22.12）；勿提交 E2E fixture 到 `_posts/`
 - **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
 
 ## 文档优先
 
-- `docs/ARCHITECTURE.md`、`docs/TROUBLESHOOTING.md`（含 Astro 迁移表）
+- [memory_skills/README.md](../memory_skills/README.md)（VPS / 子路径）
+- `docs/ARCHITECTURE.md`、`docs/TROUBLESHOOTING.md`
 - `docs/PROJECT_MEMORY.md`、`AGENTS.md`
 
 ## 验证

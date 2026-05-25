@@ -1,0 +1,126 @@
+# ---------------------------------------------------------------------------
+# CI/CD: VPS 专用 Astro 构建（base=/blog/）→ rsync dist → docker compose nginx
+#
+# 触发：push master / workflow_dispatch
+# GitHub Pages 部署仍由 astro-build.yml 负责，本 workflow 独立第二次构建。
+#
+# Secrets: VPS_SSH_KEY（必填）, VPS_HOST, VPS_USER, VPS_PORT
+# ---------------------------------------------------------------------------
+
+name: Deploy Blog to VPS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-blog-vps-master
+  cancel-in-progress: true
+
+env:
+  ASTRO_SITE: https://xiaolitongxue.com.cn
+  ASTRO_BASE: /blog/
+  COMPOSE_PROJECT_NAME: blog
+
+jobs:
+  deploy-vps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Write build info
+        run: bash .github/scripts/update-build-info.sh
+
+      - name: Build site for VPS subpath
+        run: npm run build
+        env:
+          ASTRO_SITE: ${{ env.ASTRO_SITE }}
+          ASTRO_BASE: ${{ env.ASTRO_BASE }}
+
+      - name: Verify VPS build output
+        run: |
+          test -f dist/index.html
+          grep -q 'href="/blog/assets/css/default.css"' dist/index.html
+
+      - name: rsync release to VPS
+        shell: bash
+        run: |
+          set -euo pipefail
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          SSH_HOST="${{ secrets.VPS_HOST || 'xiaolitongxue.com.cn' }}"
+          SSH_USER="${{ secrets.VPS_USER || 'ubuntu' }}"
+          SSH_PORT="${{ secrets.VPS_PORT || 22 }}"
+          SSH_KEY="${{ secrets.VPS_SSH_KEY }}"
+          REMOTE_ROOT="/home/ubuntu/blog"
+          RELEASE_DIR="${REMOTE_ROOT}/releases/${{ github.run_id }}-${{ github.run_attempt }}"
+          CURRENT_LINK="${REMOTE_ROOT}/current"
+
+          if [ -z "${SSH_KEY:-}" ]; then
+            echo "VPS_SSH_KEY secret is required"
+            exit 1
+          fi
+
+          echo "$SSH_KEY" > /tmp/vps_key
+          chmod 600 /tmp/vps_key
+          trap 'rm -f /tmp/vps_key' EXIT
+
+          SSH_OPTS="$SSH_OPTS -o ConnectTimeout=30 -o ServerAliveInterval=30 -o ServerAliveCountMax=20"
+
+          ssh $SSH_OPTS -p "$SSH_PORT" -i /tmp/vps_key \
+            "${SSH_USER}@${SSH_HOST}" "command -v rsync >/dev/null || { echo '远端未安装 rsync'; exit 1; }; mkdir -p '${REMOTE_ROOT}/releases' && rm -rf '${RELEASE_DIR}' && mkdir -p '${RELEASE_DIR}/dist' '${RELEASE_DIR}/deploy/nginx'"
+
+          rsync -az --delete --stats \
+            dist/ \
+            -e "ssh $SSH_OPTS -p $SSH_PORT -i /tmp/vps_key" \
+            "${SSH_USER}@${SSH_HOST}:${RELEASE_DIR}/dist/"
+
+          rsync -az --stats \
+            docker-compose.yml \
+            -e "ssh $SSH_OPTS -p $SSH_PORT -i /tmp/vps_key" \
+            "${SSH_USER}@${SSH_HOST}:${RELEASE_DIR}/"
+
+          rsync -az --stats \
+            deploy/ \
+            -e "ssh $SSH_OPTS -p $SSH_PORT -i /tmp/vps_key" \
+            "${SSH_USER}@${SSH_HOST}:${RELEASE_DIR}/deploy/"
+
+          ssh $SSH_OPTS -p "$SSH_PORT" -i /tmp/vps_key \
+            "${SSH_USER}@${SSH_HOST}" "ln -sfnT '${RELEASE_DIR}' '${CURRENT_LINK}'"
+
+      - name: Start blog container on VPS
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.VPS_HOST || 'xiaolitongxue.com.cn' }}
+          username: ${{ secrets.VPS_USER || 'ubuntu' }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          timeout: 10m
+          command_timeout: 10m
+          script: |
+            set -eEuo pipefail
+            export COMPOSE_PROJECT_NAME=blog
+            REMOTE_ROOT="/home/ubuntu/blog"
+            CURRENT_LINK="${REMOTE_ROOT}/current"
+            cd "$CURRENT_LINK"
+
+            docker compose up -d --force-recreate
+
+            curl --noproxy '*' -sf http://127.0.0.1:3001/blog/ >/dev/null
+            curl --noproxy '*' -sf -o /dev/null -w "css: %{http_code}\n" http://127.0.0.1:3001/blog/assets/css/default.css
+
+            find "${REMOTE_ROOT}/releases" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' | sort -rn | awk 'NR>5 {print $2}' | xargs -r rm -rf
+
+            echo "Blog VPS deploy OK: http://127.0.0.1:3001/blog/"

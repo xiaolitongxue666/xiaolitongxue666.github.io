@@ -28,24 +28,35 @@ xiaolitongxue666.github.io (Astro 站点)
         │
         ▼
   deploy-pages → https://xiaolitongxue666.github.io/
+
+  （并行，互不影响）
+
+  deploy-vps.yml（ASTRO_BASE=/blog/）
+  npm run build → dist/ → rsync → VPS docker nginx :3001
+        │
+        ▼
+  vps_nginx /blog/ → http://<Tailscale IP>/blog/
+  （公网 HTTPS 待 vps_nginx public 模式）
 ```
 
 ## 博客仓库构建层次
 
 | 层级 | 路径 | 职责 |
 |------|------|------|
-| 配置 | `astro.config.mjs` | URL、trailingSlash、outDir、sitemap |
+| 配置 | `astro.config.mjs` | URL、`base`（VPS 用 env）、trailingSlash、outDir、sitemap |
 | 依赖 | `package.json` | Astro、remark、RSS、sitemap |
 | 布局 | `src/layouts/DefaultLayout.astro` | 首页、文章页（含分页 meta、浮动按钮） |
 | 布局 | `src/layouts/PageLayout.astro` | 静态页、Wiki 页 |
 | 组件 | `src/components/` | header、footer、pagination、build-version |
+| 工具 | `src/lib/base.ts` | 子路径 `withBase()`（VPS `/blog/` 部署必需） |
 | 内容 | `_posts/` | 博客文章（Obsidian 同步写入） |
 | 内容 | `src/pages/` | 路由页面 |
 | 内容 | `_wiki/` | Wiki 内容 |
 | 资源 | `assets/`、`public/assets` | 样式、脚本、图片 |
 
 **本地构建**：`npm run dev -- --port 4001`  
-**线上部署**：push `master` → `astro-build.yml` → deploy-pages
+**GitHub Pages**：push `master` → `astro-build.yml` → deploy-pages  
+**VPS 镜像**：push `master` → `deploy-vps.yml`（见 [memory_skills/blog-vps-deploy.md](../memory_skills/blog-vps-deploy.md)）
 
 ## CI 链路
 
@@ -54,7 +65,8 @@ xiaolitongxue666.github.io (Astro 站点)
 | Workflow | 触发 | 作用 |
 |----------|------|------|
 | `astro-build.yml` | push/PR/workflow_dispatch → master | 写 build info + Astro 构建 + E2E + deploy-pages |
-| `e2e-publish.yml` | `_posts/` 等变更；workflow_dispatch | 直写发布 E2E；手动 HTTP 线上验证 |
+| `deploy-vps.yml` | push/workflow_dispatch → master | VPS 专用构建（`ASTRO_BASE=/blog/`）+ rsync + docker compose |
+| `e2e-publish.yml` | `_posts/` 等变更；workflow_dispatch | 直写发布 E2E；手动 HTTP 线上验证（GitHub Pages） |
 
 ### Obsidian 仓库（obsidian_repo）
 
@@ -63,7 +75,10 @@ xiaolitongxue666.github.io (Astro 站点)
 | `sync-blog-posts.yml` | push/PR，md 或 attachments 变更 | 处理博客笔记、同步图片、push（仅 push 事件）、Astro 构建验证 |
 | `e2e-sync.yml` | E2E 相关路径变更；workflow_dispatch | Obsidian 同步 E2E；手动 HTTP 线上验证 |
 
-**所需 Secret**：`BLOG_REPO_TOKEN`（obsidian_repo 中配置，用于 checkout 和 push 博客仓库）
+**所需 Secret**：
+
+- obsidian_repo：`BLOG_REPO_TOKEN`
+- 本仓库 VPS 部署：`VPS_SSH_KEY`（必填），可选 `VPS_HOST` / `VPS_USER` / `VPS_PORT`（见 [memory_skills/blog-vps-deploy.md](../memory_skills/blog-vps-deploy.md)）
 
 ## E2E 测试
 

@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../lib/site';
+import { withBase } from '../lib/base';
 
 interface Props {
   title?: string;
@@ -28,9 +29,10 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
-    <link rel="stylesheet" href="/assets/css/default.css" type="text/css" />
-    <link rel="stylesheet" href="/assets/css/small.css" type="text/css" media="(max-width: 720px)" />
-    <link rel="stylesheet" href="/assets/css/syntax.css" type="text/css" />
+    <meta name="site-base" content={import.meta.env.BASE_URL} />
+    <link rel="stylesheet" href={withBase('/assets/css/default.css')} type="text/css" />
+    <link rel="stylesheet" href={withBase('/assets/css/small.css')} type="text/css" media="(max-width: 720px)" />
+    <link rel="stylesheet" href={withBase('/assets/css/syntax.css')} type="text/css" />
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -40,8 +42,8 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
-    <link rel="shortcut icon" href="/assets/images/avatar.jpg" type="image/jpeg" />
-    <script src="/assets/js/theme-toggle.js" is:inline></script>
-    <script src="/assets/js/floating-buttons.js" is:inline></script>
+    <link rel="shortcut icon" href={withBase('/assets/images/avatar.jpg')} type="image/jpeg" />
+    <script src={withBase('/assets/js/theme-toggle.js')} is:inline></script>
+    <script src={withBase('/assets/js/floating-buttons.js')} is:inline></script>
   </head>
   <body>

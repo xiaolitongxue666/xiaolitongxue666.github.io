@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { withBase } from './base';
 
 export interface Post {
   filename: string;
@@ -25,7 +26,7 @@ export function filenameToPermalink(filename: string): string {
     throw new Error(`Invalid post filename: ${filename}`);
   }
   const [, year, month, day, slug] = match;
-  return `/${year}/${month}/${day}/${slug}/`;
+  return withBase(`/${year}/${month}/${day}/${slug}/`);
 }
 
 function parseCategories(raw: unknown): string[] {
@@ -88,7 +89,7 @@ export function getPostBySlugParts(
   day: string,
   slug: string,
 ): Post | undefined {
-  const url = `/${year}/${month}/${day}/${slug}/`;
+  const url = withBase(`/${year}/${month}/${day}/${slug}/`);
   return getAllPosts().find((post) => post.url === url);
 }
 

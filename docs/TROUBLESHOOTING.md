@@ -28,6 +28,17 @@
 | 首页版本号无日期 | `_data/build.yml` 未提交或 date 格式错 | 合并前 `update-build-info.sh` 并提交 `_data/build.yml`；见 Astro 迁移表 |
 | 首页版本号位置漂移 | 仅依赖 CSS `position:fixed` | `BuildVersion.astro` 保留 inline fixed style |
 
+### VPS 镜像部署（2026-05）
+
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| 子路径 CSS/JS 404 | 模板硬编码 `/assets/` | `withBase()` + [memory_skills/blog-troubleshooting.md](../memory_skills/blog-troubleshooting.md) |
+| 构建校验找 `dist/blog/` | Astro `base` 不改变输出目录结构 | 校验 `dist/index.html` 内 `/blog/assets/` |
+| VPS curl 502 | 本机 HTTP 代理 | `curl --noproxy '*'` |
+| `/blog/` 502 | 容器未启动 | `docker compose up`；见 `deploy-vps.yml` |
+
+详细踩坑见 [memory_skills/blog-troubleshooting.md](../memory_skills/blog-troubleshooting.md)。
+
 ### 历史（Jekyll 时代，已移除）
 
 评论系统未接入、`_layouts/wiki.html` 冗余、Gemfile 依赖、`--source .e2e-staging` + Jekyll config 路径错误等——随 Jekyll 移除，仅作归档参考。

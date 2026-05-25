@@ -21,9 +21,20 @@
         });
     }
 
+    function getSiteBase() {
+        const siteBaseMeta = document.querySelector('meta[name="site-base"]');
+        if (siteBaseMeta && siteBaseMeta.content) {
+            return siteBaseMeta.content;
+        }
+        return '/';
+    }
+
     function goToPagination() {
         const pageNumber = getPaginationPage();
-        const paginationUrl = pageNumber === 1 ? '/' : `/page${pageNumber}/`;
+        const siteBase = getSiteBase();
+        const paginationUrl = pageNumber === 1
+            ? siteBase
+            : `${siteBase}page${pageNumber}/`;
         window.location.href = paginationUrl;
     }
 

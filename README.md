@@ -16,13 +16,16 @@
 
 - **静态站点生成器**: Astro 5
 - **样式**: 原 jekyll-theme-solid 定制 CSS（`assets/css/`）
-- **部署**: GitHub Pages（GitHub Actions deploy-pages，`master` 分支存源码）
+- **部署**: GitHub Pages（`astro-build.yml`）+ VPS 镜像（`deploy-vps.yml`，`/blog/`）
 - **内容管理**: Obsidian + GitHub Actions 自动同步
 
 ## 项目结构
 
 ```
-├── .github/workflows/   # astro-build.yml, e2e-publish.yml
+├── .github/workflows/   # astro-build.yml, deploy-vps.yml, e2e-publish.yml
+├── deploy/nginx/        # VPS 容器 nginx 配置
+├── docker-compose.yml   # VPS 静态服务（127.0.0.1:3001）
+├── memory_skills/       # Agent 记忆（VPS 部署、踩坑）
 ├── .github/e2e/         # E2E 测试夹具
 ├── .github/scripts/e2e/ # E2E 断言；run-ci-parity.sh
 ├── _data/build.yml      # build 版本 fallback（脚本生成，可提交）
@@ -33,7 +36,7 @@
 ├── src/
 │   ├── components/      # Header / Pagination / BuildVersion 等
 │   ├── layouts/         # DefaultLayout / PageLayout
-│   ├── lib/             # posts / wiki / pagination / markdown
+│   ├── lib/             # posts / wiki / pagination / base / markdown
 │   └── pages/           # 路由页面
 ├── astro.config.mjs
 ├── package.json
@@ -73,7 +76,9 @@ bash .github/scripts/e2e/run-ci-parity.sh
 1. Obsidian 笔记中添加 `#xiaolitongxue666_blog` 标签
 2. 推送到 obsidian_repo 的 `master` 分支
 3. GitHub Actions 转换格式并同步到本仓库 `_posts/` 和 `assets/images/posts/`
-4. GitHub Actions 构建 Astro 并 deploy-pages
+4. GitHub Actions 构建 Astro 并 deploy-pages（VPS 镜像由 `deploy-vps.yml` 并行部署）
+
+**VPS 访问**（tailscale-only 阶段）：`http://<Tailscale IP>/blog/` — 详见 [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
 
 **PR 行为**：Pull Request 仅做预览与 Astro 构建验证，不会 push 到博客仓库。
 

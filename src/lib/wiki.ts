@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { withBase } from './base';
 
 export interface WikiPage {
   filename: string;
@@ -31,7 +32,7 @@ export function getAllWikiPages(): WikiPage[] {
       return {
         filename,
         title: String(data.title ?? slug),
-        url: `/wiki/${slug}/`,
+        url: withBase(`/wiki/${slug}/`),
         slug,
         content,
         categories: Array.isArray(data.categories)

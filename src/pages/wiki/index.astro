@@ -1,7 +1,6 @@
 ---
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 import { getAllWikiPages } from '../../lib/wiki';
-import { SITE } from '../../lib/site';
 
 const wikiPages = getAllWikiPages().filter((page) => page.title !== 'Wiki Template');
 ---
@@ -11,7 +10,7 @@ const wikiPages = getAllWikiPages().filter((page) => page.title !== 'Wiki Templa
     {
       wikiPages.map((page) => (
         <li>
-          <a href={`${SITE.url}${page.url}`}>{page.title}</a>
+          <a href={page.url}>{page.title}</a>
         </li>
       ))
     }

@@ -18,6 +18,9 @@ node_modules/
 .cursor/*
 !.cursor/rules/
 !.cursor/rules/**
+!.cursor/skills/
+!.cursor/skills/blog-knowledge/
+!.cursor/skills/blog-knowledge/**
 
 # 操作系统
 .DS_Store
@@ -38,5 +41,8 @@ Thumbs.db
 
 # 无用根目录 favicon（站点使用 assets/images/avatar.jpg）
 favicon.ico
+
+# 本地 Docker 调试（生产 dist 由 CI 构建后 rsync）
+.docker/
 
 # 注意：_data/build.yml intentionally tracked（首页版本号 date fallback，由 update-build-info.sh 更新，合并前须提交）

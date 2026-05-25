@@ -1,3 +1,5 @@
+import { withBase } from './base';
+
 export const POSTS_PER_PAGE = 10;
 
 export function getTotalPages(totalPosts: number): number {
@@ -5,8 +7,8 @@ export function getTotalPages(totalPosts: number): number {
 }
 
 export function getPageUrl(page: number): string {
-  if (page <= 1) return '/';
-  return `/page${page}/`;
+  if (page <= 1) return withBase('/');
+  return withBase(`/page${page}/`);
 }
 
 export function getPostsForPage<T>(posts: T[], page: number): T[] {
