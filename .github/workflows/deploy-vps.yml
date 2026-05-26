@@ -121,6 +121,12 @@ jobs:
             curl --noproxy '*' -sf http://127.0.0.1:3001/blog/ >/dev/null
             curl --noproxy '*' -sf -o /dev/null -w "css: %{http_code}\n" http://127.0.0.1:3001/blog/assets/css/default.css
 
+            if curl --noproxy '*' -sf -o /dev/null -w '%{http_code}' https://xiaolitongxue.com.cn/blog/ | grep -q 200; then
+              echo "Public HTTPS blog probe OK"
+            else
+              echo "WARN: https://xiaolitongxue.com.cn/blog/ not reachable (hybrid/HTTPS may be pending)"
+            fi
+
             find "${REMOTE_ROOT}/releases" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' | sort -rn | awk 'NR>5 {print $2}' | xargs -r rm -rf
 
             echo "Blog VPS deploy OK: http://127.0.0.1:3001/blog/"

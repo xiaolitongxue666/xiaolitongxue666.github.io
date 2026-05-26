@@ -42,10 +42,22 @@
 
 | 有 | 无 |
 |----|-----|
-| `deploy-vps.yml` 部署后 `curl` smoke | 博客仓库 **无** VPS Playwright E2E |
+| `deploy-vps.yml` 部署后 `curl` smoke（含公网 HTTPS warn） | 博客仓库 **无** VPS Playwright E2E |
 | `astro-build.yml` / `run-publish-e2e.js` → GitHub Pages | `verify-live.js` 仅验证 `xiaolitongxue666.github.io` |
-| `vps_nginx deploy.sh` 路由探针 `/blog/` | — |
+| `vps_nginx deploy.sh` hybrid 探针 | — |
+
+## 2026-05-26 公网域名浏览器不可用、IP 可用
+
+| 现象 | `https://xiaolitongxue.com.cn/blog/` 失败；`http://123.207.13.22/blog/` 正常 |
+| 根因 | 腾讯云 **DNSPod 备案 webblock**（非 Blog/Nginx 配置问题） |
+| 办法 | 腾讯云完成域名接入备案；临时用公网 IP |
+
+## 2026-05-26 Tailscale 浏览器不通、curl 通
+
+| 根因 | 本机 HTTP 代理误拦 `100.64.0.0/10` |
+| 办法 | 关代理或 Clash DIRECT；见 vps_nginx troubleshooting |
 
 ## 变更记录
 
+- **2026-05-26**：备案 webblock、Tailscale 代理说明。
 - **2026-05-25**：初版；汇总 VPS 镜像部署会话踩坑。

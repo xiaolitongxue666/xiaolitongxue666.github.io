@@ -35,8 +35,10 @@ xiaolitongxue666.github.io (Astro 站点)
   npm run build → dist/ → rsync → VPS docker nginx :3001
         │
         ▼
-  vps_nginx /blog/ → http://<Tailscale IP>/blog/
-  （公网 HTTPS 待 vps_nginx public 模式）
+  vps_nginx /blog/ → https://xiaolitongxue.com.cn/blog/（hybrid + LE）
+        │            http://<Tailscale IP>/blog/（内网）
+        ▼
+  公网 `/`、`/rss/` 为 404（预期）；RSS 仅 Tailscale / 内网
 ```
 
 ## 博客仓库构建层次

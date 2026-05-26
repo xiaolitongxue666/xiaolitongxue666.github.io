@@ -6,53 +6,51 @@ Agent 在改 `deploy-vps.yml`、`docker-compose.yml` 或子路径构建前读本
 
 | 目标 | 构建 env | Workflow | 访问 URL |
 |------|----------|----------|----------|
-| GitHub Pages | 默认（无 `ASTRO_BASE`） | `astro-build.yml` → deploy-pages | `https://xiaolitongxue666.github.io/` |
-| VPS 镜像 | `ASTRO_SITE=https://xiaolitongxue.com.cn` `ASTRO_BASE=/blog/` | `deploy-vps.yml` | Tailscale：`http://<Tailscale IP>/blog/` |
+| GitHub Pages | 默认（无 `ASTRO_BASE`） | `astro-build.yml` | `https://xiaolitongxue666.github.io/` |
+| VPS 镜像 | `ASTRO_SITE=https://xiaolitongxue.com.cn` `ASTRO_BASE=/blog/` | `deploy-vps.yml` | **公网** `https://xiaolitongxue.com.cn/blog/` · **Tailscale** `http://<TS IP>/blog/` |
 
-**关键**：Pages 与 VPS 是**两次独立构建**；改 `astro.config.mjs` 须保证默认行为不变。
+Pages 与 VPS 是两次独立构建；默认 `astro.config.mjs` 行为不可破坏。
 
 ## VPS 路径
 
 | 位置 | 路径 |
 |------|------|
-| GitHub | `git@github.com:xiaolitongxue666/xiaolitongxue666.github.io.git` |
 | VPS release | `/home/ubuntu/blog/releases/<run-id>/` |
-| VPS current | `/home/ubuntu/blog/current` → 当前 release |
+| VPS current | `/home/ubuntu/blog/current` |
 | 容器 | `blog-blog-1`，`127.0.0.1:3001:80` |
 
 ## 栈组成
 
-- **构建产物**：`dist/`（文件在根目录；HTML 内 URL 带 `/blog/` 前缀）
-- **容器**：`nginx:1.27-alpine` + `deploy/nginx/default.conf`（`rewrite ^/blog/` → 静态根）
-- **宿主机**：`vps_nginx` `location /blog/` → `proxy_pass http://127.0.0.1:3001`（**无**尾部 `/`，保留 URI）
+- **产物**：`dist/` 根目录；HTML 内 URL 带 `/blog/`
+- **容器**：nginx + `deploy/nginx/default.conf`（`rewrite ^/blog/` → 静态根）
+- **宿主机**：`vps_nginx` hybrid → `proxy_pass http://127.0.0.1:3001`（无尾部 `/`）
 
-## GitHub Secrets（仅存 GitHub，勿提交仓库）
+## GitHub Secrets（仅存 GitHub）
 
-| Secret | 必填 | 默认 |
-|--------|------|------|
-| `VPS_SSH_KEY` | 是 | — |
-| `VPS_HOST` | 否 | `xiaolitongxue.com.cn` |
-| `VPS_USER` | 否 | `ubuntu` |
-| `VPS_PORT` | 否 | `22` |
+| Secret | 必填 |
+|--------|------|
+| `VPS_SSH_KEY` | 是 |
+| `VPS_HOST` / `VPS_USER` / `VPS_PORT` | 否（有默认） |
 
-设置示例：`gh secret set VPS_SSH_KEY < ~/.ssh/id_ed25519`（在博客仓库目录或 `-R owner/repo`）。
+## 子路径约定
 
-## 子路径源码约定
+- `src/lib/base.ts`：`withBase()` 用于所有子路径链接与静态资源
+- 构建校验：`dist/index.html` 含 `href="/blog/assets/css/default.css"`
 
-- `astro.config.mjs`：`ASTRO_SITE` / `ASTRO_BASE` 环境变量
-- `src/lib/base.ts`：`withBase()` — Header、分页、permalink、浮动按钮 JS 均须经过
-- `Header.astro` 注入 `<meta name="site-base" content={import.meta.env.BASE_URL} />` 供 `floating-buttons.js` 读取
-
-## 部署后验收（VPS）
+## 验收
 
 ```bash
+# VPS 容器
 curl --noproxy '*' -sf http://127.0.0.1:3001/blog/
-curl --noproxy '*' -sf -o /dev/null -w '%{http_code}\n' http://127.0.0.1:3001/blog/assets/css/default.css
+
+# 经 Nginx（公网 / Tailscale）
+curl --noproxy '*' -sf https://xiaolitongxue.com.cn/blog/
 curl --noproxy '*' -sf http://$(tailscale ip -4)/blog/
 ```
 
-公网 `https://xiaolitongxue.com.cn/blog/` 需 `vps_nginx` 开启 **public** 模式（当前 tailscale-only 阶段不可用）。
+域名不可用但 IP 可用 → 腾讯云 **接入备案**（见 vps_nginx troubleshooting）。Tailscale 浏览器不通 → 本机代理 DIRECT `100.64.0.0/10`。
 
 ## 变更记录
 
-- **2026-05-25**：初版；VPS 子路径镜像 + Docker nginx + deploy-vps workflow。
+- **2026-05-26**：公网 HTTPS 已上线；备案/代理说明。
+- **2026-05-25**：初版 VPS 子路径 + deploy-vps workflow。

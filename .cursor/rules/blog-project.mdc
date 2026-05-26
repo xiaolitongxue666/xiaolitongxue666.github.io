@@ -22,7 +22,8 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 - **build-version date**：`_data/build.yml` 的 date 经 js-yaml 可能变 Date，须 `formatDateValue()`
 - **分页 URL**：`/page2/` 不是 `/page/2/`（`src/pages/[page].astro` + param `page2`）
 - **静态资源**：`public/assets` 符号链接到根 `assets/`；子路径部署须 `withBase()`（见 `src/lib/base.ts`）
-- **VPS 子路径**：独立 workflow `deploy-vps.yml`；勿在 Pages 构建中设 `ASTRO_BASE`
+- **VPS 子路径**：`deploy-vps.yml` + `vps_nginx` **hybrid**（公网 `https://<域名>/blog/`）；勿在 Pages 构建中设 `ASTRO_BASE`
+- **VPS curl**：验收须 `curl --noproxy '*'`
 - **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`（Node >= 22.12）；勿提交 E2E fixture 到 `_posts/`
 - **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
 

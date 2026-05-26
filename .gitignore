@@ -22,6 +22,10 @@ node_modules/
 !.cursor/skills/blog-knowledge/
 !.cursor/skills/blog-knowledge/**
 
+# 本地计划/草稿
+*.plan.md
+.cursor/plans/
+
 # 操作系统
 .DS_Store
 .DS_Store?

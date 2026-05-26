@@ -20,5 +20,5 @@ description: >-
 
 ## 相关
 
-- 宿主机 `/blog/` 反代 → 外部仓 `vps_nginx`（端口 3001）
+- 宿主机 `/blog/` → 外部仓 `vps_nginx` hybrid（:3001）；域名须腾讯云接入备案
 - Obsidian 同步 → 外部仓 `obsidian_repo`
