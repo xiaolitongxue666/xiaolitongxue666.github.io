@@ -15,7 +15,7 @@
     "@shikijs/rehype": "^3.4.2",
     "astro": "^6.1.10",
     "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.2.0",
     "remark": "^15.0.1",
     "remark-gemoji": "^8.0.0",
     "remark-gfm": "^4.0.1",
