@@ -1,6 +1,5 @@
 ---
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -11,18 +10,18 @@ interface Props {
 const { title, description, keywords } = Astro.props;
 ---
 
-<Header title={title} description={description} keywords={keywords} />
-<div class="container">
-  <div class="content-wrapper">
-    <div class="main">
-      <div class="title-header">
-        <h2>
-          {title}
-          <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换主题">☀️</button>
-        </h2>
+<Header title={title} description={description} keywords={keywords}>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="main">
+        <div class="title-header">
+          <h2>
+            {title}
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换主题">☀️</button>
+          </h2>
+        </div>
+        <slot />
       </div>
-      <slot />
     </div>
   </div>
-</div>
-<Footer />
+</Header>

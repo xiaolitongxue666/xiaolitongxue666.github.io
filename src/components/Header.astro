@@ -47,3 +47,6 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
     <script src={withBase('/assets/js/floating-buttons.js')} is:inline></script>
   </head>
   <body>
+    <slot />
+  </body>
+</html>
