@@ -4,6 +4,7 @@
  * - 本地：_data/build.yml
  * js-yaml 会把 `date: 2026-05-22` 解析为 Date，须 formatDateValue 转为 YYYY-MM-DD。
  */
+import fs from 'node:fs';
 import path from 'node:path';
 import yaml from 'js-yaml';
 
@@ -36,8 +37,8 @@ export function getBuildInfo(): BuildInfo | null {
   const buildPath = path.join(process.cwd(), '_data/build.yml');
   if (fs.existsSync(buildPath)) {
     const data = yaml.load(fs.readFileSync(buildPath, 'utf8')) as Partial<BuildInfo>;
-    if (!commit && data.commit) {
-      commit = data.commit;
+    if (!commit && data.commit != null) {
+      commit = typeof data.commit === 'string' ? data.commit : data.sha?.slice(0, 7);
     }
     if (!sha && data.sha) {
       sha = data.sha;

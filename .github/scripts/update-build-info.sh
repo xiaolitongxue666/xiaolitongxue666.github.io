@@ -9,7 +9,7 @@ SHA="$(git rev-parse HEAD)"
 SHORT="$(git rev-parse --short HEAD)"
 DATE="$(git log -1 --format=%ci | cut -d' ' -f1)"
 cat > _data/build.yml <<EOF
-commit: ${SHORT}
+commit: "${SHORT}"
 sha: ${SHA}
 date: ${DATE}
 EOF
