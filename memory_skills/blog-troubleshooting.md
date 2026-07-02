@@ -57,7 +57,14 @@
 | 根因 | 本机 HTTP 代理误拦 `100.64.0.0/10` |
 | 办法 | 关代理或 Clash DIRECT；见 vps_nginx troubleshooting |
 
+## 2026-07-02 Astro 7 升级后 VPS/Pages 构建失败
+
+| 现象 | `CompilerError: Unexpected token` @ `Header.astro:50` |
+| 根因 | Astro 7 Rust 编译器不接受跨组件未闭合 HTML（原 `Header` 开壳 + `Footer` 关壳） |
+| 办法 | `Header.astro` 内 `<body><slot /></body></html>`；布局内容作为子节点；删 `Footer.astro` |
+
 ## 变更记录
 
+- **2026-07-02**：Astro 7 Header/Footer 壳合并。
 - **2026-05-26**：备案 webblock、Tailscale 代理说明。
 - **2026-05-25**：初版；汇总 VPS 镜像部署会话踩坑。

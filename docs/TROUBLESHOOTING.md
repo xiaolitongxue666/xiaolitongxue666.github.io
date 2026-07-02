@@ -13,6 +13,9 @@
 | 历史文章 URL 404 | 对 slug 二次 sanitize | **禁止**二次处理；从文件名 `YYYY-MM-DD-{slug}.md` 直接取 slug（保留大小写/下划线） |
 | GitHub Pages 仍跑 Jekyll（`pages-build-deployment` 失败） | Pages `build_type` 仍为 `legacy`，push 触发内置 Jekyll 构建 | Settings → Pages → **GitHub Actions**；或 `gh api --method PUT repos/{owner}/{repo}/pages -f build_type=workflow` |
 | Dependabot Astro 6 PR 构建失败 | Astro 6 要求 Node `>=22.12.0`，CI 用 Node 20 | workflow 改用 Node 22；`package.json` 声明 `engines.node` |
+| Astro 7 构建 `CompilerError: Unexpected token`（Header.astro） | Rust 编译器要求标签闭合；`Header`/`Footer` 跨组件拆分未闭合 `<body>` | 文档壳合并为 `Header.astro` + `<slot />`，删除 `Footer.astro`；布局内容包进 `<Header>` |
+| Astro 7 首页 `fs is not defined` | `build-info.ts` 使用 `fs` 未 import；Astro 7/Rolldown 打包更严格 | `import fs from 'node:fs'` |
+| build-version 显示 `v6.988e+33` | `js-yaml` 将未加引号的 `6988e30` 解析为科学计数法 | `update-build-info.sh` 输出 `commit: "${SHORT}"`；`build-info.ts` 对非 string commit 回退 `sha.slice(0,7)` |
 | Obsidian CI 仍 `jekyll build` | workflow 未随博客迁移更新 | `sync-blog-posts.yml` 改为 `npm ci && npm run build`；`run-sync-e2e.js` 输出 `dist-e2e/` |
 | E2E 污染生产 `_posts/` | sync E2E 写入真实博客路径 | 测试后清理 fixture 文章与 `assets/images/posts/2026/`；勿提交 E2E 产物 |
 | 静态资源路径变更 | Obsidian 硬编码 `assets/images/posts/` | 保留根目录 `assets/`；`public/assets` → `../assets` 符号链接 |

@@ -2,6 +2,7 @@
 dist/
 dist-e2e/
 .astro/
+_site/
 
 # Node
 node_modules/
@@ -48,5 +49,9 @@ favicon.ico
 
 # 本地 Docker 调试（生产 dist 由 CI 构建后 rsync）
 .docker/
+
+# Jekyll 时代残留（站点已迁移至 Astro）
+Gemfile
+Gemfile.lock
 
 # 注意：_data/build.yml intentionally tracked（首页版本号 date fallback，由 update-build-info.sh 更新，合并前须提交）
