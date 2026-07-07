@@ -65,11 +65,16 @@ npm run dev
 ### 构建验证
 
 ```bash
-# CI 等价验证（生产 build + publish E2E，合并前推荐）
+# 提交前必跑（Pages build + E2E + VPS 子路径 dist 断言）
+npm run verify:local
+
+# CI 等价子集（仅 build + E2E）
 bash .github/scripts/e2e/run-ci-parity.sh
 ```
 
-## 自动同步机制
+提交前另须 `npm run dev -- --port 4001`，切换明暗主题目视检查代码块与 Mermaid。
+
+**VPS 访问**（公网）：`https://xiaolitongxue.com.cn/blog/` — 文章示例：`/blog/2026/07/07/mihomo-aio/`（须带 `/blog/` 前缀）。详见 [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
 
 博客内容主要来自 [obsidian_repo](https://github.com/xiaolitongxue666/obsidian_repo)：
 
@@ -78,7 +83,7 @@ bash .github/scripts/e2e/run-ci-parity.sh
 3. GitHub Actions 转换格式并同步到本仓库 `_posts/` 和 `assets/images/posts/`
 4. GitHub Actions 构建 Astro 并 deploy-pages（VPS 镜像由 `deploy-vps.yml` 并行部署）
 
-**VPS 访问**（tailscale-only 阶段）：`http://<Tailscale IP>/blog/` — 详见 [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
+**VPS 访问**（公网）：`https://xiaolitongxue.com.cn/blog/`；Tailscale：`http://<TS IP>/blog/` — 详见 [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
 
 **PR 行为**：Pull Request 仅做预览与 Astro 构建验证，不会 push 到博客仓库。
 
@@ -120,7 +125,7 @@ assets/images/posts/{YYYY}/{articleDate}-{sanitizedTitle}/{articleDate}-{sanitiz
 
 ## E2E 测试
 
-- **合并前本地验证**：`bash .github/scripts/e2e/run-ci-parity.sh`
+- **合并前本地验证**：`npm run verify:local`（含 VPS 子路径断言）
 - **手动线上验证**：`gh workflow run e2e-publish.yml -f live_verify=true`
 - 详细说明见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#e2e-测试)
 

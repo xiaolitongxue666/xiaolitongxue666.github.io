@@ -155,3 +155,22 @@ pre .il { color: #005cc5 } /* Literal.Number.Integer.Long */.syntax pre .hll { b
 [data-theme="dark"] pre .vg { color: #fbbf24 } /* Name.Variable.Global */
 [data-theme="dark"] pre .vi { color: #fbbf24 } /* Name.Variable.Instance */
 [data-theme="dark"] pre .il { color: #60a5fa } /* Literal.Number.Integer.Long */
+
+/* Shiki dual-theme: bind to site data-theme toggle (see shiki.style/guide/dual-themes) */
+[data-theme="dark"] .shiki,
+[data-theme="dark"] .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+[data-theme="light"] .shiki,
+[data-theme="light"] .shiki span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}

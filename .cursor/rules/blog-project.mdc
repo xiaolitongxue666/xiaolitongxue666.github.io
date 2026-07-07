@@ -26,6 +26,8 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 - **VPS curl**：验收须 `curl --noproxy '*'`
 - **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`（Node >= 22.12）；勿提交 E2E fixture 到 `_posts/`
 - **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
+- **Shiki 深色**：`theme-toggle.js` 设 `data-theme`；缺 `[data-theme="dark"] .shiki` CSS 会导致暗色下代码块不可读
+- **VPS 博客入口**：公网 `https://<域名>/blog/`（非根域名 `/`）；文章 permalink 为 `/blog/:year/:month/:day/:slug/`
 
 ## 文档优先
 
@@ -36,5 +38,6 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 ## 验证
 
 ```bash
-bash .github/scripts/e2e/run-ci-parity.sh
+npm run verify:local                        # 提交前必跑（含 VPS 子路径 dist 断言）
+bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 ```

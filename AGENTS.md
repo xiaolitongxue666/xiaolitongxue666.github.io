@@ -32,15 +32,32 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 - 无评论系统
 - 首页版本号：仅 `/` 显示；commit 来自 `GITHUB_SHA` 或 `_data/build.yml`；**date 来自 `_data/build.yml`**；根元素含 inline fixed 定位
 - **Mermaid**：`_posts/` 中 ` ```mermaid ` 块在构建期渲染为内联 SVG（`rehype-mermaid`）；CI 须安装 Playwright Chromium
+- **Shiki 深色主题**：站点用 `data-theme` 切换（非 `prefers-color-scheme`）；`syntax.css` 须有 `[data-theme="dark"] .shiki` 规则激活 `--shiki-dark*`；`default.css` 中 `pre.shiki` 背景透明，行内 `code` 用 `:not(pre code)` 选择器
 
 ## 构建与测试
 
 ```bash
 npm install   # 需要 Node >= 22.12
 npm run dev -- --port 4001
-bash .github/scripts/e2e/run-ci-parity.sh   # 合并前推荐（含 build + E2E）
+npm run verify:local                        # 提交前必跑（Pages build + E2E + VPS 子路径断言）
+bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价入口（verify:local 的子集）
 bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ```
+
+## 提交前检查清单
+
+1. `npm run verify:local` 通过
+2. `npm run dev -- --port 4001`，切换明暗主题，检查改动文章中的**代码块**与 **Mermaid**
+3. `bash .github/scripts/update-build-info.sh` 并提交 `_data/build.yml`
+4. push `master` 后观察 `astro-build.yml` 与 `deploy-vps.yml`
+
+## 环境矩阵
+
+| 角色 | 平台 | 用途 |
+|------|------|------|
+| 本地开发 | macOS Intel、Windows | `npm run dev` 目视验收 + `verify:local` |
+| CI Pages | GitHub Actions `ubuntu-latest` | `astro-build.yml` |
+| CI VPS | Ubuntu VPS / `deploy-vps.yml` | `ASTRO_BASE=/blog/` 构建（Windows Git Bash 须 `MSYS_NO_PATHCONV=1`） |
 
 ## E2E 陷阱
 
@@ -58,7 +75,7 @@ bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 
 1. 是否影响现有文章 URL？
 2. 是否需同步更新 `docs/` 与 Obsidian 侧文档？
-3. 变更 `_posts/` 或 layout 后是否运行 `run-ci-parity.sh`？
+3. 变更 `_posts/` 或 layout 后是否运行 `npm run verify:local`？
 
 ## Cursor 规则
 

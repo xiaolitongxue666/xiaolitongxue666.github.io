@@ -266,6 +266,18 @@ pre code {
   word-wrap: normal;
 }
 
+/* Shiki: token colors from syntax.css; pre shell only border/padding */
+pre.shiki,
+pre:has(> code.shiki) {
+  background-color: transparent;
+}
+
+pre.shiki code,
+pre:has(> code.shiki) code {
+  background-color: transparent;
+  color: inherit;
+}
+
 .mermaid,
 pre.mermaid {
   display: flex;
@@ -495,10 +507,17 @@ tr:nth-child(2n) {
   color: #e0e0e0;
 }
 
-[data-theme="dark"] pre {
+[data-theme="dark"] pre:not(.shiki):not(.mermaid) {
   border: solid 1px #444;
   background-color: #2d2d2d;
   color: #e0e0e0;
+}
+
+[data-theme="dark"] pre.shiki,
+[data-theme="dark"] pre:has(> code.shiki) {
+  background-color: transparent;
+  border: solid 1px #444;
+  color: inherit;
 }
 
 [data-theme="dark"] .mermaid,
@@ -507,7 +526,52 @@ tr:nth-child(2n) {
   background-color: #1e1e1e;
 }
 
-[data-theme="dark"] code {
+/* Mermaid SVG is rendered at build time with light-theme strokes (#333); brighten edges in dark mode */
+[data-theme="dark"] svg.flowchart path.flowchart-link,
+[data-theme="dark"] svg.flowchart .edgePath .path,
+[data-theme="dark"] svg.flowchart .edgePaths path,
+[data-theme="dark"] .mermaid path.flowchart-link,
+[data-theme="dark"] .mermaid .edgePath .path,
+[data-theme="dark"] .mermaid .edgePaths path {
+  stroke: #e8e8e8 !important;
+  stroke-width: 2px !important;
+}
+
+[data-theme="dark"] svg.flowchart .marker,
+[data-theme="dark"] svg.flowchart .marker path,
+[data-theme="dark"] svg.flowchart marker path,
+[data-theme="dark"] svg.flowchart .arrowheadPath,
+[data-theme="dark"] svg.flowchart .root .anchor path,
+[data-theme="dark"] .mermaid .marker,
+[data-theme="dark"] .mermaid .marker path,
+[data-theme="dark"] .mermaid marker path,
+[data-theme="dark"] .mermaid .arrowheadPath,
+[data-theme="dark"] .mermaid .root .anchor path {
+  fill: #e8e8e8 !important;
+  stroke: #e8e8e8 !important;
+}
+
+[data-theme="dark"] svg.flowchart .edgeLabel,
+[data-theme="dark"] svg.flowchart .edgeLabel rect,
+[data-theme="dark"] svg.flowchart .edgeLabel p,
+[data-theme="dark"] svg.flowchart .labelBkg,
+[data-theme="dark"] .mermaid .edgeLabel,
+[data-theme="dark"] .mermaid .edgeLabel rect,
+[data-theme="dark"] .mermaid .edgeLabel p,
+[data-theme="dark"] .mermaid .labelBkg {
+  background-color: rgba(45, 45, 45, 0.92) !important;
+  fill: rgba(45, 45, 45, 0.92) !important;
+}
+
+[data-theme="dark"] svg.flowchart .edgeLabel span,
+[data-theme="dark"] svg.flowchart .edgeLabel .label,
+[data-theme="dark"] .mermaid .edgeLabel span,
+[data-theme="dark"] .mermaid .edgeLabel .label {
+  color: #e8e8e8 !important;
+  fill: #e8e8e8 !important;
+}
+
+[data-theme="dark"] code:not(pre code) {
   border: none;
   background-color: #2d2d2d;
   color: #e0e0e0;

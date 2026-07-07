@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "astro dev --port 4001",
     "build": "astro build",
-    "preview": "astro preview --port 4001"
+    "preview": "astro preview --port 4001",
+    "verify:local": "bash .github/scripts/dev-verify.sh"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",

@@ -39,6 +39,8 @@
 | 构建校验找 `dist/blog/` | Astro `base` 不改变输出目录结构 | 校验 `dist/index.html` 内 `/blog/assets/` |
 | VPS curl 502 | 本机 HTTP 代理 | `curl --noproxy '*'` |
 | `/blog/` 502 | 容器未启动 | `docker compose up`；见 `deploy-vps.yml` |
+| VPS 首页无最新文章 | 访问了根域名 `/` 而非 `/blog/`；或 `deploy-vps` 失败 | 博客列表在 `https://<域名>/blog/`；文章 URL 须 `/blog/YYYY/MM/DD/slug/`；push 后确认 `deploy-vps.yml` 绿 |
+| 深色主题代码块看不清 | Shiki 双主题缺 `[data-theme="dark"] .shiki` CSS；`default.css` 的 `code` 覆盖 token | `syntax.css` 激活 `--shiki-dark*`；`pre.shiki` 背景透明；行内 code 用 `:not(pre code)` |
 
 详细踩坑见 [memory_skills/blog-troubleshooting.md](../memory_skills/blog-troubleshooting.md)。
 
@@ -71,12 +73,15 @@
 - **禁止**修改 permalink 规则、GitHub Pages 部署分支（`master`）
 - Obsidian 同步 **仅** 在 `push` 事件写入博客仓库
 - **禁止**提交 `node_modules/`、`dist/`、`.e2e-staging/`、E2E fixture 文章
-- 合并前：`bash .github/scripts/e2e/run-ci-parity.sh`
+- 合并前：`npm run verify:local`（或 `bash .github/scripts/e2e/run-ci-parity.sh`）
 
 ## 本地验证命令
 
 ```bash
-# 博客（合并前推荐）
+# 博客（提交前推荐）
+npm run verify:local
+
+# CI 等价子集
 bash .github/scripts/e2e/run-ci-parity.sh
 
 # Obsidian 同步 E2E

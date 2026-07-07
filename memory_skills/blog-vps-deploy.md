@@ -36,6 +36,10 @@ Pages 与 VPS 是两次独立构建；默认 `astro.config.mjs` 行为不可破�
 
 - `src/lib/base.ts`：`withBase()` 用于所有子路径链接与静态资源
 - 构建校验：`dist/index.html` 含 `href="/blog/assets/css/default.css"`
+- **Permalink 示例**（对照 [test-blog-post-with-images](https://xiaolitongxue.com.cn/blog/2025/09/08/test-blog-post-with-images/)）：
+  - 首页：`https://xiaolitongxue.com.cn/blog/`
+  - 文章：`https://xiaolitongxue.com.cn/blog/2026/07/07/mihomo-aio/`
+  - **错误**：`https://xiaolitongxue.com.cn/2026/07/07/mihomo-aio/`（无 `/blog/` → 404）
 
 ## 验收
 
@@ -46,6 +50,11 @@ curl --noproxy '*' -sf http://127.0.0.1:3001/blog/
 # 经 Nginx（公网 / Tailscale）
 curl --noproxy '*' -sf https://xiaolitongxue.com.cn/blog/
 curl --noproxy '*' -sf http://$(tailscale ip -4)/blog/
+
+# 部署后：首页含最新文 + 文章 200
+curl --noproxy '*' -sf https://xiaolitongxue.com.cn/blog/ | grep mihomo-aio
+curl --noproxy '*' -sf -o /dev/null -w '%{http_code}\n' \
+  https://xiaolitongxue.com.cn/blog/2026/07/07/mihomo-aio/
 ```
 
 域名不可用但 IP 可用 → 腾讯云 **接入备案**（见 vps_nginx troubleshooting）。Tailscale 浏览器不通 → 本机代理 DIRECT `100.64.0.0/10`。

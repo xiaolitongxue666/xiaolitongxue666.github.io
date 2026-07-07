@@ -28,17 +28,30 @@
 
 ```bash
 bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml（合并前提交）
-bash .github/scripts/e2e/run-ci-parity.sh   # 需 Node >= 22.12；等同 astro-build.yml build 段
+npm run verify:local                        # Pages build + E2E + VPS 子路径 dist 断言
+bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 ```
 
-本地 Windows 仅作开发；**VPS 子路径构建**（`ASTRO_BASE=/blog/`）以 Ubuntu CI `deploy-vps.yml` 为准（Git Bash 会把 `/blog/` 路径转换掉）。
+本地 Windows 仅作开发；**VPS 子路径构建**（`ASTRO_BASE=/blog/`）以 Ubuntu CI `deploy-vps.yml` 为准。Windows Git Bash 本地测 VPS 构建须 `MSYS_NO_PATHCONV=1`（`dev-verify.sh` 已设置）。
+
+## Shiki 深色主题（2026-07）
+
+- `rehype-shiki` 输出浅色 inline + `--shiki-dark*` CSS 变量；切换依赖 `syntax.css` 中 `[data-theme="dark"] .shiki` 规则。
+- `default.css`：`pre.shiki` 背景透明；`[data-theme="dark"] code:not(pre code)` 仅作用于行内代码，避免覆盖 Shiki token。
 
 ## Mermaid（2026-07）
 
 - 文章内 ` ```mermaid ` 经 `rehype-mermaid`（`strategy: inline-svg`）在**构建期**输出内联 SVG；`rehypeStringify` 须 `allowDangerousHtml: true`。
-- `rehype-mermaid` 在 `rehype-shiki` **之前**注册，避免 mermaid 被当代码高亮。
-- **CI 双端**（`astro-build.yml`、`deploy-vps.yml`）在 `npm ci` 后须 `npx playwright install chromium`；本地首次构建亦需安装 Chromium。
-- 样式：`.mermaid` / `pre.mermaid` 见 `assets/css/default.css`。
+- **DOM 结构**：`inline-svg` 输出为裸 `<svg class="flowchart">`，**无** `.mermaid` 包裹；深色样式须选 `svg.flowchart`，不能仅写 `.mermaid`。
+- 构建期默认浅色主题，连线/箭头内嵌 `#333`；深色模式在 `default.css` 用 `[data-theme="dark"] svg.flowchart path.flowchart-link`（及 marker）覆盖为浅色描边。
+- `rehype-mermaid` 须在 `rehype-shiki` **之前**注册。
+- **CI 双端**须 `npx playwright install chromium`；容器样式见 `default.css` 中 `.mermaid` / `pre.mermaid`（若有包裹）。
+
+## VPS 访问（易错）
+
+- 博客列表入口：`https://<域名>/blog/`（非根域名 `/`）。
+- 文章 permalink：`/blog/:year/:month/:day/:slug/`（对照 test-blog-post-with-images）。
+- 验收：`curl --noproxy '*'`；无 `/blog/` 前缀的 URL 会 404。
 
 ## Astro 7（2026-07）
 
