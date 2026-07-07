@@ -27,13 +27,23 @@
 ## 合并前验证
 
 ```bash
-bash .github/scripts/e2e/run-ci-parity.sh   # 需 Node >= 22.12
+bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml（合并前提交）
+bash .github/scripts/e2e/run-ci-parity.sh   # 需 Node >= 22.12；等同 astro-build.yml build 段
 ```
+
+本地 Windows 仅作开发；**VPS 子路径构建**（`ASTRO_BASE=/blog/`）以 Ubuntu CI `deploy-vps.yml` 为准（Git Bash 会把 `/blog/` 路径转换掉）。
+
+## Mermaid（2026-07）
+
+- 文章内 ` ```mermaid ` 经 `rehype-mermaid`（`strategy: inline-svg`）在**构建期**输出内联 SVG；`rehypeStringify` 须 `allowDangerousHtml: true`。
+- `rehype-mermaid` 在 `rehype-shiki` **之前**注册，避免 mermaid 被当代码高亮。
+- **CI 双端**（`astro-build.yml`、`deploy-vps.yml`）在 `npm ci` 后须 `npx playwright install chromium`；本地首次构建亦需安装 Chromium。
+- 样式：`.mermaid` / `pre.mermaid` 见 `assets/css/default.css`。
 
 ## Astro 7（2026-07）
 
 - **Rust 编译器**：每个 `.astro` 内 HTML 须闭合；禁止 `Header` 开文档 + `Footer` 关文档的拆分模式 → 用 `Header` + `<slot />` 完整壳。
 - **build-info**：`src/lib/build-info.ts` 须 `import fs`；`_data/build.yml` 的 `commit` 须引号包裹（避免 `6988e30` 被 yaml 当浮点）。
-- **Markdown**：文章仍走 `src/lib/markdown.ts` remark/rehype，与 Astro 7 默认 Sätteri 无关。
+- **Markdown**：文章仍走 `src/lib/markdown.ts` remark/rehype（含 Mermaid），与 Astro 7 默认 Sätteri 无关。
 - **Dependabot**：`astro` 6→7 常捆绑 `esbuild` 安全升级；合并前跑 CI parity。
 

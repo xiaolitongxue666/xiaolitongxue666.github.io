@@ -31,6 +31,7 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 - Wiki 页：使用 `PageLayout`（原 `layout: page`）
 - 无评论系统
 - 首页版本号：仅 `/` 显示；commit 来自 `GITHUB_SHA` 或 `_data/build.yml`；**date 来自 `_data/build.yml`**；根元素含 inline fixed 定位
+- **Mermaid**：`_posts/` 中 ` ```mermaid ` 块在构建期渲染为内联 SVG（`rehype-mermaid`）；CI 须安装 Playwright Chromium
 
 ## 构建与测试
 
@@ -43,7 +44,7 @@ bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 
 ## E2E 陷阱
 
-- `run-publish-e2e.js` 在 `.e2e-staging/` 内须 `npm ci` 后 `E2E_OUT_DIR=dist-e2e npm run build`
+- `run-publish-e2e.js` 在 `.e2e-staging/` 内须 `npm ci` 后构建；`E2E_OUT_DIR` 通过 `execSync` 的 `env` 传入（勿依赖 `E2E_OUT_DIR=... npm` 的 shell 前缀，Windows 会失败）
 - E2E 输出目录为 `dist-e2e/`，生产为 `dist/`
 - E2E 不依赖 `upload-artifact`；PASS/FAIL 看脚本 exit code
 

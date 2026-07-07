@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Playwright Chromium for Mermaid
+        run: npx playwright install chromium
+
       - name: Write build info
         run: bash .github/scripts/update-build-info.sh
 

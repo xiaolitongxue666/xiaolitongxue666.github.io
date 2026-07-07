@@ -58,7 +58,7 @@ function main() {
     stdio: 'inherit',
   });
 
-  execSync('E2E_OUT_DIR=dist-e2e npm run build', {
+  execSync('npm run build', {
     cwd: STAGING_DIR,
     stdio: 'inherit',
     env: {

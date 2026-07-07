@@ -266,6 +266,24 @@ pre code {
   word-wrap: normal;
 }
 
+.mermaid,
+pre.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.25em auto;
+  padding: 12px;
+  max-width: 100%;
+  overflow-x: auto;
+  border: solid 1px #A8B5A2;
+  border-radius: 6px;
+  background-color: #FDF6E3;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 a {
   text-decoration: none;
   padding: 1px;
@@ -481,6 +499,12 @@ tr:nth-child(2n) {
   border: solid 1px #444;
   background-color: #2d2d2d;
   color: #e0e0e0;
+}
+
+[data-theme="dark"] .mermaid,
+[data-theme="dark"] pre.mermaid {
+  border: solid 1px #444;
+  background-color: #1e1e1e;
 }
 
 [data-theme="dark"] code {
