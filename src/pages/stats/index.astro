@@ -1,0 +1,68 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE } from '../../lib/site';
+
+const publicStatsUrl = SITE.analytics.publicStatsUrl;
+const countScript = SITE.analytics.countScript;
+---
+
+<PageLayout
+  title="阅读统计"
+  description="博客访问与阅读统计"
+  keywords="阅读统计,访问量,xiaolitongxue666"
+>
+  <p class="stats-intro">
+    以下为本博客的访问统计，数据由 VPS 自托管 GoatCounter 汇总（GitHub Pages 与 VPS 镜像共用），仅记录页面浏览量，不收集个人隐私信息。
+  </p>
+
+  <div class="stats-embed">
+    <iframe
+      src={publicStatsUrl}
+      title="博客阅读统计"
+      loading="lazy"
+      data-count-script={countScript}
+    />
+    <div id="stats-unavailable" class="stats-unavailable" hidden>
+      <p><strong>统计仪表盘尚未就绪</strong></p>
+      <p>
+        当前 VPS 上 <code>/analytics/</code> 尚未部署或未初始化 GoatCounter，
+        因此无法嵌入图表。推送代码并完成部署后，此页将自动显示访问统计。
+      </p>
+      <ol>
+        <li>推送博客 <code>master</code>，等待 <code>deploy-vps.yml</code> 启动 GoatCounter（<code>:3002</code>）</li>
+        <li>在 VPS 部署 <code>vps_nginx</code>，且 <code>PUBLIC_EXPOSE</code> 包含 <code>analytics</code></li>
+        <li>SSH 初始化 GoatCounter 站点与用户（见仓库 <code>memory_skills/blog-analytics.md</code>）</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stats-fallback">
+    <a
+      href={publicStatsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="stats-fallback-link"
+    >
+      查看完整统计仪表盘
+    </a>
+  </div>
+
+  <script is:inline>
+    (function () {
+      const iframe = document.querySelector('.stats-embed iframe');
+      const unavailable = document.getElementById('stats-unavailable');
+      const countScript = iframe && iframe.getAttribute('data-count-script');
+      if (!iframe || !unavailable || !countScript) return;
+
+      const probe = document.createElement('script');
+      probe.src = countScript;
+      probe.async = true;
+      probe.onload = function () { probe.remove(); };
+      probe.onerror = function () {
+        iframe.hidden = true;
+        unavailable.hidden = false;
+      };
+      document.head.appendChild(probe);
+    })();
+  </script>
+</PageLayout>

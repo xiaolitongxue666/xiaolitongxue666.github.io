@@ -185,6 +185,13 @@ div.main {
   margin-top: 15px;
 }
 
+.github-links-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
 .github-link {
   display: inline-block;
   padding: 8px 16px;
@@ -194,10 +201,22 @@ div.main {
   border-radius: 6px;
   font-size: 0.9em;
   transition: background-color 0.2s;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .github-link:hover {
   background-color: #0256cc;
+  text-decoration: none;
+}
+
+.github-link--stats {
+  background-color: #D8A48F;
+}
+
+.github-link--stats:hover {
+  background-color: #C4846C;
   text-decoration: none;
 }
 
@@ -694,6 +713,14 @@ tr:nth-child(2n) {
   background-color: #0256cc;
 }
 
+[data-theme="dark"] .github-link--stats {
+  background-color: #9A7B6A;
+}
+
+[data-theme="dark"] .github-link--stats:hover {
+  background-color: #B8957F;
+}
+
 /* 暗色主题下的标题头部按钮样式 */
 [data-theme="dark"] .title-header h2 .theme-toggle-btn {
   border-color: #555;
@@ -754,6 +781,15 @@ tr:nth-child(2n) {
     flex-direction: column;
     gap: 10px;
   }
+
+  .github-links-row {
+    gap: 8px;
+  }
+
+  .github-links-row .github-link {
+    font-size: 0.85em;
+    padding: 8px 10px;
+  }
   
   .stat-item {
     display: flex;
@@ -794,6 +830,89 @@ tr:nth-child(2n) {
 
 [data-theme="dark"] .github-links .footer-text {
   color: #a0aec0;
+}
+
+/* 阅读统计页 */
+.stats-intro {
+  margin-bottom: 1.5em;
+  color: #666;
+  line-height: 1.6;
+}
+
+.stats-embed {
+  border: 1px solid #D8A48F;
+  border-radius: 12px;
+  background-color: #FDF6E3;
+  overflow: hidden;
+  margin-bottom: 1.5em;
+}
+
+.stats-embed iframe {
+  display: block;
+  width: 100%;
+  height: 720px;
+  border: none;
+}
+
+.stats-unavailable {
+  padding: 1.5em 1.25em;
+  line-height: 1.6;
+  color: #4A4035;
+}
+
+.stats-unavailable p {
+  margin: 0 0 0.75em;
+}
+
+.stats-unavailable ol {
+  margin: 0.5em 0 0;
+  padding-left: 1.25em;
+}
+
+.stats-unavailable li {
+  margin-bottom: 0.5em;
+}
+
+.stats-fallback {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.stats-fallback-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #D8A48F;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.95em;
+  transition: background-color 0.2s;
+}
+
+.stats-fallback-link:hover {
+  background-color: #C4846C;
+  text-decoration: none;
+}
+
+[data-theme="dark"] .stats-intro {
+  color: #999;
+}
+
+[data-theme="dark"] .stats-embed {
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+[data-theme="dark"] .stats-unavailable {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .stats-fallback-link {
+  background-color: #9A7B6A;
+}
+
+[data-theme="dark"] .stats-fallback-link:hover {
+  background-color: #B8957F;
 }
 
 /* 首页右下角：commit 版本与更新日期 */

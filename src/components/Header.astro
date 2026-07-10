@@ -19,6 +19,8 @@ const {
 const pageTitle = title ? `${title}` : SITE.title;
 const keywordContent = Array.isArray(keywords) ? keywords.join(',') : keywords ?? '';
 const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
+const goatcounterEndpoint = SITE.analytics.countEndpoint;
+const goatcounterScript = SITE.analytics.countScript;
 ---
 
 <!DOCTYPE html>
@@ -43,6 +45,13 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <link rel="shortcut icon" href={withBase('/assets/images/avatar.jpg')} type="image/jpeg" />
+    {goatcounterEndpoint && goatcounterScript && (
+      <script
+        data-goatcounter={goatcounterEndpoint}
+        async
+        src={goatcounterScript}
+      />
+    )}
     <script src={withBase('/assets/js/theme-toggle.js')} is:inline></script>
     <script src={withBase('/assets/js/floating-buttons.js')} is:inline></script>
   </head>

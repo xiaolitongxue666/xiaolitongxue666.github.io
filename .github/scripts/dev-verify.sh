@@ -12,6 +12,7 @@ npm run build
 
 echo "==> 3. assert-homepage-build-version"
 E2E_SITE_DIR=dist node .github/scripts/e2e/assert-homepage-build-version.js
+grep -q 'xiaolitongxue.com.cn/analytics/count' dist/index.html
 
 echo "==> 4. publish E2E"
 node .github/scripts/e2e/run-publish-e2e.js
@@ -22,6 +23,7 @@ ASTRO_BASE=/blog/ ASTRO_SITE=https://xiaolitongxue.com.cn npm run build
 
 echo "==> 5a. VPS dist checks"
 grep -q 'href="/blog/assets/css/default.css"' dist/index.html
+grep -q 'xiaolitongxue.com.cn/analytics/count' dist/index.html
 test -f dist/2026/07/07/mihomo-aio/index.html
 grep -q 'href="/blog/2026/07/07/mihomo-aio/"' dist/index.html
 grep -q 'site-base" content="/blog/"' dist/2026/07/07/mihomo-aio/index.html

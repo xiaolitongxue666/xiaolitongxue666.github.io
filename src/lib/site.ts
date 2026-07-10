@@ -15,4 +15,10 @@ export const SITE = {
     links: ['https://github.com/xiaolitongxue666'],
   },
   repository: 'xiaolitongxue666/xiaolitongxue666.github.io',
+  analytics: {
+    origin: 'https://xiaolitongxue.com.cn/analytics',
+    countEndpoint: 'https://xiaolitongxue.com.cn/analytics/count',
+    countScript: 'https://xiaolitongxue.com.cn/analytics/count.js',
+    publicStatsUrl: 'https://xiaolitongxue.com.cn/analytics/',
+  },
 } as const;

@@ -1,3 +1,7 @@
+---
+import { withBase } from '../lib/base';
+---
+
 <div class="github-info">
   <h3>GitHub Info</h3>
   <div class="github-profile">
@@ -20,7 +24,10 @@
         </div>
       </div>
       <div class="github-links">
-        <a href="https://github.com/xiaolitongxue666" target="_blank" class="github-link">Visit GitHub</a>
+        <div class="github-links-row">
+          <a href="https://github.com/xiaolitongxue666" target="_blank" class="github-link">Visit GitHub</a>
+          <a href={withBase('/stats/')} class="github-link github-link--stats">阅读统计</a>
+        </div>
         <div class="footer-content">
           <p class="footer-text">𝓞𝓷 𝔂𝓸𝓾𝓻 𝓶𝓪𝓻𝓴</p>
         </div>
