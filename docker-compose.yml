@@ -1,7 +1,7 @@
 services:
   goatcounter:
-    image: goatcounter/goatcounter:latest
-    command: ["serve", "-listen", ":8080", "-tls", "none", "-basepath", "/analytics"]
+    image: arp242/goatcounter:latest
+    command: ["serve", "-listen", ":8080", "-tls", "none", "-base-path", "/analytics"]
     ports:
       - "127.0.0.1:3002:8080"
     volumes:
