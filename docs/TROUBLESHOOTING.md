@@ -41,7 +41,8 @@
 | `/blog/` 502 | 容器未启动 | `docker compose up`；见 `deploy-vps.yml` |
 | VPS 首页无最新文章 | 访问了根域名 `/` 而非 `/blog/`；或 `deploy-vps` 失败 | 博客列表在 `https://<域名>/blog/`；文章 URL 须 `/blog/YYYY/MM/DD/slug/`；push 后确认 `deploy-vps.yml` 绿 |
 | 深色主题代码块看不清 | Shiki 双主题缺 `[data-theme="dark"] .shiki` CSS；`default.css` 的 `code` 覆盖 token | `syntax.css` 激活 `--shiki-dark*`；`pre.shiki` 背景透明；行内 code 用 `:not(pre code)` |
-| `/stats/` 嵌入浅色主题颜色异常 | `stats-embed.js` 随博客 `data-theme` 切换 iframe `color-scheme`，与 GC 浅色渲染冲突 | 静态 iframe + `.stats-embed { color-scheme: light }`；见 [blog-analytics.md](../memory_skills/blog-analytics.md) |
+| `/stats/` iframe 主题不同步 / 先白后变 | 生产未部署 `stats-embed-theme.js`，或 HTML 预置无 `theme` 的 `src` 导致先加载默认浅色 | iframe 无预置 `src`，内联脚本按 `localStorage.theme` 设 `?theme=`；切换用 `postMessage`；见 [blog-analytics.md](../memory_skills/blog-analytics.md) |
+| `/stats/` iframe 顶白条（深色） | 生产曾 `sub_filter` 注入 `background:#fff` | vps_nginx 注入 `analytics-blog-theme.css`（勿 `#fff`）；公网提供 `/css/` `/js/` 主题资源 |
 
 详细踩坑见 [memory_skills/blog-troubleshooting.md](../memory_skills/blog-troubleshooting.md)。
 

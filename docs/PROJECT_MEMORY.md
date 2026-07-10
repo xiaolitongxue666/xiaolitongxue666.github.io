@@ -55,12 +55,10 @@ bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 
 ## 阅读统计（2026-07-10）
 
-- 自托管 GoatCounter：博客 `docker-compose` `:3002`；vps_nginx `/analytics/`；双端上报 URL 固定为 `https://xiaolitongxue.com.cn/analytics/...`（见 `src/lib/site.ts`，**禁止** `withBase()`）。
-- 统计页：`/stats/`（Pages）、`/blog/stats/`（VPS）；含「返回博客主页」与右下角 🏠。
-- 嵌入：静态 iframe `?hideui=1`；皮肤与主题同步见 [memory_skills/blog-analytics.md](../memory_skills/blog-analytics.md)（`analytics-blog-theme.css` + `stats-embed-theme.js` 跟随 `data-theme`）。
-- GoatCounter 须配置 `allow_embed`（含生产域名与本地 `http://localhost:4001`、`4321/4322` 等）。
-- 主题资源公网路径：`/css/analytics-blog-theme.css`、`/js/analytics-theme.js`（vps_nginx hybrid public exact location；勿放在 `/analytics/` proxy 下）。
-- Windows 本地验收：`curl` 可能被代理干扰，用 `curl --noproxy '*'` 或 Node `fetch`；Astro dev 默认端口 `4001`。
+- GoatCounter：`:3002` + vps_nginx `/analytics/`；上报 URL 固定绝对路径（`src/lib/site.ts`，**禁止** `withBase()`）。
+- `/stats/`、`/blog/stats/`：iframe 无预置 `src`，内联脚本 + `stats-embed-theme.js` 按博客 `data-theme` 传 `?theme=` / `postMessage`；皮肤在 vps_nginx `analytics-blog-theme.css`（公网 `/css/` `/js/`）。
+- `allow_embed` 须含生产域名与本地 `:4001`；详情与验收见 [memory_skills/blog-analytics.md](../memory_skills/blog-analytics.md)。
+- 踩坑：勿再 `sub_filter` 注入 `#fff`；`deploy-vps` 容器刚起时 curl 可能偶发失败，稍后重试或 SSH 验 `3001/3002`。
 
 ## Astro 7（2026-07）
 

@@ -28,6 +28,7 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 - **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
 - **Shiki 深色**：`theme-toggle.js` 设 `data-theme`；缺 `[data-theme="dark"] .shiki` CSS 会导致暗色下代码块不可读
 - **VPS 博客入口**：公网 `https://<域名>/blog/`（非根域名 `/`）；文章 permalink 为 `/blog/:year/:month/:day/:slug/`
+- **阅读统计**：上报 URL 勿 `withBase()`；`/stats/` iframe 勿预置无 `theme` 的 analytics `src`；皮肤在 vps_nginx（见 `memory_skills/blog-analytics.md`）
 
 ## 文档优先
 

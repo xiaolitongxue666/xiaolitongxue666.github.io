@@ -1,6 +1,9 @@
 /**
- * Sync /stats/ iframe + dashboard link with blog data-theme.
- * Initial src is set by inline script (with ?theme=); this handles toggles via postMessage.
+ * Sync /stats/ iframe with blog data-theme.
+ * Contract: iframe has no preset analytics src (avoids light FOUC); page inline script
+ * sets src with ?theme= from localStorage; this file handles toggles via postMessage
+ * { source: 'blog-stats-theme', theme: 'light'|'dark' } to https://xiaolitongxue.com.cn.
+ * Skin CSS lives in vps_nginx (not this repo). See memory_skills/blog-analytics.md.
  */
 (function () {
   'use strict';

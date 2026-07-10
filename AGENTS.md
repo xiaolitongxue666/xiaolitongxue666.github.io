@@ -8,6 +8,7 @@ Astro 静态博客：**GitHub Pages**（`astro-build.yml`）+ **VPS 镜像**（`
 |------|--------|
 | [memory_skills/README.md](memory_skills/README.md) | 总索引 |
 | [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md) | VPS 双构建、Docker、Secrets、验收 |
+| [memory_skills/blog-analytics.md](memory_skills/blog-analytics.md) | GoatCounter、`/stats/` 主题同步 |
 | [memory_skills/blog-troubleshooting.md](memory_skills/blog-troubleshooting.md) | 子路径、proxy、curl 502 |
 
 Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
@@ -33,6 +34,7 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 - 首页版本号：仅 `/` 显示；commit 来自 `GITHUB_SHA` 或 `_data/build.yml`；**date 来自 `_data/build.yml`**；根元素含 inline fixed 定位
 - **Mermaid**：`_posts/` 中 ` ```mermaid ` 块在构建期渲染为内联 SVG（`rehype-mermaid`）；CI 须安装 Playwright Chromium
 - **Shiki 深色主题**：站点用 `data-theme` 切换（非 `prefers-color-scheme`）；`syntax.css` 须有 `[data-theme="dark"] .shiki` 规则激活 `--shiki-dark*`；`default.css` 中 `pre.shiki` 背景透明，行内 `code` 用 `:not(pre code)` 选择器
+- **阅读统计**：GoatCounter 上报 URL 禁止 `withBase()`；`/stats/` iframe 无预置 src，主题见 `memory_skills/blog-analytics.md`
 
 ## 构建与测试
 
