@@ -60,7 +60,17 @@ npm install
 npm run dev
 ```
 
-访问 `http://localhost:4001`。
+访问 `http://localhost:4001`（内容快改，无 `/blog/` 前缀）。
+
+### 本地 VPS 等价栈（子路径 + 本地统计）
+
+```bash
+npm run local:vps
+# http://127.0.0.1:8080/blog/  ·  /blog/stats/  ·  /analytics/
+npm run local:vps:down
+```
+
+与生产同构（`ASTRO_BASE=/blog/` + edge 反代）；GoatCounter 数据在本地 Docker volume，不打生产。详见 [memory_skills/blog-analytics.md](memory_skills/blog-analytics.md)。
 
 ### 构建验证
 

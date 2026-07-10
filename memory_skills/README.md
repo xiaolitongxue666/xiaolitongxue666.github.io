@@ -7,7 +7,7 @@
 | 文件 | 主题 | 何时读 |
 |------|------|--------|
 | [blog-vps-deploy.md](blog-vps-deploy.md) | VPS 双构建、Docker、rsync、Secrets、访问方式 | 改 deploy-vps、docker-compose、astro base |
-| [blog-analytics.md](blog-analytics.md) | 自托管 GoatCounter、双端统一上报、`/stats/` | 改 analytics 配置、统计页、`:3002` 容器 |
+| [blog-analytics.md](blog-analytics.md) | 自托管 GoatCounter、双端统一上报、`/stats/`、**`npm run local:vps`** | 改 analytics、统计页、本地 edge `:8080`、`:3002` |
 | [blog-troubleshooting.md](blog-troubleshooting.md) | 子路径 / proxy / curl 踩坑 | `/blog/` 404/502、资源路径、CI 构建校验 |
 
 ## 维护约定

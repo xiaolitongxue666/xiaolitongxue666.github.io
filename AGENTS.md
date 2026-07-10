@@ -34,14 +34,16 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 - 首页版本号：仅 `/` 显示；commit 来自 `GITHUB_SHA` 或 `_data/build.yml`；**date 来自 `_data/build.yml`**；根元素含 inline fixed 定位
 - **Mermaid**：`_posts/` 中 ` ```mermaid ` 块在构建期渲染为内联 SVG（`rehype-mermaid`）；CI 须安装 Playwright Chromium
 - **Shiki 深色主题**：站点用 `data-theme` 切换（非 `prefers-color-scheme`）；`syntax.css` 须有 `[data-theme="dark"] .shiki` 规则激活 `--shiki-dark*`；`default.css` 中 `pre.shiki` 背景透明，行内 `code` 用 `:not(pre code)` 选择器
-- **阅读统计**：GoatCounter 上报 URL 禁止 `withBase()`；`/stats/` iframe 无预置 src，主题见 `memory_skills/blog-analytics.md`
+- **阅读统计**：GoatCounter 上报禁 `withBase()`；可用 `PUBLIC_ANALYTICS_ORIGIN`；本地联调 `npm run local:vps`（`:8080`），见 `memory_skills/blog-analytics.md`
 
 ## 构建与测试
 
 ```bash
 npm install   # 需要 Node >= 22.12
-npm run dev -- --port 4001
-npm run verify:local                        # 提交前必跑（Pages build + E2E + VPS 子路径断言）
+npm run dev -- --port 4001                  # 内容快改（无 /blog/）
+npm run local:vps                           # 本地 VPS 等价栈 → http://127.0.0.1:8080/blog/
+npm run local:vps:down
+npm run verify:local                        # 提交前必跑（Pages build + E2E + VPS 子路径 dist 断言）
 bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价入口（verify:local 的子集）
 bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml
 ```

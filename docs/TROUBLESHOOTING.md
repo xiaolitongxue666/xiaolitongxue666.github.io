@@ -43,6 +43,9 @@
 | 深色主题代码块看不清 | Shiki 双主题缺 `[data-theme="dark"] .shiki` CSS；`default.css` 的 `code` 覆盖 token | `syntax.css` 激活 `--shiki-dark*`；`pre.shiki` 背景透明；行内 code 用 `:not(pre code)` |
 | `/stats/` iframe 主题不同步 / 先白后变 | 生产未部署 `stats-embed-theme.js`，或 HTML 预置无 `theme` 的 `src` 导致先加载默认浅色 | iframe 无预置 `src`，内联脚本按 `localStorage.theme` 设 `?theme=`；切换用 `postMessage`；见 [blog-analytics.md](../memory_skills/blog-analytics.md) |
 | `/stats/` iframe 顶白条（深色） | 生产曾 `sub_filter` 注入 `background:#fff` | vps_nginx 注入 `analytics-blog-theme.css`（勿 `#fff`）；公网提供 `/css/` `/js/` 主题资源 |
+| 本地联调仍打生产 analytics | `site.ts` 默认生产 origin；无 edge | `npm run local:vps`（`PUBLIC_ANALYTICS_ORIGIN` + `:8080`）；见 [blog-analytics.md](../memory_skills/blog-analytics.md) |
+| 本地 GC `DB dir not writeable` | Docker Desktop volume 属 root，进程 uid 1000 | `local-vps-up.sh` 已 `chown 1000:1000`；或手动修 volume |
+| 本地 `:3001` bind 失败 | 本机其它容器（如 Gitea）占用 | `BLOG_HOST_PORT=3011`（脚本自动回退）；验收走 `:8080` |
 
 详细踩坑见 [memory_skills/blog-troubleshooting.md](../memory_skills/blog-troubleshooting.md)。
 

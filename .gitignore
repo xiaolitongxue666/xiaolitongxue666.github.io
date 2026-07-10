@@ -53,6 +53,14 @@ favicon.ico
 # 本地 Docker 调试（生产 dist 由 CI 构建后 rsync）
 .docker/
 
+# 本地 edge 主题静态（由 local-vps-up.sh 从兄弟仓 vps_nginx/html 同步）
+deploy/local-edge/static/css/
+deploy/local-edge/static/js/
+
+# 本地 edge 主题静态（由 scripts/local-vps-up.sh 从 vps_nginx/html 同步）
+deploy/local-edge/static/css/
+deploy/local-edge/static/js/
+
 # Jekyll 时代残留（站点已迁移至 Astro）
 Gemfile
 Gemfile.lock

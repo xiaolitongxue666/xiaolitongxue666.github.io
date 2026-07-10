@@ -55,15 +55,14 @@ bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 
 ## 阅读统计（2026-07-10）
 
-- GoatCounter：`:3002` + vps_nginx `/analytics/`；上报 URL 固定绝对路径（`src/lib/site.ts`，**禁止** `withBase()`）。
-- `/stats/`、`/blog/stats/`：iframe 无预置 `src`，内联脚本 + `stats-embed-theme.js` 按博客 `data-theme` 传 `?theme=` / `postMessage`；皮肤在 vps_nginx `analytics-blog-theme.css`（公网 `/css/` `/js/`）。
-- `allow_embed` 须含生产域名与本地 `:4001`；详情与验收见 [memory_skills/blog-analytics.md](../memory_skills/blog-analytics.md)。
-- 踩坑：勿再 `sub_filter` 注入 `#fff`；`deploy-vps` 容器刚起时 curl 可能偶发失败，稍后重试或 SSH 验 `3001/3002`。
+- 生产上报：绝对 URL（`src/lib/site.ts`，禁 `withBase()`）；`PUBLIC_ANALYTICS_ORIGIN` 可覆盖。
+- `/stats/`：iframe 无预置 `src`；`?theme=` + `postMessage`（targetOrigin=analytics origin）；皮肤在 vps_nginx。
+- **本地等价**：`npm run local:vps` → `http://127.0.0.1:8080/blog/`（edge+本地 GC）；loopback 自动 `allow_local`；勿用生产 analytics 联调。
+- 踩坑：勿 `sub_filter` `#fff`；本地 volume 须 uid 1000；`:3001` 冲突时用 `3011`；详情 [blog-analytics.md](../memory_skills/blog-analytics.md)。
 
 ## Astro 7（2026-07）
 
-- **Rust 编译器**：每个 `.astro` 内 HTML 须闭合；禁止 `Header` 开文档 + `Footer` 关文档的拆分模式 → 用 `Header` + `<slot />` 完整壳。
-- **build-info**：`src/lib/build-info.ts` 须 `import fs`；`_data/build.yml` 的 `commit` 须引号包裹（避免 `6988e30` 被 yaml 当浮点）。
-- **Markdown**：文章仍走 `src/lib/markdown.ts` remark/rehype（含 Mermaid），与 Astro 7 默认 Sätteri 无关。
-- **Dependabot**：`astro` 6→7 常捆绑 `esbuild` 安全升级；合并前跑 CI parity。
+- `.astro` HTML 须闭合；`Header`+`<slot />` 完整壳（禁 Header/Footer 拆文档）。
+- `build-info`：`import fs`；`_data/build.yml` 的 `commit` 须引号。
+- Markdown 仍走 `src/lib/markdown.ts`（含 Mermaid）；Dependabot 6→7 常带 `esbuild`，合并前跑 CI parity。
 

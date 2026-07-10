@@ -2,8 +2,9 @@
  * Sync /stats/ iframe with blog data-theme.
  * Contract: iframe has no preset analytics src (avoids light FOUC); page inline script
  * sets src with ?theme= from localStorage; this file handles toggles via postMessage
- * { source: 'blog-stats-theme', theme: 'light'|'dark' } to https://xiaolitongxue.com.cn.
- * Skin CSS lives in vps_nginx (not this repo). See memory_skills/blog-analytics.md.
+ * { source: 'blog-stats-theme', theme: 'light'|'dark' } to the analytics origin.
+ * Skin CSS lives in vps_nginx (copied into deploy/local-edge for local VPS stack).
+ * See memory_skills/blog-analytics.md.
  */
 (function () {
   'use strict';
@@ -62,14 +63,27 @@
     return baseAnalyticsUrl;
   }
 
+  function messageTargetOrigin(baseUrl) {
+    try {
+      return new URL(baseUrl, window.location.href).origin;
+    } catch (e) {
+      return window.location.origin;
+    }
+  }
+
   function postTheme(iframe, theme) {
     if (!iframe || !iframe.contentWindow) {
       return;
     }
+    var base =
+      baseAnalyticsUrl ||
+      iframe.getAttribute('data-analytics-src') ||
+      iframe.src ||
+      '';
     try {
       iframe.contentWindow.postMessage(
         { source: MESSAGE_SOURCE, theme: theme },
-        'https://xiaolitongxue.com.cn'
+        messageTargetOrigin(base)
       );
     } catch (e) {
       /* ignore */

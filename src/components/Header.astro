@@ -21,6 +21,9 @@ const keywordContent = Array.isArray(keywords) ? keywords.join(',') : keywords ?
 const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE.url).href;
 const goatcounterEndpoint = SITE.analytics.countEndpoint;
 const goatcounterScript = SITE.analytics.countScript;
+const goatcounterSettings = SITE.analytics.allowLocal
+  ? JSON.stringify({ allow_local: true })
+  : undefined;
 ---
 
 <!DOCTYPE html>
@@ -48,6 +51,7 @@ const goatcounterScript = SITE.analytics.countScript;
     {goatcounterEndpoint && goatcounterScript && (
       <script
         data-goatcounter={goatcounterEndpoint}
+        data-goatcounter-settings={goatcounterSettings}
         async
         src={goatcounterScript}
       />

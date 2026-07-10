@@ -28,17 +28,18 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **
 - **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
 - **Shiki 深色**：`theme-toggle.js` 设 `data-theme`；缺 `[data-theme="dark"] .shiki` CSS 会导致暗色下代码块不可读
 - **VPS 博客入口**：公网 `https://<域名>/blog/`（非根域名 `/`）；文章 permalink 为 `/blog/:year/:month/:day/:slug/`
-- **阅读统计**：上报 URL 勿 `withBase()`；`/stats/` iframe 勿预置无 `theme` 的 analytics `src`；皮肤在 vps_nginx（见 `memory_skills/blog-analytics.md`）
+- **阅读统计**：上报 URL 勿 `withBase()`；`PUBLIC_ANALYTICS_ORIGIN` 可覆盖；`/stats/` iframe 勿预置无 `theme` 的 analytics `src`；本地联调 `npm run local:vps`（见 `memory_skills/blog-analytics.md`）
 
 ## 文档优先
 
-- [memory_skills/README.md](../memory_skills/README.md)（VPS / 子路径）
+- [memory_skills/README.md](../memory_skills/README.md)（VPS / 子路径 / analytics）
 - `docs/ARCHITECTURE.md`、`docs/TROUBLESHOOTING.md`
 - `docs/PROJECT_MEMORY.md`、`AGENTS.md`
 
 ## 验证
 
 ```bash
+npm run local:vps                           # 本地等价栈（可选联调）
 npm run verify:local                        # 提交前必跑（含 VPS 子路径 dist 断言）
 bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 ```

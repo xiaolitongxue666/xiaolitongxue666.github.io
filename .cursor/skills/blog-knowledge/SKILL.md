@@ -10,6 +10,7 @@ description: >-
 1. 读 [AGENTS.md](../../AGENTS.md) 与 [memory_skills/README.md](../../memory_skills/README.md)。
 2. VPS 部署 / 双构建 / Secrets → [memory_skills/blog-vps-deploy.md](../../memory_skills/blog-vps-deploy.md)
 3. 子路径 / proxy / curl 踩坑 → [memory_skills/blog-troubleshooting.md](../../memory_skills/blog-troubleshooting.md)
+4. GoatCounter / `/stats/` / **本地 `npm run local:vps`** → [memory_skills/blog-analytics.md](../../memory_skills/blog-analytics.md)
 
 ## 硬约束
 

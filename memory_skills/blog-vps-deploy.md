@@ -25,6 +25,19 @@ Pages 与 VPS 是两次独立构建；默认 `astro.config.mjs` 行为不可破�
 - **容器**：nginx + `deploy/nginx/default.conf`（`rewrite ^/blog/` → 静态根）
 - **宿主机**：`vps_nginx` hybrid → `proxy_pass http://127.0.0.1:3001`（无尾部 `/`）
 
+## 本地等价验收（不打生产）
+
+```bash
+npm run local:vps
+# http://127.0.0.1:8080/blog/  ·  /blog/stats/  ·  /analytics/
+# COMPOSE_PROJECT_NAME=blog；GoatCounter 数据在本地 volume
+npm run local:vps:down
+```
+
+与 `npm run dev :4001`（内容快改、无 `/blog/`）区分；主题/统计联调用本地栈，见 [blog-analytics.md](blog-analytics.md)。
+
+本地 `docker compose` 与 VPS 共用同一文件：`COMPOSE_PROJECT_NAME=blog`；`BLOG_HOST_PORT` 可覆盖宿主机 blog 映射（默认 3001）。edge 仅本地使用（生产反代在 vps_nginx）。
+
 ## GitHub Secrets（仅存 GitHub）
 
 | Secret | 必填 |
@@ -61,5 +74,6 @@ curl --noproxy '*' -sf -o /dev/null -w '%{http_code}\n' \
 
 ## 变更记录
 
+- **2026-07-10**：文档补充 `npm run local:vps` 本地等价栈。
 - **2026-05-26**：公网 HTTPS 已上线；备案/代理说明。
 - **2026-05-25**：初版 VPS 子路径 + deploy-vps workflow。
