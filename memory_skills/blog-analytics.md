@@ -19,7 +19,7 @@ Agent 在改 analytics 配置、`docker-compose.yml` 或 `/stats/` 页前读本�
 | 静态博客 nginx | 同 compose `blog` 服务 | `127.0.0.1:3001` |
 | 宿主机反代 | [vps_nginx](https://github.com/xiaolitongxue666/vps_nginx) `/analytics/` | → `:3002` |
 
-GoatCounter 启动参数：`-basepath /analytics`（与 vps_nginx `analytics.conf.tpl` 保留 URI 前缀一致）。
+GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analytics`（与 vps_nginx `analytics.conf.tpl` 保留 URI 前缀一致）。
 
 ## 部署顺序
 
@@ -29,9 +29,10 @@ GoatCounter 启动参数：`-basepath /analytics`（与 vps_nginx `analytics.con
 
 ```bash
 cd /home/ubuntu/blog/current
-docker compose exec goatcounter goatcounter db migrate
-docker compose exec goatcounter goatcounter create -site.code blog -site.title "xiaolitongxue666 Blog"
-docker compose exec goatcounter goatcounter create -user.name admin -user.email <邮箱> -user.password <密码>
+docker compose exec goatcounter goatcounter db migrate all -createdb
+docker compose exec goatcounter goatcounter db create site -vhost=xiaolitongxue.com.cn -user.email <邮箱> -user.password <密码>
+docker compose exec goatcounter goatcounter db query -format=exec "update sites set settings = json_set(settings, '$.public', 'public') where site_id = 1;"
+docker compose restart goatcounter
 ```
 
 4. 管理界面 `https://xiaolitongxue.com.cn/analytics/settings/main`：
