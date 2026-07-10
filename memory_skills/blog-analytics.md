@@ -27,7 +27,10 @@ GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analy
 |----|------|
 | 中文界面 | 站点 `user_defaults.language = zh-CN`；时区 `.Asia/Shanghai`（注意带点前缀，非 `Asia/Shanghai`） |
 | 折线图 | GoatCounter 默认 widgets（`pages`、`totalpages` 的 `style: line`）即带图表 |
-| 嵌入样式 | iframe `?hideui=1` 去掉 GC 外框；嵌入区固定浅色（`color-scheme: light`），不随博客明暗主题切换 |
+| 主题皮肤 | vps_nginx `html/css/analytics-blog-theme.css`（浅奶油 / 深 `#2d2d2d`）；`sub_filter` 注入 CSS+`analytics-theme.js` |
+| 主题同步 | 博客 `stats-embed-theme.js`：`?theme=` + `postMessage`（`source=blog-stats-theme`）跟随 `data-theme`；直达仪表盘带当前 theme |
+| 嵌入容器 | `.stats-embed` / iframe 底色随博客浅/深；本地预览：`vps_nginx/scripts/preview-analytics-theme.sh` → `:8765/?theme=light\|dark` |
+| 本地嵌入 | `allow_embed` 须含 `http://localhost:4001` 与 `http://127.0.0.1:4001` |
 
 ## 部署顺序
 
@@ -39,7 +42,7 @@ GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analy
 cd /home/ubuntu/blog/current
 docker compose exec goatcounter goatcounter db migrate all -createdb
 docker compose exec goatcounter goatcounter db create site -vhost=xiaolitongxue.com.cn -user.email <邮箱> -user.password <密码>
-docker compose exec goatcounter goatcounter db query -format=exec "update sites set settings = json_set(json_set(json_set(settings, '$.public', 'public'), '$.allow_embed', 'xiaolitongxue.com.cn,xiaolitongxue666.github.io,127.0.0.1,http://127.0.0.1:4322,http://127.0.0.1:4321,http://localhost:4322,http://localhost:4321'), '$.allow_counter', json('true')) where site_id = 1;"
+docker compose exec goatcounter goatcounter db query -format=exec "update sites set settings = json_set(json_set(json_set(settings, '$.public', 'public'), '$.allow_embed', 'xiaolitongxue.com.cn,xiaolitongxue666.github.io,127.0.0.1,http://127.0.0.1:4322,http://127.0.0.1:4321,http://localhost:4322,http://localhost:4321,http://127.0.0.1:4001,http://localhost:4001'), '$.allow_counter', json('true')) where site_id = 1;"
 docker compose exec goatcounter goatcounter db query -format=exec "update sites set user_defaults = json_set(json_set(json_set(json_set(user_defaults, '$.language', 'zh-CN'), '$.theme', ''), '$.timezone', '.Asia/Shanghai'), '$.date_format', '2006-01-02') where site_id = 1;"
 docker compose restart goatcounter
 ```
@@ -47,7 +50,7 @@ docker compose restart goatcounter
 4. 管理界面 `https://xiaolitongxue.com.cn/analytics/settings/main`（亦可 SQL 一步完成上条）：
    - 开启 **Allow viewing of the statistics page**（`public`）
    - **Allowed domains**（`allow_counter`）：`xiaolitongxue666.github.io`、`xiaolitongxue.com.cn`
-   - **Allow embedding**（`allow_embed`）：同上两域名，否则 `/stats/` 页 iframe 会显示破损图标
+   - **Allow embedding**（`allow_embed`）：生产域名 + 本地 `http://localhost:4001` / `4321` / `4322`（见上方 SQL）；否则 `/stats/` iframe 会被 `frame-ancestors` 拦截
 
 ## 验收
 
@@ -66,3 +69,4 @@ grep -q 'xiaolitongxue.com.cn/analytics/count' dist/index.html
 
 - **2026-07-10**：初版自托管 GoatCounter；vps_nginx `/analytics/` → `:3002`；双端共用绝对上报 URL。
 - **2026-07-10**：`/stats/` 增加返回主页导航；嵌入改为静态 iframe、固定浅色，移除 `stats-embed.js` 主题同步。
+- **2026-07-10**：`allow_embed` 追加 `localhost:4001`；浅/深皮肤 + `data-theme` 同步；去掉生产 `#fff` 注入（消 iframe 顶白条）。
