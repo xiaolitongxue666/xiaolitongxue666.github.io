@@ -123,7 +123,10 @@ jobs:
 
             curl --noproxy '*' -sf http://127.0.0.1:3001/blog/ >/dev/null
             curl --noproxy '*' -sf -o /dev/null -w "css: %{http_code}\n" http://127.0.0.1:3001/blog/assets/css/default.css
-            curl --noproxy '*' -sf http://127.0.0.1:3002/analytics/ >/dev/null
+            sleep 2
+            code="$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3002/analytics/count.js)"
+            echo "analytics count.js: HTTP ${code}"
+            case "$code" in 200|302|303) ;; *) exit 1 ;; esac
 
             if curl --noproxy '*' -sf -o /dev/null -w '%{http_code}' https://xiaolitongxue.com.cn/blog/ | grep -q 200; then
               echo "Public HTTPS blog probe OK"

@@ -4,6 +4,9 @@ dist-e2e/
 .astro/
 _site/
 
+# Vite 预构建缓存（Astro dev；根目录泄漏时忽略，node_modules/.vite 已由 node_modules/ 覆盖）
+.vite/
+
 # Node
 node_modules/
 

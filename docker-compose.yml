@@ -1,11 +1,24 @@
 services:
   goatcounter:
     image: arp242/goatcounter:latest
-    command: ["serve", "-listen", ":8080", "-tls", "none", "-base-path", "/analytics"]
+    command:
+      [
+        "serve",
+        "-listen",
+        ":8080",
+        "-tls",
+        "none",
+        "-base-path",
+        "/analytics",
+        "-db",
+        "sqlite+/home/goatcounter/db/goatcounter.sqlite3",
+      ]
     ports:
       - "127.0.0.1:3002:8080"
     volumes:
       - goatcounter-db:/home/goatcounter/db
+    environment:
+      GOATCOUNTER_DB: sqlite+/home/goatcounter/db/goatcounter.sqlite3
     restart: unless-stopped
 
   blog:

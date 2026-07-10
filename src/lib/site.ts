@@ -19,6 +19,6 @@ export const SITE = {
     origin: 'https://xiaolitongxue.com.cn/analytics',
     countEndpoint: 'https://xiaolitongxue.com.cn/analytics/count',
     countScript: 'https://xiaolitongxue.com.cn/analytics/count.js',
-    publicStatsUrl: 'https://xiaolitongxue.com.cn/analytics/',
+    publicStatsUrl: 'https://xiaolitongxue.com.cn/analytics/?hideui=1',
   },
 } as const;

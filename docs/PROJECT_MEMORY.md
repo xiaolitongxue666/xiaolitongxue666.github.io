@@ -53,6 +53,14 @@ bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
 - 文章 permalink：`/blog/:year/:month/:day/:slug/`（对照 test-blog-post-with-images）。
 - 验收：`curl --noproxy '*'`；无 `/blog/` 前缀的 URL 会 404。
 
+## 阅读统计（2026-07-10）
+
+- 自托管 GoatCounter：博客 `docker-compose` `:3002`；vps_nginx `/analytics/`；双端上报 URL 固定为 `https://xiaolitongxue.com.cn/analytics/...`（见 `src/lib/site.ts`，**禁止** `withBase()`）。
+- 统计页：`/stats/`（Pages）、`/blog/stats/`（VPS）；含「返回博客主页」与右下角 🏠。
+- 嵌入：静态 iframe `?hideui=1`；`.stats-embed` 固定 `color-scheme: light`，**不**随博客 `data-theme` 切换（曾用 `stats-embed.js` 同步主题，浅色下颜色异常已移除）。
+- GoatCounter 须配置 `allow_embed`（含生产域名与本地 `127.0.0.1:4322` 等）；验收见 [memory_skills/blog-analytics.md](../memory_skills/blog-analytics.md)。
+- Windows 本地验收：`curl` 可能被代理干扰，用 `curl --noproxy '*'` 或 Node `fetch`；Astro dev 端口忙时可能落在 `4322` 而非 `4001`。
+
 ## Astro 7（2026-07）
 
 - **Rust 编译器**：每个 `.astro` 内 HTML 须闭合；禁止 `Header` 开文档 + `Footer` 关文档的拆分模式 → 用 `Header` + `<slot />` 完整壳。

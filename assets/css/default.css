@@ -833,6 +833,23 @@ tr:nth-child(2n) {
 }
 
 /* 阅读统计页 */
+.page-nav {
+  margin-bottom: 1em;
+}
+
+.page-nav-link {
+  display: inline-block;
+  color: #D8A48F;
+  text-decoration: none;
+  font-size: 0.95em;
+  transition: color 0.2s;
+}
+
+.page-nav-link:hover {
+  color: #C4846C;
+  text-decoration: underline;
+}
+
 .stats-intro {
   margin-bottom: 1.5em;
   color: #666;
@@ -845,6 +862,7 @@ tr:nth-child(2n) {
   background-color: #FDF6E3;
   overflow: hidden;
   margin-bottom: 1.5em;
+  color-scheme: light;
 }
 
 .stats-embed iframe {
@@ -898,9 +916,12 @@ tr:nth-child(2n) {
   color: #999;
 }
 
-[data-theme="dark"] .stats-embed {
-  background-color: #2d2d2d;
-  border-color: #444;
+[data-theme="dark"] .page-nav-link {
+  color: #B8957F;
+}
+
+[data-theme="dark"] .page-nav-link:hover {
+  color: #D8A48F;
 }
 
 [data-theme="dark"] .stats-unavailable {

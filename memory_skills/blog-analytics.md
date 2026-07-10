@@ -19,7 +19,15 @@ Agent 在改 analytics 配置、`docker-compose.yml` 或 `/stats/` 页前读本�
 | 静态博客 nginx | 同 compose `blog` 服务 | `127.0.0.1:3001` |
 | 宿主机反代 | [vps_nginx](https://github.com/xiaolitongxue666/vps_nginx) `/analytics/` | → `:3002` |
 
-GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analytics`（与 vps_nginx `analytics.conf.tpl` 保留 URI 前缀一致）。
+GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analytics`、`-db sqlite+/home/goatcounter/db/goatcounter.sqlite3`（**必须**显式指定，否则数据会落在容器内 `goatcounter-data/` 而非命名卷）。
+
+## `/stats/` 嵌入体验
+
+| 项 | 实现 |
+|----|------|
+| 中文界面 | 站点 `user_defaults.language = zh-CN`；时区 `.Asia/Shanghai`（注意带点前缀，非 `Asia/Shanghai`） |
+| 折线图 | GoatCounter 默认 widgets（`pages`、`totalpages` 的 `style: line`）即带图表 |
+| 嵌入样式 | iframe `?hideui=1` 去掉 GC 外框；嵌入区固定浅色（`color-scheme: light`），不随博客明暗主题切换 |
 
 ## 部署顺序
 
@@ -31,13 +39,15 @@ GoatCounter 镜像 `arp242/goatcounter:latest`；启动参数 `-base-path /analy
 cd /home/ubuntu/blog/current
 docker compose exec goatcounter goatcounter db migrate all -createdb
 docker compose exec goatcounter goatcounter db create site -vhost=xiaolitongxue.com.cn -user.email <邮箱> -user.password <密码>
-docker compose exec goatcounter goatcounter db query -format=exec "update sites set settings = json_set(settings, '$.public', 'public') where site_id = 1;"
+docker compose exec goatcounter goatcounter db query -format=exec "update sites set settings = json_set(json_set(json_set(settings, '$.public', 'public'), '$.allow_embed', 'xiaolitongxue.com.cn,xiaolitongxue666.github.io,127.0.0.1,http://127.0.0.1:4322,http://127.0.0.1:4321,http://localhost:4322,http://localhost:4321'), '$.allow_counter', json('true')) where site_id = 1;"
+docker compose exec goatcounter goatcounter db query -format=exec "update sites set user_defaults = json_set(json_set(json_set(json_set(user_defaults, '$.language', 'zh-CN'), '$.theme', ''), '$.timezone', '.Asia/Shanghai'), '$.date_format', '2006-01-02') where site_id = 1;"
 docker compose restart goatcounter
 ```
 
-4. 管理界面 `https://xiaolitongxue.com.cn/analytics/settings/main`：
-   - 开启 **Allow viewing of the statistics page**
-   - **Allowed domains**：`xiaolitongxue666.github.io`、`xiaolitongxue.com.cn`
+4. 管理界面 `https://xiaolitongxue.com.cn/analytics/settings/main`（亦可 SQL 一步完成上条）：
+   - 开启 **Allow viewing of the statistics page**（`public`）
+   - **Allowed domains**（`allow_counter`）：`xiaolitongxue666.github.io`、`xiaolitongxue.com.cn`
+   - **Allow embedding**（`allow_embed`）：同上两域名，否则 `/stats/` 页 iframe 会显示破损图标
 
 ## 验收
 
@@ -55,3 +65,4 @@ grep -q 'xiaolitongxue.com.cn/analytics/count' dist/index.html
 ## 变更记录
 
 - **2026-07-10**：初版自托管 GoatCounter；vps_nginx `/analytics/` → `:3002`；双端共用绝对上报 URL。
+- **2026-07-10**：`/stats/` 增加返回主页导航；嵌入改为静态 iframe、固定浅色，移除 `stats-embed.js` 主题同步。
