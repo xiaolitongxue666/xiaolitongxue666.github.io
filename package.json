@@ -13,7 +13,7 @@
     "local:vps:down": "bash scripts/local-vps-down.sh"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.12",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.4.0",
     "@shikijs/rehype": "^3.4.2",
     "astro": "^7.0.5",
