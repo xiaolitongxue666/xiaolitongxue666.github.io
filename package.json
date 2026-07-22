@@ -16,7 +16,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.0",
     "@shikijs/rehype": "^3.4.2",
-    "astro": "^7.0.5",
+    "astro": "^7.1.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.2.0",
     "mermaid": "^11.16.0",
