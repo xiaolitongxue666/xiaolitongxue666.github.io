@@ -2,8 +2,8 @@
 # Stop local VPS-parity compose stack (keeps goatcounter-db volume).
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "${REPO_ROOT}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "${ROOT}"
 
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-blog}"
 

@@ -40,11 +40,11 @@
 
 ## E2E 范围说明
 
-| 有 | 无 |
-|----|-----|
-| `deploy-vps.yml` 部署后 `curl` smoke（含公网 HTTPS warn） | 博客仓库 **无** VPS Playwright E2E |
-| `astro-build.yml` / `run-publish-e2e.js` → GitHub Pages | `verify-live.js` 仅验证 `xiaolitongxue666.github.io` |
-| `vps_nginx deploy.sh` hybrid 探针 | — |
+| 有                                                        | 无                                                   |
+| --------------------------------------------------------- | ---------------------------------------------------- |
+| `deploy-vps.yml` 部署后 `curl` smoke（含公网 HTTPS warn） | 博客仓库 **无** VPS Playwright E2E                   |
+| `astro-build.yml` / `run-publish-e2e.js` → GitHub Pages   | `verify-live.js` 仅验证 `xiaolitongxue666.github.io` |
+| `vps_nginx deploy.sh` hybrid 探针                         | —                                                    |
 
 ## 2026-05-26 公网域名浏览器不可用、IP 可用
 

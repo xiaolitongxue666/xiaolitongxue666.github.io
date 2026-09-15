@@ -36,9 +36,12 @@ export function getBuildInfo(): BuildInfo | null {
 
   const buildPath = path.join(process.cwd(), '_data/build.yml');
   if (fs.existsSync(buildPath)) {
-    const data = yaml.load(fs.readFileSync(buildPath, 'utf8')) as Partial<BuildInfo>;
+    const data = yaml.load(
+      fs.readFileSync(buildPath, 'utf8'),
+    ) as Partial<BuildInfo>;
     if (!commit && data.commit != null) {
-      commit = typeof data.commit === 'string' ? data.commit : data.sha?.slice(0, 7);
+      commit =
+        typeof data.commit === 'string' ? data.commit : data.sha?.slice(0, 7);
     }
     if (!sha && data.sha) {
       sha = data.sha;

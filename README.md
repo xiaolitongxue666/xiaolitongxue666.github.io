@@ -14,7 +14,7 @@
 
 ## 技术栈
 
-- **静态站点生成器**: Astro 5
+- **静态站点生成器**: Astro 7
 - **样式**: 原 jekyll-theme-solid 定制 CSS（`assets/css/`）
 - **部署**: GitHub Pages（`astro-build.yml`）+ VPS 镜像（`deploy-vps.yml`，`/blog/`）
 - **内容管理**: Obsidian + GitHub Actions 自动同步
@@ -23,11 +23,13 @@
 
 ```
 ├── .github/workflows/   # astro-build.yml, deploy-vps.yml, e2e-publish.yml
+├── .github/scripts/     # verify:local、E2E、update-build-info
+├── .github/e2e/         # E2E 测试夹具
+├── scripts/             # 本地 VPS 等价栈 up/down
 ├── deploy/nginx/        # VPS 容器 nginx 配置
 ├── docker-compose.yml   # VPS 静态服务（127.0.0.1:3001）
-├── memory_skills/       # Agent 记忆（VPS 部署、踩坑）
-├── .github/e2e/         # E2E 测试夹具
-├── .github/scripts/e2e/ # E2E 断言；run-ci-parity.sh
+├── memory_skills/       # Agent 记忆（VPS、analytics、踩坑）
+├── docs/                # ARCHITECTURE、TROUBLESHOOTING、DEPENDENCIES、PROJECT_MEMORY
 ├── _data/build.yml      # build 版本 fallback（脚本生成，可提交）
 ├── _posts/              # 博客文章（Obsidian 同步目标）
 ├── _wiki/               # Wiki 内容
@@ -39,17 +41,16 @@
 │   ├── lib/             # posts / wiki / pagination / base / markdown
 │   └── pages/           # 路由页面
 ├── astro.config.mjs
-├── package.json
-└── docs/ARCHITECTURE.md
+└── package.json         # overrides 见 docs/DEPENDENCIES.md
 ```
 
-详细架构说明见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。问题排查见 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)。Agent 指南见 [AGENTS.md](AGENTS.md)。
+详细架构见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。排错见 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)。依赖与 Dependabot 见 [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)。Agent 指南见 [AGENTS.md](AGENTS.md)。
 
 ## 本地开发
 
 ### 环境要求
 
-- Node.js >= 22.12（Astro 6+ 要求；CI 使用 Node 22）
+- Node.js >= 22.12（Astro 7 要求；CI 使用 Node 22）
 
 ### 安装与启动
 
@@ -84,8 +85,6 @@ bash .github/scripts/e2e/run-ci-parity.sh
 
 提交前另须 `npm run dev -- --port 4001`，切换明暗主题目视检查代码块与 Mermaid。
 
-**VPS 访问**（公网）：`https://xiaolitongxue.com.cn/blog/` — 文章示例：`/blog/2026/07/07/mihomo-aio/`（须带 `/blog/` 前缀）。详见 [memory_skills/blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
-
 博客内容主要来自 [obsidian_repo](https://github.com/xiaolitongxue666/obsidian_repo)：
 
 1. Obsidian 笔记中添加 `#xiaolitongxue666_blog` 标签
@@ -114,7 +113,7 @@ YYYY-MM-DD-{sanitizedTitle}.md
 ```yaml
 ---
 layout: default
-title: "文章标题"
+title: '文章标题'
 date: YYYY-MM-DD 12:00:00 +0800
 categories: [分类1]
 tags: [标签1, 标签2]

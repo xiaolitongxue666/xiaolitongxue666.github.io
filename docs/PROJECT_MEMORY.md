@@ -1,68 +1,63 @@
-# 项目 Memory（Agent 可读）
+# 项目 Memory
 
-跨会话要点索引。**详细事实**见 [memory_skills/README.md](../memory_skills/README.md)；问题表见 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)；架构见 [ARCHITECTURE.md](ARCHITECTURE.md)。
+跨会话索引。VPS / analytics 细节见 [memory_skills/README.md](../memory_skills/README.md)；排错见 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)；架构见 [ARCHITECTURE.md](ARCHITECTURE.md)；依赖见 [DEPENDENCIES.md](DEPENDENCIES.md)。
 
 ## 发布路径
 
-| 路径 | 触发 | 产物 |
-|------|------|------|
-| GitHub Pages | push `master` → `astro-build.yml` | `dist/` → `xiaolitongxue666.github.io` |
-| Obsidian 同步 | obsidian_repo push → 博客 `astro-build.yml` | 同上 |
-| VPS 镜像 | push `master` → `deploy-vps.yml`（独立构建 `ASTRO_BASE=/blog/`） | rsync → `/home/ubuntu/blog/current` |
+| 路径          | 触发                                                    | 产物                                   |
+| ------------- | ------------------------------------------------------- | -------------------------------------- |
+| GitHub Pages  | push `master` → `astro-build.yml`                       | `dist/` → `xiaolitongxue666.github.io` |
+| Obsidian 同步 | obsidian_repo push → 博客 `astro-build.yml`             | 同上                                   |
+| VPS 镜像      | push `master` → `deploy-vps.yml`（`ASTRO_BASE=/blog/`） | rsync → `/home/ubuntu/blog/current`    |
 
 ## 禁止操作
 
 - 重命名已有 `_posts/`、改 permalink / 部署分支
 - 根 `package.json` 加 `"type": "module"`
 - 提交 `dist/`、`node_modules/`、`.e2e-staging/`、Secrets/私钥
+- 用精确 override 钉 sharp / svgo / smol-toml / dompurify（见 [DEPENDENCIES.md](DEPENDENCIES.md)）
 
-## Agent 入口
+## 文档表
 
-| 资源 | 用途 |
-|------|------|
-| [memory_skills/](memory_skills/README.md) | VPS 部署与子路径踩坑（优先） |
-| [AGENTS.md](../AGENTS.md) | 助手指南 |
-| `.cursor/rules/blog-project.mdc` | Cursor 始终生效规则 |
+| 资源                                         | 用途                             |
+| -------------------------------------------- | -------------------------------- |
+| [AGENTS.md](../AGENTS.md)                    | Agent 入口                       |
+| [memory_skills/](../memory_skills/README.md) | VPS / analytics / 子路径 runbook |
+| `.cursor/rules/blog-project.mdc`             | 始终生效硬约束                   |
+| [README.md](../README.md)                    | 人类入门                         |
 
 ## 合并前验证
 
 ```bash
-bash .github/scripts/update-build-info.sh   # 刷新 _data/build.yml（合并前提交）
-npm run verify:local                        # Pages build + E2E + VPS 子路径 dist 断言
-bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
+npm run verify:local
 ```
 
-本地 Windows 仅作开发；**VPS 子路径构建**（`ASTRO_BASE=/blog/`）以 Ubuntu CI `deploy-vps.yml` 为准。Windows Git Bash 本地测 VPS 构建须 `MSYS_NO_PATHCONV=1`（`dev-verify.sh` 已设置）。
+`run-ci-parity.sh` 是 CI 子集（Pages build + E2E），**不是** `verify:local` 的等价替代。Windows Git Bash 测 VPS 构建须 `MSYS_NO_PATHCONV=1`（`dev-verify.sh` 已设）。
+
+VPS URL 与验收：`https://<域名>/blog/`，`curl --noproxy '*'`。统计联调见 [blog-analytics.md](../memory_skills/blog-analytics.md)。
 
 ## Shiki 深色主题（2026-07）
 
-- `rehype-shiki` 输出浅色 inline + `--shiki-dark*` CSS 变量；切换依赖 `syntax.css` 中 `[data-theme="dark"] .shiki` 规则。
-- `default.css`：`pre.shiki` 背景透明；`[data-theme="dark"] code:not(pre code)` 仅作用于行内代码，避免覆盖 Shiki token。
+- `rehype-shiki` 输出浅色 inline + `--shiki-dark*`；切换依赖 `syntax.css` 中 `[data-theme="dark"] .shiki`。
+- `default.css`：`pre.shiki` 背景透明；`[data-theme="dark"] code:not(pre code)` 只作用于行内代码。
 
 ## Mermaid（2026-07）
 
-- 文章内 ` ```mermaid ` 经 `rehype-mermaid`（`strategy: inline-svg`）在**构建期**输出内联 SVG；`rehypeStringify` 须 `allowDangerousHtml: true`。
-- **DOM 结构**：`inline-svg` 输出为裸 `<svg class="flowchart">`，**无** `.mermaid` 包裹；深色样式须选 `svg.flowchart`，不能仅写 `.mermaid`。
-- 构建期默认浅色主题，连线/箭头内嵌 `#333`；深色模式在 `default.css` 用 `[data-theme="dark"] svg.flowchart path.flowchart-link`（及 marker）覆盖为浅色描边。
+- ` ```mermaid ` 经 `rehype-mermaid`（`strategy: inline-svg`）构建期输出内联 SVG；`rehypeStringify` 须 `allowDangerousHtml: true`。
+- `inline-svg` 为裸 `<svg class="flowchart">`，无 `.mermaid` 包裹；深色须选 `svg.flowchart`。
+- 构建期浅色连线内嵌 `#333`；深色用 `[data-theme="dark"] svg.flowchart path.flowchart-link`（及 marker）覆盖。
 - `rehype-mermaid` 须在 `rehype-shiki` **之前**注册。
-- **CI 双端**须 `npx playwright install chromium`；容器样式见 `default.css` 中 `.mermaid` / `pre.mermaid`（若有包裹）。
+- CI 双端：`npx playwright install chromium`。
 
-## VPS 访问（易错）
+## Astro 7
 
-- 博客列表入口：`https://<域名>/blog/`（非根域名 `/`）。
-- 文章 permalink：`/blog/:year/:month/:day/:slug/`（对照 test-blog-post-with-images）。
-- 验收：`curl --noproxy '*'`；无 `/blog/` 前缀的 URL 会 404。
-
-## 阅读统计（2026-07-10）
-
-- 生产上报：绝对 URL（`src/lib/site.ts`，禁 `withBase()`）；`PUBLIC_ANALYTICS_ORIGIN` 可覆盖。
-- `/stats/`：iframe 无预置 `src`；`?theme=` + `postMessage`（targetOrigin=analytics origin）；皮肤在 vps_nginx。
-- **本地等价**：`npm run local:vps` → `http://127.0.0.1:8080/blog/`（edge+本地 GC）；loopback 自动 `allow_local`；勿用生产 analytics 联调。
-- 踩坑：勿 `sub_filter` `#fff`；本地 volume 须 uid 1000；`:3001` 冲突时用 `3011`；详情 [blog-analytics.md](../memory_skills/blog-analytics.md)。
-
-## Astro 7（2026-07）
-
-- `.astro` HTML 须闭合；`Header`+`<slot />` 完整壳（禁 Header/Footer 拆文档）。
+- `.astro` HTML 须闭合；`Header` + `<slot />` 完整壳。
 - `build-info`：`import fs`；`_data/build.yml` 的 `commit` 须引号。
-- Markdown 仍走 `src/lib/markdown.ts`（含 Mermaid）；Dependabot 6→7 常带 `esbuild`，合并前跑 CI parity。
+- Markdown 走 `src/lib/markdown.ts`。
 
+## 依赖与验证（2026-09-15）
+
+- overrides **只钉** `gray-matter` → `js-yaml@3.15.2`；勿钉 sharp / svgo / smol-toml / dompurify。见 [DEPENDENCIES.md](DEPENDENCIES.md)。
+- Dependabot npm 安全更新分组：`.github/dependabot.yml`。多 PR 勿串行 Merge。
+- `verify:local` 含 `npm audit --audit-level=high`、`format:check`、`lint`，再 Pages / E2E / VPS 子路径。
+- `_data/build.yml` 由 `update-build-info.sh` 生成（双引号）；已列入 `.prettierignore`，避免 format:check 与脚本输出打架。

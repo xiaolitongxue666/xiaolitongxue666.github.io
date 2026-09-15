@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { printReport } = require('./print-report');
 
 function assertHomepageBuildVersion(options = {}) {
   const repoRoot = options.repoRoot || path.resolve(__dirname, '../../..');
@@ -14,7 +15,7 @@ function assertHomepageBuildVersion(options = {}) {
 
   const report = {
     pass: true,
-    errors: []
+    errors: [],
   };
 
   if (!fs.existsSync(indexPath)) {
@@ -40,34 +41,31 @@ function assertHomepageBuildVersion(options = {}) {
     report.errors.push('Missing build-version-date (expected YYYY-MM-DD)');
   }
 
-  const hasInlineFixed = /class="build-version"[^>]*style="[^"]*position:\s*fixed/i.test(html)
-    || /class="build-version"[^>]*style='[^']*position:\s*fixed/i.test(html);
-  const cssHasBuildVersion = fs.existsSync(cssPath)
-    && /\.build-version\s*\{/.test(fs.readFileSync(cssPath, 'utf8'));
+  const hasInlineFixed =
+    /class="build-version"[^>]*style="[^"]*position:\s*fixed/i.test(html) ||
+    /class="build-version"[^>]*style='[^']*position:\s*fixed/i.test(html);
+  const cssHasBuildVersion =
+    fs.existsSync(cssPath) &&
+    /\.build-version\s*\{/.test(fs.readFileSync(cssPath, 'utf8'));
 
   if (!hasInlineFixed && !cssHasBuildVersion) {
     report.pass = false;
-    report.errors.push('No fixed positioning for .build-version (inline style or default.css)');
+    report.errors.push(
+      'No fixed positioning for .build-version (inline style or default.css)',
+    );
   }
 
   return report;
 }
 
-function printReport(report) {
-  console.log(JSON.stringify(report, null, 2));
-  if (!report.pass) {
-    for (const err of report.errors) {
-      console.error(`E2E ASSERT FAIL: ${err}`);
-    }
-    process.exit(1);
-  }
-  console.log('E2E assert-homepage-build-version: PASS');
-}
-
 if (require.main === module) {
-  const repoRoot = process.env.E2E_REPO_ROOT || path.resolve(__dirname, '../../..');
+  const repoRoot =
+    process.env.E2E_REPO_ROOT || path.resolve(__dirname, '../../..');
   const siteDir = process.env.E2E_SITE_DIR || path.join(repoRoot, 'dist');
-  printReport(assertHomepageBuildVersion({ repoRoot, siteDir }));
+  printReport(
+    assertHomepageBuildVersion({ repoRoot, siteDir }),
+    'E2E assert-homepage-build-version: PASS',
+  );
 }
 
 module.exports = { assertHomepageBuildVersion };

@@ -9,7 +9,10 @@ async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function fetchWithRetry(url, { retries = 5, delayMs = 30000, timeoutMs = 30000 } = {}) {
+async function fetchWithRetry(
+  url,
+  { retries = 5, delayMs = 30000, timeoutMs = 30000 } = {},
+) {
   let lastError = null;
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
@@ -22,7 +25,9 @@ async function fetchWithRetry(url, { retries = 5, delayMs = 30000, timeoutMs = 3
     } catch (error) {
       lastError = error;
       if (attempt < retries) {
-        console.log(`HTTP attempt ${attempt} failed for ${url}: ${error.message}. Retrying in ${delayMs}ms...`);
+        console.log(
+          `HTTP attempt ${attempt} failed for ${url}: ${error.message}. Retrying in ${delayMs}ms...`,
+        );
         await sleep(delayMs);
       }
     }
@@ -36,19 +41,22 @@ async function verifyLiveUrl(options) {
     permalink,
     marker,
     retries = 5,
-    delayMs = 30000
+    delayMs = 30000,
   } = options;
 
   const pathPart = normalizeSitePath(permalink);
   const url = `${baseUrl.replace(/\/$/, '')}${pathPart}`;
-  const { response, body, attempt } = await fetchWithRetry(url, { retries, delayMs });
+  const { response, body, attempt } = await fetchWithRetry(url, {
+    retries,
+    delayMs,
+  });
 
   const report = {
     pass: true,
     url,
     status: response.status,
     attempt,
-    errors: []
+    errors: [],
   };
 
   if (response.status !== 200) {
@@ -66,7 +74,8 @@ async function verifyLiveUrl(options) {
 async function main() {
   const permalink = process.env.E2E_PERMALINK;
   const marker = process.env.E2E_MARKER;
-  const baseUrl = process.env.E2E_BASE_URL || 'https://xiaolitongxue666.github.io';
+  const baseUrl =
+    process.env.E2E_BASE_URL || 'https://xiaolitongxue666.github.io';
 
   if (!permalink || !marker) {
     console.error('E2E_PERMALINK and E2E_MARKER are required');

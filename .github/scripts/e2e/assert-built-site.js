@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { printReport } = require('./print-report');
 
 function walkHtmlFiles(dir, files = []) {
   if (!fs.existsSync(dir)) {
@@ -28,7 +29,7 @@ function normalizeSitePath(urlPath) {
   if (p.startsWith('http')) {
     try {
       p = new URL(p).pathname;
-    } catch (_) {
+    } catch {
       return null;
     }
   }
@@ -63,10 +64,12 @@ function findHtmlByPermalink(htmlFiles, siteDir, permalinkPattern) {
   if (fs.existsSync(direct)) {
     return direct;
   }
-  return htmlFiles.find((file) => {
-    const relPath = path.relative(siteDir, file).split(path.sep).join('/');
-    return relPath === `${rel}/index.html` || relPath === `${rel}.html`;
-  }) || null;
+  return (
+    htmlFiles.find((file) => {
+      const relPath = path.relative(siteDir, file).split(path.sep).join('/');
+      return relPath === `${rel}/index.html` || relPath === `${rel}.html`;
+    }) || null
+  );
 }
 
 function assertBuiltSite(options) {
@@ -75,7 +78,7 @@ function assertBuiltSite(options) {
     sourceDir = null,
     marker,
     permalinkPattern = null,
-    imagePathPattern = null
+    imagePathPattern = null,
   } = options;
 
   const report = {
@@ -83,7 +86,7 @@ function assertBuiltSite(options) {
     errors: [],
     markerFound: false,
     permalinkMatched: null,
-    imageChecked: null
+    imageChecked: null,
   };
 
   if (!fs.existsSync(siteDir)) {
@@ -119,24 +122,34 @@ function assertBuiltSite(options) {
     report.permalinkMatched = matched;
     if (!matched) {
       report.pass = false;
-      report.errors.push(`Permalink not found in site output: ${permalinkPattern}`);
+      report.errors.push(
+        `Permalink not found in site output: ${permalinkPattern}`,
+      );
     } else {
       const content = fs.readFileSync(matched, 'utf8');
       if (!content.includes(marker)) {
         report.pass = false;
-        report.errors.push(`Permalink page missing marker: ${permalinkPattern}`);
+        report.errors.push(
+          `Permalink page missing marker: ${permalinkPattern}`,
+        );
       }
     }
   }
 
   if (imagePathPattern && markerFile) {
     const html = fs.readFileSync(markerFile, 'utf8');
-    const imgMatch = html.match(new RegExp(`src=["'](${imagePathPattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})["']`));
+    const imgMatch = html.match(
+      new RegExp(
+        `src=["'](${imagePathPattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})["']`,
+      ),
+    );
     if (!imgMatch) {
       const generic = html.match(/src="(\/assets\/images\/posts\/[^"]+)"/);
       if (!generic) {
         report.pass = false;
-        report.errors.push(`Expected image path not found: ${imagePathPattern}`);
+        report.errors.push(
+          `Expected image path not found: ${imagePathPattern}`,
+        );
       } else {
         report.imageChecked = generic[1];
       }
@@ -156,17 +169,6 @@ function assertBuiltSite(options) {
   return report;
 }
 
-function printReport(report) {
-  console.log(JSON.stringify(report, null, 2));
-  if (!report.pass) {
-    for (const err of report.errors) {
-      console.error(`E2E ASSERT FAIL: ${err}`);
-    }
-    process.exit(1);
-  }
-  console.log('E2E assert-built-site: PASS');
-}
-
 if (require.main === module) {
   const siteDir = process.env.E2E_SITE_DIR || 'dist-e2e';
   const sourceDir = process.env.E2E_SOURCE_DIR || '.';
@@ -179,17 +181,20 @@ if (require.main === module) {
     process.exit(1);
   }
 
-  printReport(assertBuiltSite({
-    siteDir,
-    sourceDir,
-    marker,
-    permalinkPattern,
-    imagePathPattern
-  }));
+  printReport(
+    assertBuiltSite({
+      siteDir,
+      sourceDir,
+      marker,
+      permalinkPattern,
+      imagePathPattern,
+    }),
+    'E2E assert-built-site: PASS',
+  );
 }
 
 module.exports = {
   assertBuiltSite,
   normalizeSitePath,
-  walkHtmlFiles
+  walkHtmlFiles,
 };

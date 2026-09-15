@@ -34,24 +34,28 @@ const pageTitle = title ?? SITE.title;
         <div class="title-header">
           <h2>
             {pageTitle}
-            <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换主题">☀️</button>
+            <button
+              id="theme-toggle"
+              class="theme-toggle-btn"
+              aria-label="切换主题"
+            >
+              ☀️
+            </button>
           </h2>
         </div>
-        {
-          showSidebar ? (
-            <div class="main-content-wrapper">
-              <div class="content-area">
-                <slot />
-              </div>
-              <div class="vertical-divider"></div>
-              <div class="sidebar-inline">
-                <GitHubSidebar />
-              </div>
+        {showSidebar ? (
+          <div class="main-content-wrapper">
+            <div class="content-area">
+              <slot />
             </div>
-          ) : (
-            <slot />
-          )
-        }
+            <div class="vertical-divider"></div>
+            <div class="sidebar-inline">
+              <GitHubSidebar />
+            </div>
+          </div>
+        ) : (
+          <slot />
+        )}
       </div>
     </div>
   </div>

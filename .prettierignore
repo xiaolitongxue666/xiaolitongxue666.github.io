@@ -1,0 +1,15 @@
+dist
+.e2e-staging
+.astro
+node_modules
+package-lock.json
+_data/build.yml
+_posts
+_wiki
+assets/css
+assets/images
+public
+deploy
+scripts
+*.sh
+*.min.js

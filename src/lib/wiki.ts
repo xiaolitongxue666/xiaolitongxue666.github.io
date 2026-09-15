@@ -44,7 +44,9 @@ export function getAllWikiPages(): WikiPage[] {
         keywords: Array.isArray(data.keywords)
           ? data.keywords.map(String)
           : data.keywords
-            ? String(data.keywords).split(',').map((item) => item.trim())
+            ? String(data.keywords)
+                .split(',')
+                .map((item) => item.trim())
             : undefined,
       };
     })

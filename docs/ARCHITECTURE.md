@@ -43,18 +43,18 @@ xiaolitongxue666.github.io (Astro 站点)
 
 ## 博客仓库构建层次
 
-| 层级 | 路径 | 职责 |
-|------|------|------|
-| 配置 | `astro.config.mjs` | URL、`base`（VPS 用 env）、trailingSlash、outDir、sitemap |
-| 依赖 | `package.json` | Astro、remark、RSS、sitemap |
-| 布局 | `src/layouts/DefaultLayout.astro` | 首页、文章页（含分页 meta、浮动按钮） |
-| 布局 | `src/layouts/PageLayout.astro` | 静态页、Wiki 页 |
-| 组件 | `src/components/` | header、footer、pagination、build-version |
-| 工具 | `src/lib/base.ts` | 子路径 `withBase()`（VPS `/blog/` 部署必需） |
-| 内容 | `_posts/` | 博客文章（Obsidian 同步写入） |
-| 内容 | `src/pages/` | 路由页面 |
-| 内容 | `_wiki/` | Wiki 内容 |
-| 资源 | `assets/`、`public/assets` | 样式、脚本、图片 |
+| 层级 | 路径                              | 职责                                                      |
+| ---- | --------------------------------- | --------------------------------------------------------- |
+| 配置 | `astro.config.mjs`                | URL、`base`（VPS 用 env）、trailingSlash、outDir、sitemap |
+| 依赖 | `package.json`                    | Astro、remark、RSS、sitemap                               |
+| 布局 | `src/layouts/DefaultLayout.astro` | 首页、文章页（含分页 meta、浮动按钮）                     |
+| 布局 | `src/layouts/PageLayout.astro`    | 静态页、Wiki 页                                           |
+| 组件 | `src/components/`                 | header、footer、pagination、build-version                 |
+| 工具 | `src/lib/base.ts`                 | 子路径 `withBase()`（VPS `/blog/` 部署必需）              |
+| 内容 | `_posts/`                         | 博客文章（Obsidian 同步写入）                             |
+| 内容 | `src/pages/`                      | 路由页面                                                  |
+| 内容 | `_wiki/`                          | Wiki 内容                                                 |
+| 资源 | `assets/`、`public/assets`        | 样式、脚本、图片                                          |
 
 **本地构建**：`npm run dev -- --port 4001`  
 **GitHub Pages**：push `master` → `astro-build.yml` → deploy-pages  
@@ -64,18 +64,18 @@ xiaolitongxue666.github.io (Astro 站点)
 
 ### 博客仓库（xiaolitongxue666.github.io）
 
-| Workflow | 触发 | 作用 |
-|----------|------|------|
-| `astro-build.yml` | push/PR/workflow_dispatch → master | 写 build info + Astro 构建 + E2E + deploy-pages |
-| `deploy-vps.yml` | push/workflow_dispatch → master | VPS 专用构建（`ASTRO_BASE=/blog/`）+ rsync + docker compose |
-| `e2e-publish.yml` | `_posts/` 等变更；workflow_dispatch | 直写发布 E2E；手动 HTTP 线上验证（GitHub Pages） |
+| Workflow          | 触发                                | 作用                                                        |
+| ----------------- | ----------------------------------- | ----------------------------------------------------------- |
+| `astro-build.yml` | push/PR/workflow_dispatch → master  | 写 build info + Astro 构建 + E2E + deploy-pages             |
+| `deploy-vps.yml`  | push/workflow_dispatch → master     | VPS 专用构建（`ASTRO_BASE=/blog/`）+ rsync + docker compose |
+| `e2e-publish.yml` | `_posts/` 等变更；workflow_dispatch | 直写发布 E2E；手动 HTTP 线上验证（GitHub Pages）            |
 
 ### Obsidian 仓库（obsidian_repo）
 
-| Workflow | 触发 | 作用 |
-|----------|------|------|
-| `sync-blog-posts.yml` | push/PR，md 或 attachments 变更 | 处理博客笔记、同步图片、push（仅 push 事件）、Astro 构建验证 |
-| `e2e-sync.yml` | E2E 相关路径变更；workflow_dispatch | Obsidian 同步 E2E；手动 HTTP 线上验证 |
+| Workflow              | 触发                                | 作用                                                         |
+| --------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| `sync-blog-posts.yml` | push/PR，md 或 attachments 变更     | 处理博客笔记、同步图片、push（仅 push 事件）、Astro 构建验证 |
+| `e2e-sync.yml`        | E2E 相关路径变更；workflow_dispatch | Obsidian 同步 E2E；手动 HTTP 线上验证                        |
 
 **所需 Secret**：
 
@@ -86,10 +86,10 @@ xiaolitongxue666.github.io (Astro 站点)
 
 ### 两条发布路径
 
-| 路径 | 日常 CI | 手动线上验证 |
-|------|---------|-------------|
-| Obsidian 合规笔记 → 同步 → 发布 | `obsidian_repo`: `e2e-sync.yml` → `run-sync-e2e.js` | `gh workflow run e2e-sync.yml -f live_verify=true` |
-| Blog 直写 `_posts/` → 发布 | `astro-build.yml` + `run-publish-e2e.js` | `gh workflow run e2e-publish.yml -f live_verify=true` |
+| 路径                            | 日常 CI                                             | 手动线上验证                                          |
+| ------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| Obsidian 合规笔记 → 同步 → 发布 | `obsidian_repo`: `e2e-sync.yml` → `run-sync-e2e.js` | `gh workflow run e2e-sync.yml -f live_verify=true`    |
+| Blog 直写 `_posts/` → 发布      | `astro-build.yml` + `run-publish-e2e.js`            | `gh workflow run e2e-publish.yml -f live_verify=true` |
 
 ### 本地运行
 
@@ -111,10 +111,10 @@ bash .github/scripts/e2e/run-ci-parity.sh
 
 ## 首页版本号
 
-| 环境 | commit | 日期 |
-|------|--------|------|
-| GitHub Actions | `GITHUB_SHA` | `_data/build.yml` → `date` |
-| 本地 / 离线 | `_data/build.yml` → `commit` | `_data/build.yml` → `date` |
+| 环境           | commit                       | 日期                       |
+| -------------- | ---------------------------- | -------------------------- |
+| GitHub Actions | `GITHUB_SHA`                 | `_data/build.yml` → `date` |
+| 本地 / 离线    | `_data/build.yml` → `commit` | `_data/build.yml` → `date` |
 
 相关文件：
 
@@ -137,7 +137,7 @@ YYYY-MM-DD-{sanitizedTitle}.md
 ```yaml
 ---
 layout: default
-title: "笔记文件名"
+title: '笔记文件名'
 date: YYYY-MM-DD 12:00:00 +0800
 categories:
 ---
@@ -157,4 +157,4 @@ assets/images/posts/{YYYY}/{date}-{sanitizedTitle}/{date}-{sanitizedTitle}_{NNN}
 
 - 不重命名/删除已有 `_posts/` 文件
 - Obsidian 同步 push 仅在 `push` 事件执行
-- 变更合并前通过 `npm run build` 验证
+- 变更合并前通过 `npm run verify:local` 验证

@@ -93,8 +93,19 @@ export function getPostBySlugParts(
   return getAllPosts().find((post) => post.url === url);
 }
 
-export function getPostIndex(post: Post, posts: Post[] = getAllPosts()): number {
+export function getPostIndex(
+  post: Post,
+  posts: Post[] = getAllPosts(),
+): number {
   return posts.findIndex((item) => item.url === post.url);
+}
+
+export function formatPostDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  });
 }
 
 export function getCategories(): Map<string, Post[]> {

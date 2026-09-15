@@ -1,20 +1,12 @@
 ---
 import DefaultLayout from '../layouts/DefaultLayout.astro';
 import Pagination from '../components/Pagination.astro';
-import { getAllPosts } from '../lib/posts';
+import { formatPostDate, getAllPosts } from '../lib/posts';
 import { getPostsForPage } from '../lib/pagination';
 import { SITE } from '../lib/site';
 
 const posts = getAllPosts();
 const pagePosts = getPostsForPage(posts, 1);
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric',
-  });
-}
 ---
 
 <DefaultLayout
@@ -25,16 +17,14 @@ function formatDate(date: Date): string {
   showBuildVersion={true}
 >
   <div class="postlist">
-    {
-      pagePosts.map((post) => (
-        <div class="overview">
-          <div class="date">{formatDate(post.date)}</div>
-          <div class="detail">
-            <a href={post.url}>{post.title}</a>
-          </div>
+    {pagePosts.map((post) => (
+      <div class="overview">
+        <div class="date">{formatPostDate(post.date)}</div>
+        <div class="detail">
+          <a href={post.url}>{post.title}</a>
         </div>
-      ))
-    }
+      </div>
+    ))}
   </div>
   <Pagination currentPage={1} totalPosts={posts.length} />
 </DefaultLayout>

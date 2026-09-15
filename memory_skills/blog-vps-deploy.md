@@ -4,20 +4,20 @@ Agent 在改 `deploy-vps.yml`、`docker-compose.yml` 或子路径构建前读本
 
 ## 双端部署（互不影响）
 
-| 目标 | 构建 env | Workflow | 访问 URL |
-|------|----------|----------|----------|
-| GitHub Pages | 默认（无 `ASTRO_BASE`） | `astro-build.yml` | `https://xiaolitongxue666.github.io/` |
-| VPS 镜像 | `ASTRO_SITE=https://xiaolitongxue.com.cn` `ASTRO_BASE=/blog/` | `deploy-vps.yml` | **公网** `https://xiaolitongxue.com.cn/blog/` · **Tailscale** `http://<TS IP>/blog/` |
+| 目标         | 构建 env                                                      | Workflow          | 访问 URL                                                                             |
+| ------------ | ------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| GitHub Pages | 默认（无 `ASTRO_BASE`）                                       | `astro-build.yml` | `https://xiaolitongxue666.github.io/`                                                |
+| VPS 镜像     | `ASTRO_SITE=https://xiaolitongxue.com.cn` `ASTRO_BASE=/blog/` | `deploy-vps.yml`  | **公网** `https://xiaolitongxue.com.cn/blog/` · **Tailscale** `http://<TS IP>/blog/` |
 
 Pages 与 VPS 是两次独立构建；默认 `astro.config.mjs` 行为不可破坏。
 
 ## VPS 路径
 
-| 位置 | 路径 |
-|------|------|
+| 位置        | 路径                                   |
+| ----------- | -------------------------------------- |
 | VPS release | `/home/ubuntu/blog/releases/<run-id>/` |
-| VPS current | `/home/ubuntu/blog/current` |
-| 容器 | `blog-blog-1`，`127.0.0.1:3001:80` |
+| VPS current | `/home/ubuntu/blog/current`            |
+| 容器        | `blog-blog-1`，`127.0.0.1:3001:80`     |
 
 ## 栈组成
 
@@ -40,9 +40,9 @@ npm run local:vps:down
 
 ## GitHub Secrets（仅存 GitHub）
 
-| Secret | 必填 |
-|--------|------|
-| `VPS_SSH_KEY` | 是 |
+| Secret                               | 必填         |
+| ------------------------------------ | ------------ |
+| `VPS_SSH_KEY`                        | 是           |
 | `VPS_HOST` / `VPS_USER` / `VPS_PORT` | 否（有默认） |
 
 ## 子路径约定

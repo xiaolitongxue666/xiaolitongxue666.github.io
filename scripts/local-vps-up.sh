@@ -3,8 +3,8 @@
 # Entry: http://127.0.0.1:8080/blog/  ·  http://127.0.0.1:8080/blog/stats/
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "${REPO_ROOT}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "${ROOT}"
 
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-blog}"
 
@@ -19,8 +19,8 @@ resolve_vps_nginx_root() {
   fi
   local candidate
   for candidate in \
-    "${REPO_ROOT}/../../vps_nginx" \
-    "${REPO_ROOT}/../vps_nginx"; do
+    "${ROOT}/../../vps_nginx" \
+    "${ROOT}/../vps_nginx"; do
     if [[ -d "${candidate}/html" ]]; then
       VPS_NGINX_ROOT="${candidate}"
       return 0
@@ -35,7 +35,7 @@ GC_PASSWORD="${LOCAL_GC_PASSWORD:-local-dev-only-change-me}"
 GC_VHOST="${LOCAL_GC_VHOST:-127.0.0.1}"
 ALLOW_EMBED="127.0.0.1,http://127.0.0.1:8080,http://localhost:8080,http://127.0.0.1:4001,http://localhost:4001"
 
-STATIC_DIR="${REPO_ROOT}/deploy/local-edge/static"
+STATIC_DIR="${ROOT}/deploy/local-edge/static"
 
 sync_theme_static() {
   resolve_vps_nginx_root

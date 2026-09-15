@@ -5,41 +5,37 @@ alwaysApply: true
 
 # 博客项目 Agent 规则
 
-## 仓库角色
-
-Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；GitHub Pages **Source = GitHub Actions**（非内置 Jekyll）。
+Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；Pages Source = **GitHub Actions**。
 
 ## 不可破坏
 
 - 勿重命名/删除已有 `_posts/`（permalink 由文件名 slug 决定，含历史大小写混用）
-- 勿改 permalink 规则（`/:year/:month/:day/:title/`）
+- 勿改 permalink（`/:year/:month/:day/:title/`）
 - Obsidian 契约：`_posts/` + `assets/images/posts/` + front matter `layout: default`
-- 首页 build-version：commit + `YYYY-MM-DD` date；合并前提交 `_data/build.yml`
+- 首页 build-version：合并前提交 `_data/build.yml`
+- 根 `package.json` 勿加 `"type": "module"`
+- overrides 只钉 `gray-matter` 的 js-yaml 3.x；见 [docs/DEPENDENCIES.md](../../docs/DEPENDENCIES.md)
 
 ## 常见陷阱
 
-- **package.json**：勿加 `"type": "module"`（E2E 脚本为 CommonJS）
-- **build-version date**：`_data/build.yml` 的 date 经 js-yaml 可能变 Date，须 `formatDateValue()`
-- **分页 URL**：`/page2/` 不是 `/page/2/`（`src/pages/[page].astro` + param `page2`）
-- **静态资源**：`public/assets` 符号链接到根 `assets/`；子路径部署须 `withBase()`（见 `src/lib/base.ts`）
-- **VPS 子路径**：`deploy-vps.yml` + `vps_nginx` **hybrid**（公网 `https://<域名>/blog/`）；勿在 Pages 构建中设 `ASTRO_BASE`
-- **VPS curl**：验收须 `curl --noproxy '*'`
-- **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`（Node >= 22.12）；勿提交 E2E fixture 到 `_posts/`
-- **POSTS_PER_PAGE**：`src/lib/pagination.ts` 与 `floating-buttons.js` 均为 10
-- **Shiki 深色**：`theme-toggle.js` 设 `data-theme`；缺 `[data-theme="dark"] .shiki` CSS 会导致暗色下代码块不可读
-- **VPS 博客入口**：公网 `https://<域名>/blog/`（非根域名 `/`）；文章 permalink 为 `/blog/:year/:month/:day/:slug/`
-- **阅读统计**：上报 URL 勿 `withBase()`；`PUBLIC_ANALYTICS_ORIGIN` 可覆盖；`/stats/` iframe 勿预置无 `theme` 的 analytics `src`；本地联调 `npm run local:vps`（见 `memory_skills/blog-analytics.md`）
+- **build-version date**：js-yaml 可能把 `date` 解析成 Date，须 `formatDateValue()`
+- **分页**：`/page2/` 不是 `/page/2/`；`POSTS_PER_PAGE = 10` 与 `floating-buttons.js` 一致
+- **静态资源**：`public/assets` → 根 `assets/`；子路径链接走 `withBase()`
+- **VPS**：`ASTRO_BASE=/blog/` 仅 VPS 构建；公网入口 `https://<域名>/blog/`；`curl --noproxy '*'`
+- **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`；勿把 fixture 提交到 `_posts/`
+- **Shiki**：`data-theme`；须有 `[data-theme="dark"] .shiki`
+- **统计**：上报勿 `withBase()`；联调 `npm run local:vps`，见 [blog-analytics.md](../../memory_skills/blog-analytics.md)
 
-## 文档优先
+## 文档
 
-- [memory_skills/README.md](../memory_skills/README.md)（VPS / 子路径 / analytics）
-- `docs/ARCHITECTURE.md`、`docs/TROUBLESHOOTING.md`
-- `docs/PROJECT_MEMORY.md`、`AGENTS.md`
+- [AGENTS.md](../../AGENTS.md)
+- [memory_skills/README.md](../../memory_skills/README.md)
+- [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md)、[docs/TROUBLESHOOTING.md](../../docs/TROUBLESHOOTING.md)
 
 ## 验证
 
 ```bash
-npm run local:vps                           # 本地等价栈（可选联调）
-npm run verify:local                        # 提交前必跑（含 VPS 子路径 dist 断言）
-bash .github/scripts/e2e/run-ci-parity.sh   # CI 等价子集
+npm run verify:local
 ```
+
+`run-ci-parity.sh` 是 CI 子集，不是 `verify:local` 的替代。

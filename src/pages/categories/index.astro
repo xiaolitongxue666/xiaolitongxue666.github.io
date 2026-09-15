@@ -3,34 +3,34 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
 import { getCategories } from '../../lib/posts';
 
 const categories = getCategories();
-const sortedCategories = [...categories.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+const sortedCategories = [...categories.entries()].sort((a, b) =>
+  a[0].localeCompare(b[0]),
+);
 ---
 
-<DefaultLayout title="Categories" description="本博客所有文章分类列表。" keywords="分类">
+<DefaultLayout
+  title="Categories"
+  description="本博客所有文章分类列表。"
+  keywords="分类"
+>
   <div class="tag_cloud">
-    {
-      sortedCategories.map(([name, posts]) => (
-        <a href={`#${name}`} title={name} rel={String(posts.length)}>
-          {name}({posts.length})
-        </a>
-      ))
-    }
+    {sortedCategories.map(([name, posts]) => (
+      <a href={`#${name}`} title={name} rel={String(posts.length)}>
+        {name}({posts.length})
+      </a>
+    ))}
   </div>
 
-  {
-    sortedCategories.map(([name, posts]) => (
-      <div>
-        <h3>{name}</h3>
-        <ul id={name}>
-          {
-            posts.map((post) => (
-              <li>
-                <a href={post.url}>{post.title}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    ))
-  }
+  {sortedCategories.map(([name, posts]) => (
+    <div>
+      <h3>{name}</h3>
+      <ul id={name}>
+        {posts.map((post) => (
+          <li>
+            <a href={post.url}>{post.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
 </DefaultLayout>

@@ -45,7 +45,7 @@ function copyMinimalSite() {
   fs.mkdirSync(path.join(STAGING_DIR, '_posts'), { recursive: true });
   fs.copyFileSync(
     path.join(FIXTURES_DIR, 'e2e-direct-post.md'),
-    path.join(STAGING_DIR, '_posts', '2026-05-22-e2e-direct-post.md')
+    path.join(STAGING_DIR, '_posts', '2026-05-22-e2e-direct-post.md'),
   );
 }
 

@@ -4,11 +4,12 @@
 
 **入口**：[AGENTS.md](../AGENTS.md) · Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 
-| 文件 | 主题 | 何时读 |
-|------|------|--------|
-| [blog-vps-deploy.md](blog-vps-deploy.md) | VPS 双构建、Docker、rsync、Secrets、访问方式 | 改 deploy-vps、docker-compose、astro base |
-| [blog-analytics.md](blog-analytics.md) | 自托管 GoatCounter、双端统一上报、`/stats/`、**`npm run local:vps`** | 改 analytics、统计页、本地 edge `:8080`、`:3002` |
-| [blog-troubleshooting.md](blog-troubleshooting.md) | 子路径 / proxy / curl 踩坑 | `/blog/` 404/502、资源路径、CI 构建校验 |
+| 文件                                               | 主题                                                                 | 何时读                                           |
+| -------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------ |
+| [blog-vps-deploy.md](blog-vps-deploy.md)           | VPS 双构建、Docker、rsync、Secrets、访问方式                         | 改 deploy-vps、docker-compose、astro base        |
+| [blog-analytics.md](blog-analytics.md)             | 自托管 GoatCounter、双端统一上报、`/stats/`、**`npm run local:vps`** | 改 analytics、统计页、本地 edge `:8080`、`:3002` |
+| [blog-troubleshooting.md](blog-troubleshooting.md) | 子路径 / proxy / curl 踩坑                                           | `/blog/` 404/502、资源路径、CI 构建校验          |
+| [docs/DEPENDENCIES.md](../docs/DEPENDENCIES.md)    | overrides、Dependabot、`npm audit`                                   | 安全升级、合并 Dependabot PR                     |
 
 ## 维护约定
 

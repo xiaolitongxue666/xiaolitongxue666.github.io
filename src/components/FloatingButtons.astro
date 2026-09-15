@@ -19,7 +19,17 @@ const postDate = post.date.toISOString().slice(0, 10);
 <meta name="post-title" content={post.title} />
 <meta name="pagination-page" content={paginationPage} />
 <div class="floating-buttons">
-  <button class="floating-btn back-to-top" id="back-to-top" title="回到顶部">↑</button>
-  <a class="floating-btn back-to-pagination" id="back-to-pagination" title="回到分页">📄</a>
-  <a class="floating-btn back-to-home" href={getPageUrl(1)} title="回到主页">🏠</a>
+  <button class="floating-btn back-to-top" id="back-to-top" title="回到顶部">
+    ↑
+  </button>
+  <a
+    class="floating-btn back-to-pagination"
+    id="back-to-pagination"
+    title="回到分页"
+  >
+    📄
+  </a>
+  <a class="floating-btn back-to-home" href={getPageUrl(1)} title="回到主页">
+    🏠
+  </a>
 </div>

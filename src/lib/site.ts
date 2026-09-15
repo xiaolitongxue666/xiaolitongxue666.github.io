@@ -3,7 +3,8 @@ import { withBase } from './base';
 const DEFAULT_ANALYTICS_ORIGIN = 'https://xiaolitongxue.com.cn/analytics';
 
 function resolveAnalyticsOrigin(): string {
-  const raw = import.meta.env.PUBLIC_ANALYTICS_ORIGIN || DEFAULT_ANALYTICS_ORIGIN;
+  const raw =
+    import.meta.env.PUBLIC_ANALYTICS_ORIGIN || DEFAULT_ANALYTICS_ORIGIN;
   return String(raw).replace(/\/+$/, '');
 }
 

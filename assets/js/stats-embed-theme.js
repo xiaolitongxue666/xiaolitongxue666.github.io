@@ -24,7 +24,7 @@
       if (stored === 'dark' || stored === 'light') {
         return stored;
       }
-    } catch (e) {
+    } catch {
       /* ignore */
     }
     return 'dark';
@@ -35,7 +35,7 @@
       var parsed = new URL(url, window.location.href);
       parsed.searchParams.delete('theme');
       return parsed.toString();
-    } catch (e) {
+    } catch {
       return url;
     }
   }
@@ -45,7 +45,7 @@
       var parsed = new URL(url, window.location.href);
       parsed.searchParams.set('theme', theme);
       return parsed.toString();
-    } catch (e) {
+    } catch {
       return url;
     }
   }
@@ -66,7 +66,7 @@
   function messageTargetOrigin(baseUrl) {
     try {
       return new URL(baseUrl, window.location.href).origin;
-    } catch (e) {
+    } catch {
       return window.location.origin;
     }
   }
@@ -83,9 +83,9 @@
     try {
       iframe.contentWindow.postMessage(
         { source: MESSAGE_SOURCE, theme: theme },
-        messageTargetOrigin(base)
+        messageTargetOrigin(base),
       );
-    } catch (e) {
+    } catch {
       /* ignore */
     }
   }
