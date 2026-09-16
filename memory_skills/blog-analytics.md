@@ -45,7 +45,7 @@ npm run local:vps:down     # 停栈（保留本地 goatcounter-db volume）
 | 宿主机反代（生产） | [vps_nginx](https://github.com/xiaolitongxue666/vps_nginx) `/analytics/` | → `:3002`                         |
 | 主题静态资源       | vps_nginx `html/css                                                      | js/`→ 公网`/css/` `/js/`          | hybrid public exact location |
 
-GoatCounter 镜像 `arp242/goatcounter:latest`；须 `-base-path /analytics` 与显式 `-db sqlite+/home/goatcounter/db/goatcounter.sqlite3`。
+GoatCounter 镜像 `arp242/goatcounter:2.7.0`；须 `-base-path /analytics` 与显式 `-db sqlite+/home/goatcounter/db/goatcounter.sqlite3`。
 
 ## `/stats/` 主题与嵌入
 

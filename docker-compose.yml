@@ -1,7 +1,7 @@
 # Local / VPS blog stack. Always: export COMPOSE_PROJECT_NAME=blog
 services:
   goatcounter:
-    image: arp242/goatcounter:latest
+    image: arp242/goatcounter:2.7.0
     command:
       [
         'serve',

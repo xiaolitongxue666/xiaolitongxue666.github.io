@@ -38,7 +38,7 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 ## 构建与测试
 
 ```bash
-npm install   # Node >= 22.12
+npm install   # Node >= 22.22.3
 npm run dev -- --port 4001
 npm run local:vps
 npm run verify:local                        # 提交前必跑（含 audit + VPS 子路径断言）
