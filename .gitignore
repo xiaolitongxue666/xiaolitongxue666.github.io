@@ -50,6 +50,7 @@ Thumbs.db
 # 本地代码分析工具产物
 .codegraph/
 undefined/
+.local/
 
 # 无用根目录 favicon（站点使用 assets/images/avatar.jpg）
 favicon.ico
