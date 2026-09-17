@@ -11,13 +11,16 @@ Agent 在改 `deploy-vps.yml`、`docker-compose.yml` 或子路径构建前读本
 
 Pages 与 VPS 是两次独立构建；默认 `astro.config.mjs` 行为不可破坏。
 
-## VPS 路径
+## 路径（本机 / 生产）
 
 | 位置        | 路径                                   |
 | ----------- | -------------------------------------- |
+| 本机仓      | `Code/VPS/xiaolitongxue666.github.io`  |
 | VPS release | `/home/ubuntu/blog/releases/<run-id>/` |
 | VPS current | `/home/ubuntu/blog/current`            |
 | 容器        | `blog-blog-1`，`127.0.0.1:3001:80`     |
+
+探针一律 `curl --noproxy '*'`（本机系统代理会劫持 localhost）。`/analytics/` 须在 `PUBLIC_EXPOSE`。
 
 ## 栈组成
 

@@ -61,7 +61,7 @@ bash .github/scripts/update-build-info.sh
 ## 关联仓库
 
 - **obsidian_repo**：同步源（`BLOG_REPO_TOKEN`）
-- **vps_nginx**：`/blog/` → `:3001`；Secrets 见 [blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
+- **vps_nginx**：`/blog/` → `:3001`；本机 `Code/VPS/xiaolitongxue666.github.io`，生产 `/home/ubuntu/blog/current`；Secrets 见 [blog-vps-deploy.md](memory_skills/blog-vps-deploy.md)
 
 ## 修改前
 
