@@ -58,6 +58,11 @@ favicon.ico
 # 本地 Docker 调试（生产 dist 由 CI 构建后 rsync）
 .docker/
 
+# Secrets
+.env
+*.env
+!.env.example
+
 # 本地 edge 主题静态（由 scripts/local-vps-up.sh 从 vps_nginx/html 同步）
 deploy/local-edge/static/css/
 deploy/local-edge/static/js/

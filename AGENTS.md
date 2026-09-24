@@ -35,16 +35,26 @@ Cursor Skill：`.cursor/skills/blog-knowledge/SKILL.md`
 - Shiki / Mermaid：[docs/PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md)
 - 阅读统计：上报禁 `withBase()`；联调 `npm run local:vps`，见 [blog-analytics.md](memory_skills/blog-analytics.md)
 
+## 生产路径
+
+`/home/ubuntu/blog/current`（CI 树，不进 `Code/VPS`）。本机 `Code/VPS/xiaolitongxue666.github.io`。
+
+## 部署（生产唯一入口）
+
+GitHub Actions [`deploy-vps.yml`](.github/workflows/deploy-vps.yml)：先 compose `blog`+`goatcounter`，探针成功后再 `ln -sfnT` `current`。`edge` 仅 `profiles: [local]`。勿手推 `current`。回滚：上一 release 目录 + 上一 compose。
+
 ## 构建与测试
 
 ```bash
 npm install   # Node >= 22.22.3
 npm run dev -- --port 4001
 npm run local:vps
-npm run verify:local                        # 提交前必跑（含 audit + VPS 子路径断言）
+npm run verify:local                        # single：提交前必跑（含 audit + VPS 子路径断言）
 bash .github/scripts/e2e/run-ci-parity.sh   # CI 子集（build + E2E，不含 VPS 子路径）
 bash .github/scripts/update-build-info.sh
 ```
+
+**related**：生产 `/blog/` `/analytics/`（要 vps_nginx；`edge :8080` 不是入口）。
 
 ## 提交前
 
