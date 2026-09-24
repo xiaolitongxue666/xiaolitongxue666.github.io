@@ -22,6 +22,7 @@ Astro 站点 `xiaolitongxue666.github.io`。`master` 存源码；Pages Source = 
 - **分页**：`/page2/` 不是 `/page/2/`；`POSTS_PER_PAGE = 10` 与 `floating-buttons.js` 一致
 - **静态资源**：`public/assets` → 根 `assets/`；子路径链接走 `withBase()`
 - **VPS**：`ASTRO_BASE=/blog/` 仅 VPS 构建；公网入口 `https://<域名>/blog/`；`curl --noproxy '*'`
+- **部署**：只认 `deploy-vps.yml`（compose `blog`+`goatcounter`，探针成功后再切 `current`）。`edge` 仅 `profiles: [local]`。勿手推 `current`。
 - **E2E**：`E2E_OUT_DIR=dist-e2e`；staging 须 `npm ci`；勿把 fixture 提交到 `_posts/`
 - **Shiki**：`data-theme`；须有 `[data-theme="dark"] .shiki`
 - **统计**：上报勿 `withBase()`；联调 `npm run local:vps`，见 [blog-analytics.md](../../memory_skills/blog-analytics.md)
