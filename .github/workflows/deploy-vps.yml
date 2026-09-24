@@ -101,7 +101,7 @@ jobs:
             "${SSH_USER}@${SSH_HOST}:${RELEASE_DIR}/deploy/"
 
           ssh $SSH_OPTS -p "$SSH_PORT" -i /tmp/vps_key \
-            "${SSH_USER}@${SSH_HOST}" "ln -sfnT '${RELEASE_DIR}' '${CURRENT_LINK}'"
+            "${SSH_USER}@${SSH_HOST}" "test -d '${RELEASE_DIR}/dist' && echo staged '${RELEASE_DIR}'"
 
       - name: Start blog container on VPS
         uses: appleboy/ssh-action@v1.2.5
@@ -117,16 +117,28 @@ jobs:
             export COMPOSE_PROJECT_NAME=blog
             REMOTE_ROOT="/home/ubuntu/blog"
             CURRENT_LINK="${REMOTE_ROOT}/current"
-            cd "$CURRENT_LINK"
+            RELEASE_DIR="${REMOTE_ROOT}/releases/${{ github.run_id }}-${{ github.run_attempt }}"
+            PREV_LINK="$(readlink -f "$CURRENT_LINK" || true)"
 
-            docker compose up -d --force-recreate
+            cd "$RELEASE_DIR"
+            docker compose up -d --force-recreate blog goatcounter
 
             curl --noproxy '*' -sf http://127.0.0.1:3001/blog/ >/dev/null
             curl --noproxy '*' -sf -o /dev/null -w "css: %{http_code}\n" http://127.0.0.1:3001/blog/assets/css/default.css
             sleep 2
             code="$(curl --noproxy '*' -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3002/analytics/count.js)"
             echo "analytics count.js: HTTP ${code}"
-            case "$code" in 200|302|303) ;; *) exit 1 ;; esac
+            case "$code" in 200|302|303) ;; *)
+              echo "probe failed; restore ${PREV_LINK}"
+              if [ -n "$PREV_LINK" ] && [ -d "$PREV_LINK" ]; then
+                cd "$PREV_LINK"
+                docker compose up -d --force-recreate blog goatcounter
+              fi
+              exit 1
+              ;;
+            esac
+
+            ln -sfnT "$RELEASE_DIR" "$CURRENT_LINK"
 
             if curl --noproxy '*' -sf -o /dev/null -w '%{http_code}' https://xiaolitongxue.com.cn/blog/ | grep -q 200; then
               echo "Public HTTPS blog probe OK"
